@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import TableOfContents from "./TableOfContents";
 import ReadingProgress from "./ReadingProgress";
-import Breadcrumbs from "./Breadcrumbs";
 import { extractHeadings, addIdsToHeadings } from "@/lib/utils/extractHeadings";
-import { getBreadcrumbs, getNavigationNeighbors } from "@/lib/utils/navigation";
+import { getNavigationNeighbors } from "@/lib/utils/navigation";
 
 interface ArticleContentProps {
   title: string;
@@ -29,7 +28,6 @@ export default function ArticleContent({
     [processedContent]
   );
 
-  const breadcrumbs = useMemo(() => getBreadcrumbs(pathname), [pathname]);
   const { previous, next } = useMemo(
     () => getNavigationNeighbors(pathname),
     [pathname]
@@ -39,8 +37,7 @@ export default function ArticleContent({
     <div className="flex gap-8">
       <ReadingProgress />
       <article className="flex-1 max-w-4xl">
-        <Breadcrumbs items={breadcrumbs} />
-        <header className="mb-8 mt-6 scroll-mt-32">
+        <header className="mb-8 mt-12 scroll-mt-32">
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             {title}
           </h1>
