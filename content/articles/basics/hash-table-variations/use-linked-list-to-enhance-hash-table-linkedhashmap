@@ -52,3 +52,117 @@ If you have these questions, it's probably because your mind is stuck on the low
 
 Try to look at it in an abstract way: A hash tabel is basically a key-value mapping; a linked list is just a containter that stores elements in orde.  
 Now, I want the keys in the hash table to be ordered by their insertion order. How can we combien the hash table and linked list? 
+
+Suppose both the key and value are strings. A standard hash table looks like this:
+
+In this way, we have built a hash linked list structure:
+We can still find the corresponding doubly linked list node by key in O(1) time, and then get the value.
+We can insert a new key-value pair in O(1) time. This is because both hash table insertion and doubly linked list head/tail insertion are O(1).
+We can delete a specified key-value pair in O(1) time. Hash table deletion is O(1), and deleting a given doublly linked list node is also O(1).
+Since the order of the linked list nodes is the same azs the insertion order, we can visit all keys in insertion order by traversing the linked list from the head.
+In other words, we can visit all the keys ininsertion order without changing the basic tiem complexity of a standard hash table. 
+
+Is deleting a linked list node really O(1)?
+Some readers might remember that in Linked List Basics, we said that deleting a linked list node has time complexity O(n). Why is it O(1) here?
+Actually, what I said here is very previse. I mean delting a given doubly linked list node is O(1).  
+Before, when we implemented a linked list, we deleted a node by its idnex, which is O(n) becasue we first need to find the nody by traversing the list.
+But here, there is no traversal. We get the node directly from the hash table usign the key, so it is O(1).
+And in a doubly llinked list, we only need to do some simple pointer changes to delete a node, which is also O(1): 
+So deleting a node in a hash linked list is till O(1).
+Note that the doubly linked list node has both a previous and a next pointer, which makes O(1) deletion possible. 
+A singly linked list node only has a next pointer, not a previous pointer, so it cannot do O(1) deletion.
+So, when implementing a hash linked list, we must use a doubly linked list.
+
+## Code Implementation
+Now that we undersatnd the principle of hash linked lists, let's look at the coe. It is quite simple:
+```python
+class MyLinkedHashMap:
+    class Node:
+        def __init__(self, key, value):
+            self.key = key
+            self.val = val 
+            self.next = None
+            self.prev = None 
+        def __init__(self):
+            self.head = self.Node(None, None)
+            self.tail = self.Node(None, None)
+            self.head.next = self.tail 
+            self.tail.prev = self.head 
+            self.map = dict() 
+        
+        def get(self, key):
+            if key not in self.map:
+                return None 
+            return self.map[key].val 
+        
+        def put(self, key, val):
+            # If it is a newly inserted node, insert it into both the linked list and the map 
+            if key not in self.map:
+                # Insert a new node 
+                ndoe = self.Node(self, val) 
+                self.add_last_noe(node) 
+                self.map[key] = node 
+                return 
+            # If it exists, repalce the previous val 
+            self.map[key].val = val 
+        
+        def remove(self, key):
+            # If the key does not exist, return directly 
+            if key not in self.map:
+                return 
+            # If the key exists, ti needs to be deleted from both the hash table and the linked list 
+            node = self.map[key]
+            del self.map[key]
+            self.remove_node(node)
+        
+        def contains_key(self, key):
+            return key in self.map 
+         
+        def keys(self):
+            key_list = []
+            p = self.head.next 
+            while p != self.tail: 
+                key_list.append(p.key)
+                p = p.next 
+            return key_list 
+    
+        def add_last_node(self, x):
+            temp = self.tail.prev 
+            # temp <-> tail 
+        
+            x.next = self.tail 
+            x.prev = temp 
+            # tem <- x -> tail 
+            
+            temp.next = x 
+            self.tail.prev = x 
+            # temp <-> x <-> tail 
+            
+        def remove_node(self, x):
+            prev = x.prev 
+            next = x.next 
+            # prev <-> x <-> next 
+            
+            prev.next = next 
+            next.prev = prev 
+
+            x.next = x.prev = None 
+if __name__ == "__main__":
+    map = MyLinkedHashMap() 
+    map.put("a", 1) 
+    map.put("b", 2) 
+    map.put("c", 3) 
+    map.put("d", 4) 
+    map.put("e", 5) 
+    
+    print(map.keys()) # ['a', 'b', 'c', 'd', 'e'] 
+    map.remove("b")  
+    print(map.keys()) # ['a', 'c', 'd', 'e']   
+
+# How LinkedHashSet is Implemented 
+LinkedHashSet is a hash set that keeps the insertion order. 
+
+So here, LinkedHashSet can be built by simply wrapping MyLinkedHashMap. It's very simple, so I won't write the code here. 
+
+
+        
