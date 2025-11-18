@@ -1,2 +1,54 @@
 In the previous article Principles of Hash Tables, we discussed that you cannot reply on the order of keys when looping through a hash table.
 The keys in a hash table are unordered. 
+But based on your programming expeirence, you may have some questions.
+For example, if you use Python, you might know that since Python 3.7, the standard hash table dict guarantees that the keys will be returned in the order you inserted them.
+For example, look at this code:
+
+```python 
+d = dict()
+d['a'] = 1
+d['b'] = 2
+d['c'] = 3
+print(list(d.keys())) # ['a', 'b', 'c']
+
+d['y'] = 4
+print(list(d.keys())) # ['a', 'b', 'c', 'y']
+
+d['d'] 5 
+print(list(d.keys())) # ['a', 'b', 'c', 'y', 'd']
+```
+
+No matter how many keys you insert, the keys method returns them in the same order you added them. It feels like adding elements to the end of an array. How is this possible? 
+If you use Golang, you might see something even more interesting. Look at this test code: 
+    
+skipped golang code 
+
+In other words, the order of traversal is random each time. But as mentioned before in How Hash Table Work, eventhough the keys in a hash table are unordered, if you don't change thetable, the traversal order should stay the same. So why does Golang's map give a different order every time? Isn't this strange? 
+You can think about the reason first. Below is the answer. 
+The reason the order is different everytime is because it is designed that wahy on purpose.
+This reason is a bit funny. Golong wants to stop developer from depending on the order of hash table traversal. So it returns a different order on purpose each time you loop through a map. This design shows that many develoer have not learned the basic of hash tables. 
+Let's think more deeply. How does it shuffle the order? Is it really random? 
+Actually, no. If you look closely, the "random" order follows a pattern. Do you remember the Circular Array we talked about before? 
+If there is no resizing of the table, the order of traversal is actually fixed. It just doesn't always start from the start of the underlying table array. Instead, it starts from a random possition, then uses the circular array trick to go through the whole table array. This way, the orderv looks random each time, but performance is not just to make it random. 
+Now let's talk about Python. Python can keep all the keys in isnertion order because it combines a standard hash table with a linke dlist, creawting a new data structure: a hash linked list.
+
+Other languages have similar structures, like Java's LinkedHashMap. This data structure keeps the O(1) performance of hash tables for add, remove, and search, and also keeps the insertion ordder like an array or linekd list.
+How does it do that? I will explain more below. 
+How to implement a hash Linked List? (LinkedHashMap) 
+Let's first make the problem clear. 
+In a standard hash table, the keys are stored unorderd in the undelrying table array:  
+
+From this image, you can't tell in whawt order the keys were inserted. Once resizing happens, the position of the keys will change again. 
+
+Now we want to be able to access all the keys in the order they were inserted, and not be affected by resizing, while keeping the tiem complexity for add, delete, search, and update the same as a normal hash table. 
+ 
+A direct idea is to link all key-value pairs together using a structure like linked list nodes. We keep references to both the ehad and tail nodes (head, tail). Every time we insert a new key into the table array, we also insert this key at the end of the linked list.
+With this, as long as we start from the head node and go through the linekd list, we can visit all keys in the order they were inserted: 
+
+Focus on the concept, not the detials 
+Some readers may get confused: Didn't we already use a linekd list to resolve hash collions in the chaining method? Now are we adding another linked list on top of that? How does this even work? 
+That's why I always say you need to think abastractly. All data structures are built on arrays and linked lists. If you add more layers, it may look confusing.
+If you have these questions, it's probably because your mind is stuck on the low-level details of chaining, linear probing, and so on from previous chapters, and you can't get out of the details.
+
+Try to look at it in an abstract way: A hash tabel is basically a key-value mapping; a linked list is just a containter that stores elements in orde.  
+Now, I want the keys in the hash table to be ordered by their insertion order. How can we combien the hash table and linked list? 
