@@ -1,0 +1,86 @@
+---
+title: "Example MDX Article"
+readingTime: 5
+---
+
+# Example MDX Article
+
+This is an example of how to write content using MDX. MDX combines the simplicity of Markdown with the power of React components.
+
+## What You'll Learn
+
+- How to write Markdown content
+- How to use React components in your content
+- How to create interactive learning materials
+
+## Markdown Basics
+
+You can use all standard Markdown features:
+
+- **Bold text**
+- _Italic text_
+- ~~Strikethrough~~ (from GitHub Flavored Markdown)
+- [Links](https://example.com)
+
+### Lists
+
+Unordered list:
+
+- Item 1
+- Item 2
+- Item 3
+
+Ordered list:
+
+1. First item
+2. Second item
+3. Third item
+
+### Code Examples
+
+Here's some inline code: `const x = 10`
+
+And here's a code block:
+
+```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet("World"));
+```
+
+### Tables
+
+| Feature       | Free | Pro |
+| ------------- | ---- | --- |
+| Basic Content | ✅   | ✅  |
+| AI Features   | ❌   | ✅  |
+| Code Editor   | ❌   | ✅  |
+
+### Blockquotes
+
+> This is a blockquote. Use it for important notes, tips, or quotes.
+
+## Using React Components
+
+You can embed React components directly in your MDX! For example, here's our custom CodeBlock component:
+
+<CodeBlock
+  code={`function fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+}`}
+  language="javascript"
+  title="Fibonacci Function"
+/>
+
+## Next Steps
+
+1. Create your own MDX files
+2. Import them in your pages
+3. Start writing content!
+
+---
+
+**Note**: This is just an example. Replace this content with your actual articles!
