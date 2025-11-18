@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import MainContent from "@/components/layout/MainContent";
 import { FocusModeProvider } from "@/contexts/FocusModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
 
 export const metadata: Metadata = {
   title: "AI-gorithms - Learn Algorithms with AI",
@@ -21,13 +22,15 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <FocusModeProvider>
-            <div className="flex">
-              <Sidebar />
-              <MainContent>
-                <Header />
-                <main className="pt-16 p-8">{children}</main>
-              </MainContent>
-            </div>
+            <MobileMenuProvider>
+              <div className="flex">
+                <Sidebar />
+                <MainContent>
+                  <Header />
+                  <main className="pt-16 p-4 lg:p-8">{children}</main>
+                </MainContent>
+              </div>
+            </MobileMenuProvider>
           </FocusModeProvider>
         </ThemeProvider>
       </body>

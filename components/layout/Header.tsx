@@ -2,29 +2,50 @@
 
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useMobileMenu } from "@/contexts/MobileMenuContext";
 
 export default function Header() {
   const { isFocusMode, toggleFocusMode } = useFocusMode();
   const { theme, toggleTheme } = useTheme();
+  const { toggleMobileMenu } = useMobileMenu();
 
   return (
     <header
-      className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 fixed top-0 right-0 z-10 transition-all duration-300 ${
-        isFocusMode ? "left-0" : "left-64"
+      className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 fixed top-0 right-0 z-20 transition-all duration-300 ${
+        isFocusMode ? "left-0" : "lg:left-64 left-0"
       }`}
     >
-      <div className="h-full flex items-center justify-between px-6">
-        <div className="flex items-center space-x-4">
+      <div className="h-full flex items-center justify-between px-4 lg:px-6">
+        <div className="flex items-center space-x-2 lg:space-x-4">
+          <button
+            onClick={toggleMobileMenu}
+            className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
           <input
             type="text"
             placeholder="Search..."
-            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="hidden sm:block px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
           />
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 lg:space-x-4">
           <button
             onClick={toggleFocusMode}
-            className={`px-4 py-2 text-sm rounded transition-colors ${
+            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
               isFocusMode
                 ? "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
                 : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
@@ -67,7 +88,7 @@ export default function Header() {
               </svg>
             )}
           </button>
-          <select className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <select className="hidden lg:block px-3 py-2 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm">
             <option>English</option>
             <option>简体中文</option>
           </select>
