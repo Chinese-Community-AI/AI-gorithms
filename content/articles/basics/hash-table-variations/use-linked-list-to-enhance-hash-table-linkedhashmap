@@ -1,0 +1,2 @@
+In the previous article Principles of Hash Tables, we discussed that you cannot reply on the order of keys when looping through a hash table.
+The keys in a hash table are unordered. 
