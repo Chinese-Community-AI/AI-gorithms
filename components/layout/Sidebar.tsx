@@ -4,6 +4,7 @@ import { useState } from "react";
 import { navigation, type NavItem } from "@/lib/navigation";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useFocusMode } from "@/contexts/FocusModeContext";
 
 function NavItemComponent({
   item,
@@ -51,6 +52,11 @@ function NavItemComponent({
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
+  const { isFocusMode } = useFocusMode();
+
+  if (isFocusMode) {
+    return null;
+  }
 
   return (
     <aside
