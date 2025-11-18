@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useSearch } from "@/contexts/SearchContext";
 import { navigation } from "@/lib/navigation";
 import Link from "next/link";
@@ -32,7 +32,7 @@ export default function SearchModal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  const allItems = flattenNavigation(navigation);
+  const allItems = useMemo(() => flattenNavigation(navigation), []);
 
   useEffect(() => {
     if (isSearchOpen && inputRef.current) {

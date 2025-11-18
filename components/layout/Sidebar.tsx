@@ -20,13 +20,8 @@ function NavItemComponent({
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.href;
 
-  const handleClick = (e: React.MouseEvent) => {
-    if (hasChildren) {
-      e.preventDefault();
-      setIsExpanded(!isExpanded);
-    } else {
-      closeMobileMenu();
-    }
+  const handleLinkClick = () => {
+    closeMobileMenu();
   };
 
   return (
@@ -36,6 +31,7 @@ function NavItemComponent({
           <button
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               setIsExpanded(!isExpanded);
             }}
             className="p-1 mr-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
@@ -45,7 +41,11 @@ function NavItemComponent({
         )}
         {hasChildren ? (
           <button
-            onClick={handleClick}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
             className={`flex-1 text-left px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 ${
               isActive
                 ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold"
@@ -58,7 +58,7 @@ function NavItemComponent({
         ) : (
           <Link
             href={item.href}
-            onClick={handleClick}
+            onClick={handleLinkClick}
             className={`flex-1 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 ${
               isActive
                 ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold"
