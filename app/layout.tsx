@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Sidebar from "@/components/layout/Sidebar";
+import Header from "@/components/layout/Header";
 
 export const metadata: Metadata = {
   title: "AI-gorithms - Learn Algorithms with AI",
@@ -13,7 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="flex">
+          <Sidebar />
+          <div className="flex-1 ml-64">
+            <Header />
+            <main className="pt-16 p-8">{children}</main>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
