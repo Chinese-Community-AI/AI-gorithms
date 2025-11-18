@@ -20,6 +20,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Dark mode body background */
+.dark body {
+  background: #0a0a0a;
+  color: #ededed;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

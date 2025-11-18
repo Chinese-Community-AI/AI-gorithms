@@ -25,7 +25,9 @@ export default function CodeBlock({
     <div className="my-6">
       {title && (
         <div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-200 dark:border-gray-700">
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            {title}
+          </span>
         </div>
       )}
       <div className="relative">

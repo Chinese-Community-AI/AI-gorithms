@@ -24,15 +24,17 @@ function NavItemComponent({
         {hasChildren && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-1 mr-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+            className="p-1 mr-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400"
           >
             {isExpanded ? "▼" : "▶"}
           </button>
         )}
         <Link
           href={item.href}
-          className={`flex-1 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm ${
-            isActive ? "bg-blue-100 dark:bg-blue-900 font-semibold" : ""
+          className={`flex-1 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 ${
+            isActive
+              ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold"
+              : ""
           }`}
           style={{ paddingLeft: `${level * 1 + 0.75}rem` }}
         >
@@ -66,12 +68,16 @@ export default function Sidebar() {
     >
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className={`font-bold text-lg ${isOpen ? "block" : "hidden"}`}>
+          <h2
+            className={`font-bold text-lg text-gray-900 dark:text-gray-100 ${
+              isOpen ? "block" : "hidden"
+            }`}
+          >
             AI-gorithms
           </h2>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+            className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
             aria-label="Toggle sidebar"
           >
             {isOpen ? "←" : "→"}
@@ -82,13 +88,13 @@ export default function Sidebar() {
           <nav className="space-y-1">
             <Link
               href="/"
-              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold"
+              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold text-gray-700 dark:text-gray-300"
             >
               Home
             </Link>
             <Link
               href="/pricing"
-              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold"
+              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold text-gray-700 dark:text-gray-300"
             >
               Pricing
             </Link>
