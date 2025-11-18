@@ -11,21 +11,18 @@
 
 "use client";
 
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import TableOfContents from "./TableOfContents";
 import ReadingProgress from "./ReadingProgress";
-import { extractHeadings, addIdsToHeadings } from "@/lib/utils/extractHeadings";
 import { getNavigationNeighbors } from "@/lib/utils/navigation";
-import { useMDXComponents } from "@/components/mdx/MDXComponents";
 
 interface MDXArticleContentProps {
   /**
-   * The MDX component to render
-   * This is what you get when you import an .mdx file
+   * MDX content to render (typically <YourArticle />)
    */
-  MDXContent: React.ComponentType<any>;
+  children: ReactNode;
 
   /**
    * Optional title (if not provided in frontmatter)
@@ -44,7 +41,7 @@ interface MDXArticleContentProps {
 }
 
 export default function MDXArticleContent({
-  MDXContent,
+  children,
   title = "Article",
   readingTime = 5,
   showTOC = true,
@@ -77,7 +74,7 @@ export default function MDXArticleContent({
           (configured in next.config.mjs)
         */}
         <div className="prose prose-lg prose-gray dark:prose-invert dark:prose-pre:bg-gray-900 max-w-none prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-gray-900 dark:prose-code:text-gray-100 prose-li:text-gray-700 dark:prose-li:text-gray-300">
-          <MDXContent />
+          {children}
         </div>
 
         <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
