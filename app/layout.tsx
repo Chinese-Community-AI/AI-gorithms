@@ -30,7 +30,7 @@ export default function RootLayout({
                   <Sidebar />
                   <MainContent>
                     <Header />
-                    <main className="pt-16 p-4 lg:p-8">{children}</main>
+                    <main className="pt-32 p-4 lg:p-8">{children}</main>
                   </MainContent>
                 </div>
                 <SearchModal />

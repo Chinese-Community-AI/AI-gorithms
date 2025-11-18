@@ -28,7 +28,7 @@ export default function ArticleContent({
     <div className="flex gap-8">
       <ReadingProgress />
       <article className="flex-1 max-w-4xl">
-        <header className="mb-8">
+        <header className="mb-8 mt-12 scroll-mt-32">
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             {title}
           </h1>
@@ -39,7 +39,7 @@ export default function ArticleContent({
           </div>
         </header>
 
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose prose-gray dark:prose-invert dark:prose-pre:bg-gray-900 max-w-none prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-gray-900 dark:prose-code:text-gray-100 prose-li:text-gray-700 dark:prose-li:text-gray-300">
           <div
             className="article-content"
             dangerouslySetInnerHTML={{ __html: processedContent }}

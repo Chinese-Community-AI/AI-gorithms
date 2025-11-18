@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <header
-      className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 fixed top-0 right-0 z-20 transition-all duration-300 ${
+      className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 fixed top-0 right-0 z-10 transition-all duration-300 ${
         isFocusMode ? "left-0" : "lg:left-64 left-0"
       }`}
     >
