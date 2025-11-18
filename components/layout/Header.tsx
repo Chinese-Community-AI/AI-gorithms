@@ -3,11 +3,13 @@
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
+import { useSearch } from "@/contexts/SearchContext";
 
 export default function Header() {
   const { isFocusMode, toggleFocusMode } = useFocusMode();
   const { theme, toggleTheme } = useTheme();
   const { toggleMobileMenu } = useMobileMenu();
+  const { openSearch } = useSearch();
 
   return (
     <header
@@ -39,7 +41,9 @@ export default function Header() {
           <input
             type="text"
             placeholder="Search..."
-            className="hidden sm:block px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base"
+            onClick={openSearch}
+            readOnly
+            className="hidden sm:block px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base cursor-pointer"
           />
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4">
