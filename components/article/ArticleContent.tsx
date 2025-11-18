@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import TableOfContents from "./TableOfContents";
+import ReadingProgress from "./ReadingProgress";
 import { extractHeadings, addIdsToHeadings } from "@/lib/utils/extractHeadings";
 
 interface ArticleContentProps {
@@ -25,6 +26,7 @@ export default function ArticleContent({
 
   return (
     <div className="flex gap-8">
+      <ReadingProgress />
       <article className="flex-1 max-w-4xl">
         <header className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{title}</h1>
