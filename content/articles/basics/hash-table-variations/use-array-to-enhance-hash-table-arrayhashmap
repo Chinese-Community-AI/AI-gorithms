@@ -1,0 +1,7 @@
+In the previous chapter enhancing hash tables with linekd list, we used doubly linked lists to enhance 
+hash tables, implementing a data structure like LinkedHashMap that maintains the insertion order of keys in a hash table.
+Linked list can enhance hash tables, and arrays, being good siblings to linked lists, can also enhance hash tables. 
+
+## Adding randomKey() API 
+Now, there's a chalenge: based on the standardd hash table API, add a new randomKey() API that can 
+return a random key in O(1) time complexity: 
