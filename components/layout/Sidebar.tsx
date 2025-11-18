@@ -1,6 +1,53 @@
 "use client";
 
 import { useState } from "react";
+import { navigation, type NavItem } from "@/lib/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+function NavItemComponent({
+  item,
+  level = 0,
+}: {
+  item: NavItem;
+  level?: number;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const pathname = usePathname();
+  const hasChildren = item.children && item.children.length > 0;
+  const isActive = pathname === item.href;
+
+  return (
+    <div>
+      <div className="flex items-center">
+        {hasChildren && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="p-1 mr-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+          >
+            {isExpanded ? "▼" : "▶"}
+          </button>
+        )}
+        <Link
+          href={item.href}
+          className={`flex-1 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm ${
+            isActive ? "bg-blue-100 dark:bg-blue-900 font-semibold" : ""
+          }`}
+          style={{ paddingLeft: `${level * 1 + 0.75}rem` }}
+        >
+          {item.title}
+        </Link>
+      </div>
+      {hasChildren && isExpanded && (
+        <div className="ml-4 mt-1">
+          {item.children.map((child) => (
+            <NavItemComponent key={child.href} item={child} level={level + 1} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
@@ -26,35 +73,23 @@ export default function Sidebar() {
         </div>
 
         {isOpen && (
-          <nav className="space-y-2">
-            <a
+          <nav className="space-y-1">
+            <Link
               href="/"
-              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
+              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pricing"
-              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
+              className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold"
             >
               Pricing
-            </a>
-            <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
-              <p className="px-3 py-2 text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">
-                Chapters
-              </p>
-              <a
-                href="/introduction"
-                className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
-              >
-                Introduction
-              </a>
-              <a
-                href="/study-plans"
-                className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800"
-              >
-                Study Plans
-              </a>
+            </Link>
+            <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
+              {navigation.map((item) => (
+                <NavItemComponent key={item.href} item={item} />
+              ))}
             </div>
           </nav>
         )}
