@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
   code: string;
@@ -31,12 +33,21 @@ export default function CodeBlock({
         </div>
       )}
       <div className="relative">
-        <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-          <code className={`language-${language}`}>{code}</code>
-        </pre>
+        <SyntaxHighlighter
+          language={language}
+          style={vscDarkPlus}
+          customStyle={{
+            margin: 0,
+            borderRadius: title ? "0 0 0.5rem 0.5rem" : "0.5rem",
+            padding: "1rem",
+          }}
+          showLineNumbers={false}
+        >
+          {code}
+        </SyntaxHighlighter>
         <button
           onClick={copyToClipboard}
-          className="absolute top-2 right-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded"
+          className="absolute top-2 right-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded transition-colors"
         >
           {copied ? "Copied!" : "Copy"}
         </button>
