@@ -1,0 +1,103 @@
+In a Nutshell
+
+The core abilities of the Bloom filter are:
+- In a vary large datasets, it can quickly check if an element exists using very little memroy 
+- It can keep data private. That means you can check if an element exists without showing the real data.
+
+The core idea is not to store the real data, but only to store the data fingerprints (hash values), and use these fingerprints to check if the data exists. 
+
+Some typical big data scenarios:
+- For example, to check if the URL of a HTTP request is in a blacklist of bad URLs. The list can have hundres of millions of URLs. We can use Bloom filter to make sure the lookup uses very little memory and is fast. Otherwise, it would affect user experience. 
+- In big data storage systems, huge amounts of data are stored in many different files. find a piece of data, you might have to search files on disk, which is slow. We can keep a Bloom filter in memory of ech file, so we can quickly check if the target data might be inside a file and avoid unnecessary disk reads.
+
+When we want to check if an elements exists, we should first think of hash set as explained earlier. It allows you to add, delete, and echeck an element in O(1) time. 
+
+So, the space complexity for a hash set is O(N), and as you store more lements, it uses more memory. For huge data sets, you may not have enough memory to store everything.
+
+Also, a hash set stores the real data, so it does not keep the data private. 
+
+So, how does the Bloom filter work? And with the Bloom filter, do we still need hash sets?
+
+## Principle and Implementation of Bloom Filter 
+The core of a Bloom filter is a bitmap and k different hash functions.
+
+when you want to check if an element is in the Bloom filter, you also use the k hash functions to get k indexes. 
+
+Then， you look at these k bits in the bitmap. If all of these bits are 1, the element might exist. If any of them is not 1, the element definitely does not exist in the set. 
+
+Why is it "might exist"?
+
+Because as more elements are added to the Bloom filter, the bits may be set to 1 by other elements as well. This causes what we call a false positive.
+
+Now, let's reuse the MyBitSet class from Bitmap Principle and Implementation to implement a simple Bloom filter and show its core idea: 
+
+```python
+class SimpleBloomFilter:
+    def __init__(self, big_set_size, hash_function_num):
+    # The size of the bit set
+    self.bit_set_size = bit_set_size 
+    # The bit set 
+    self.bit_set = MyBitSet(bit_set_size)
+    # The number of hash functions 
+    self.k = hash_function_num 
+
+    # Add an element 
+    def add(self, element):
+    # Get k different hash values 
+    # Set the bits in the bit set corresponding to the k hash values to 1
+    for i in range(self.k):
+        hash_value = self._hash(element, i)
+        self.bit_set.set(hash_value)
+    
+    # Simulate multiple hash functions, in actual production 
+    # enviroment, more complex hash algorthms should be used
+    def _hash(self, element, seed):
+        # Here we simplify the processing, sue the built-int hash function and the 
+        # incrementing index as the seed to simulate multiple hash functions 
+        # In actual application, to reduce hash collisons,
+        # more complex hash functions should be used 
+        # At the same time, the seed should also be seleted as a large prime number 
+        # without a regular pattern, rather than a simple incrementing index 
+        return abs(hash(element) + seed) % self.bit_set_size 
+    
+    if __name__ == "__main__":
+        # Create a Bloom filter with a bit array size of 1000000 and 3 hash functions 
+        bloom_filter = SimpleBloomFilter(1000000, 3)
+
+        # Add elements 
+        bloom_filter.add("apple")
+        bloom_filter.add("banana")
+        bloom_filter.add("orange")
+
+        # Check if an element exits 
+        print("Contains apple:", bloom_filter.contians("apple")) # True
+        print("Contains banana:", bloom_filter.contians("banana")) # True 
+        print("Contains grape", bloom_filter.contians("grape")) # False
+```
+
+This code is a simple Bloom filter. But there are ways to improve it:
+
+- Hash function are too simple: In the same code, the hash functio uses element.hashCode() + seed to get multiple hash values. This ways does not spread the hash values very well and leads to more hash collisons, causing a higher false positve rate than expected. In real applications, you should use more reliable hash algorithms, like MurmurHash or FNV. There are two common tricks: 
+1. Double Hashing: Use two good hash functions to simulate k hash functions: 
+hash(element, i) = (hash1(element) + i*hash2(element)) mod bit SetSize 
+
+2. Random Seeds: Pre-generate k random seeds (usually big prime numbers), and compute k hash values with the same hash function and these seeds. This is better than just using seeds like 0, 1, 2, ... in the sample code, because it makes hash value smore independent and reduces conflicts. 
+
+- Missing auto parameter turning: The bigmap size and the number of hash functions in the Bloom filter should be chosen based on the expected ata size and the allowed false positive rate. In the code, both are hardcoded, which is not flexible. 
+
+A better version should provide a constructor that takes n (expected number of elements) and fpp
+ etc. 
+
+ ## Bloom Filter vs Hash Set 
+ Bloom filters and hash sets are both used to check if an element is in a set, but they have big differences in their principle, performance, and use cases. 
+
+ pending diagram
+
+ Main trade-off:
+ The core idea of Bloom filter is a trade-off: using less memory and accepting a certain false positive rate to get very fast queries.
+
+ If you can tolerate some false positives, Bloom filter is very efficient. 
+
+ For example, in spam email filtering, a small number of normal emails wrongly marked as spam is acceptable for much better performance.
+
+ Or, with file look-up, even if there's a false postive, it jsut means reading one extra file. If the false positve rate is low enought, the slight performance loss is worth the speed gain. 
