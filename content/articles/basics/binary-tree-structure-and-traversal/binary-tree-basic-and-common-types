@@ -1,0 +1,25 @@
+I think the binary tree is the most important basic data structure, without exception. 
+
+If you are a beginner, it's hard for me to full explain why at this stage. You need to study more content on this site to understand it. I will give you two simple reasons for now:
+
+1. The binary tree itself is a simple data structure, but many complicated data structures are based on it, such as red-black tree(binary search tree), multi-way tree, binary heap, graph, trie, union-find set, segment tree, and so on. If you master the binary tree, these data structures will not be a problem.
+If you don't, it will be hard to learn more advanced data structures.
+
+2. The binary tree is not just a data structure, but also a way of algorithm thinking. Many brute-force algorithms, such as backtracking, BFS algorithm, dynamic programming, in essence, turn problems into a tree structure. Once you can abstract the problrm into a tree, it becomes a binary tree problem. Looking at code, others may see a bunch of text and get cofused, but with this way of thinking, you will see the code as a tree. You will know how to change it, and it will become much easier. 
+
+The following chapters include many explanations and excercises about binary trees. Follow the order of this site, and I will help you fully understand binary trees. Then, you will see why I value binary trees so much. 
+
+## Several Common Types of Binary Trees 
+The main difficulty with binary trees is in solving algorithm problems. The structure itself is imple, just a type of tree structure like this:
+    
+This is a normal binary tree. You should understand a few common terms: 
+    
+1. The nodes directly connected below a noe are child nodes. The node directly above is the parent node.
+For example, node 3's parent is 1, its left child is 5, and its right child is 6. Node 5's parent is 3, its left child is 7, and it has no right child. 
+2. The tree that uses a child ndoe as its root is called a subtree. For example, the left subtree of node 3 is made up of node 5 and 7. The right subtree includes node 6 and 8. 
+3. The topmost node without a node (node 1) is called the root node. The ndoes at the bottom with no children (4, 7, 8) are called leaf nodes. 
+4. The number of nodes from the root node to a leaf node is the maximum depth or height of the tree. For the tree above, the max depth is 4, which si the path from root node 1 to leaf 7 or 8. 
+
+There are some special types of binary trees with their own names. 
+
+## Full Binary Tree 
