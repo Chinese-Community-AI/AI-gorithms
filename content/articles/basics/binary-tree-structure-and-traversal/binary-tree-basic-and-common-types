@@ -62,4 +62,63 @@ We will have a special chapter later to explain BST in detail, with many exercis
 A Height-Balanced Binary Tree is a special kind of binary tree. For every node, the height difference between its left and right subtrees is at most 1.
 Be careful: it must be true for every node, not just the root. 
 
-If a height-balanced binary tree has N nodes, its height is O(logN). This is very important. In later chapters, we will talk about some data structures based on binary trees. If the tree's height is O(logN), then add, delete, find and update operations will be very fast.
+If a height-balanced binary tree has N nodes, its height is O(logN). This is very important. In later chapters, we will talk about some data structures based on binary trees. If the tree's height is O(logN), then add, delete, find and update operations will be very fast. 
+
+But if the tree is not balanced, for example in this extreme case: 
+(like a linked one line list)
+
+Then the tree is just like a linked list. The efficiency of operations like add, delete, and find will be much lower. 
+
+## Self-Balanced Binary Tree 
+We just talked about height-balanced binary trees and how their height is O(logN), so operations are efficient. 
+
+If we can adjust the tree structure while adding or deleting nodes to keep the height balanced, we get a self-balanced binary tree.
+
+There are many ways to make a self-balanced binary tree. The most classic one is the Red-Black Tree, which is a lind of self-balancing binary search tree. 
+
+To keep the tree balanced, the key is the "rotation" operation. 
+
+## Ways to Implement a Binary Tree 
+The most common way to implement a binary tree is using a linked structure, similar to a linked list. Each node in the binary tree has pointers to its left and right children.
+
+On LeetCode, the bianry trees you see in problems are usually built in this way. The TreeNode class for a binary tree node usually looks like this:
+
+```python 
+class TreeNode:
+    def __init__(self, x: int):
+        self.val =x
+        self.left = None
+        self.right = None
+
+# You can build a binary tree like this:
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+root.right.left = TreeNode(6)
+```
+
+Since this is the common way, it means there are other ways to implement a binary tree, right?
+
+Yes, In Binary Heap Basics and Union Find Algorithm explained, we sometimes use an array to store a binary tree, depending on the needs of the problem. 
+
+When using the visualization panel to show recursive functions, the tool actually builds a recursion tree based on the function stack. This can also be seen as another way to represetn a binary tree. 
+
+In some algorithm problems, we may abstract a real-world problem into a binary tree structure, but we do no need to actually create a tree with TreeNode. Instead, we can use a structure similar to a hash map to represent a binary tree structure, but we do not need to actually create a tree with TreeNode. Instead, we can use a structure similar to a hash map to represent a binary tree or a multi-way tree. 
+
+For example, we can use a hash map where the key is the parent node's id, and the value is a list of its children's ids (each node has a unique id). Each key-value pair represents a node in a multi-way tree. The tree can be represented like this: 
+
+```python 
+# 1 -> [2,3] 
+# 2 -> [4] 
+# 3 -> [5, 6]
+
+tree = {
+    1: [2,3]
+    2: [4]
+    3: [5,6]
+}
+```
+This way, we can simulate and work with binary or multi-way trees. Later, when we talk about graph algorithms, we will see that this structure has a special name called an adjacency list. 
+
