@@ -1,0 +1,56 @@
+This will resolve:
+102.Binary Tree Level Order Traversal 
+144.Binary Tree Preorder Traversal 
+145.Binary Tree Postorder Traversal 
+94.Binary Tree Inorder Traversal 
+
+## One Sentence Summary 
+There are only two ways to traverse a binary tree: recursive traversal and level-order traversal. 
+1. Recursive traversal leads to DFS algorithms. 
+2. Level-order traversal leads to BFS algorithms.
+
+The order of recursive traversal in a binary tree is fixed, but there are three key places to insert code. Placing code in different positions will produce different effects. 
+The order of level-order traversal is also fixed, but there are three different ways to write it, suitable for different situations. 
+
+Binary Tree Traversal: 
+-Recursive Traversal (DFS) Three special positions, code runs at different times
+-Level-order Traveral (BFS) Three different ways, for different scenarios 
+
+Recursive Traversal (DFS): 
+- Preorder position 
+- Inorder postion 
+- Postorder position 
+
+Level-order Travesal (BFS): 
+- First way is the simplest cannot record depth 
+- Second way is most common can record depth 
+- Third way is the most flexible Good for complex problems 
+
+After learning basic concepts of binary trees and special types of binary trees, this article will show you how to traverse and visi nodes in a binary tree.
+There are two main traversal algorithms for binary trees: recursive traversal and level-order traversal. Each has a code template. The recursive template can be used for later DFS and backtracking algorithms. The level-order template can be used for BFS algorithms. That's why I often say binary tree structures are very important. 
+
+Preorder, inorder, and postorder traverals are all recursive traversals. The difference is just where you put your custom code in the template. This will be explained with visual panel. 
+
+## Recursive Traversal (DFS) 
+Here is the code template for recursive traveral of a binary tree: 
+
+```python
+#basic binary tree node 
+class TreeNode: 
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+# recursive traversal framework for binary tree
+def traverse(root: TreeNode):
+
+    if root is None:
+        return 
+
+    traverse(root.left)
+    traverse(root.right)
+```
+Why can this short and simple code traverse a binary tree? In what order does it visit the nodes?
+You can think of the traverse recursive function as a pointer moving around the binary tree. 
+
