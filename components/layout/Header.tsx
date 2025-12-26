@@ -55,7 +55,7 @@ export default function Header() {
                 : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
             }`}
           >
-            {isFocusMode ? "Exit AI Mode" : "AI Mode"}
+            {isFocusMode ? "Exit AI Chat" : "AI Chat Mode"}
           </button>
           <button
             onClick={toggleTheme}
