@@ -7,6 +7,7 @@ import TableOfContents from "./TableOfContents";
 import ReadingProgress from "./ReadingProgress";
 import { extractHeadings, addIdsToHeadings } from "@/lib/utils/extractHeadings";
 import { getNavigationNeighbors } from "@/lib/utils/navigation";
+import { useFocusMode } from "@/contexts/FocusModeContext";
 
 interface ArticleContentProps {
   title: string;
@@ -22,6 +23,7 @@ export default function ArticleContent({
   showTOC = true,
 }: ArticleContentProps) {
   const pathname = usePathname();
+  const { isFocusMode } = useFocusMode();
   const processedContent = useMemo(() => addIdsToHeadings(content), [content]);
   const headings = useMemo(
     () => extractHeadings(processedContent),
@@ -93,7 +95,7 @@ export default function ArticleContent({
         </article>
       </div>
 
-      {showTOC && headings.length > 0 && (
+      {showTOC && headings.length > 0 && !isFocusMode && (
         <aside className="hidden lg:block w-64 flex-shrink-0">
           <TableOfContents headings={headings} />
         </aside>

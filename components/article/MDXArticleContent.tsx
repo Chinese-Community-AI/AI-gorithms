@@ -17,6 +17,7 @@ import Link from "next/link";
 import TableOfContents from "./TableOfContents";
 import ReadingProgress from "./ReadingProgress";
 import { getNavigationNeighbors } from "@/lib/utils/navigation";
+import { useFocusMode } from "@/contexts/FocusModeContext";
 
 interface MDXArticleContentProps {
   /**
@@ -47,6 +48,7 @@ export default function MDXArticleContent({
   showTOC = true,
 }: MDXArticleContentProps) {
   const pathname = usePathname();
+  const { isFocusMode } = useFocusMode();
 
   const { previous, next } = useMemo(
     () => getNavigationNeighbors(pathname),
