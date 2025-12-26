@@ -48,6 +48,14 @@ export default function Header() {
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4">
           <button
+            onClick={() => {
+              // TODO: Implement AI Tutor Mode toggle
+            }}
+            className="hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+          >
+            AI Tutor Mode
+          </button>
+          <button
             onClick={toggleFocusMode}
             className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
               isFocusMode
