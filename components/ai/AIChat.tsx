@@ -77,12 +77,9 @@ export default function AIChat() {
   }
 
   return (
-    <aside
-      className="hidden lg:block bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 flex flex-col"
-      style={{ height: "calc(100vh - 8rem)" }}
-    >
+    <aside className="hidden lg:block bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-semibold text-gray-900 dark:text-gray-100">
@@ -142,7 +139,7 @@ export default function AIChat() {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+      <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 flex-shrink-0">
         <div className="flex gap-2">
           <textarea
             ref={inputRef}
