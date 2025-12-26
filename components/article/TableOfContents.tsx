@@ -64,7 +64,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
             aria-label="Toggle table of contents"
           >
-            {isOpen ? "→" : "←"}
+            {isOpen ? "▼" : "▲"}
           </button>
           <h3
             className={`font-semibold text-sm uppercase text-gray-500 dark:text-gray-400 ${
