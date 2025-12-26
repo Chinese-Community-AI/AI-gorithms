@@ -58,14 +58,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
   return (
     <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto">
       <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
-        <div className="flex items-center justify-between mb-4">
-          <h3
-            className={`font-semibold text-sm uppercase text-gray-500 dark:text-gray-400 ${
-              isOpen ? "block" : "hidden"
-            }`}
-          >
-            Table of Contents
-          </h3>
+        <div className="flex items-center gap-2 mb-4">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
@@ -73,6 +66,13 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
           >
             {isOpen ? "→" : "←"}
           </button>
+          <h3
+            className={`font-semibold text-sm uppercase text-gray-500 dark:text-gray-400 ${
+              isOpen ? "block" : "hidden"
+            }`}
+          >
+            Table of Contents
+          </h3>
         </div>
         {isOpen && (
           <nav className="space-y-1">
