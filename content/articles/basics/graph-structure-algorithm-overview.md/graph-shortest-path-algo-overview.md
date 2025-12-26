@@ -96,4 +96,47 @@ Compared to the standard BFS algorithm, only two changes are needed to obtain Di
 
 If those are too abstract for now, Just to know that Dijkstra's algorithm is a variation of the BFS algorithm. Detailed code implementation will be in the later chapter.
 
+## Introduction to the A* Algorithm
+For any node x, we use g(x) to represent the distance from the strat node src to node x.
+we use h(x), the heuritic function, to estimate the distance form node x to the destination dst.
 
+In Dijkstra's algorithm, we use a priority queue to always remove the node with the smallest g(x) first. This way, when the destination node leaves the queu for the first time, we have found the shortest path. 
+
+The A* algorithm makes a small change: it selects the node with the smallest f(x) = g(x) + h(x) to leave the queue first. When the destination ndoe leaves the queue for the first time, we also have the shortest path.
+
+Think about the f(x) function. Although it is simple, it works very well:
+- No matter if we are moving closer to farther from the destination, g(x) always increases.
+- But whe ngetting closer to the destination, h(x) becomes smaller; when moving away, h(x) gets larger.
+
+So, as we move closer to the destination, f(x) increases mroe slowly, making the node eaiser to be removed from the queue. The algorithm will search toward the destination first. On the other hand, if mvoing away, f(x) increases faster and the priority is lower.
+
+You only need to slightly change the Dijkstra's code to get the A* algorithm. The actual implementation and use cases will be introdued in later sections.
+
+## Introduction to Bellman-FOrd/SPFA Algorithm
+When discussing shortest path problems with negative weights, we often mention the Bellman-Ford algorithm and the SPFA algorithm(Shortest Path Faster ALgorithm).
+
+Let's make it clear: when we talk about the Bellman-Ford algorithm, we usually mean the basic Bellamn-Ford algorithm. When we talk about the SPFA algorithm, we are talking about an optimzied version, the queue-based Bellman-Ford algorithm.
+
+Here, we only introduce the SPFA algorithm, because it can be derived from the standard BFS algorithm. The basic Bellman-FOrd algorithm will be introduced in the code section.
+
+Compared to the standard BFS algorithm, SPFA differs only in one place:
+Standard BFS uses a boolean array visied to make sure each node is visited only once, to avoid infinite loops. In the SPFA algorithm, we use inQueue and count arrays to ensrue the algorithm does not fall into an infinite loop, we also use a distTo array to store  the shortest distances from the start node to other nodes.
+
+For now, just remember that the SPFA algorithm is a variant of the BFS algorithm. The detailed code and examples will be a dded in the data structures section.
+
+## Introduction to Floyd's Algorithm
+Floyd's algorithm is a classic way to solve the sall-paris shortest path probelm. Its main idea is dynamic programming. It is very different from the single-source shortest path algorithm based on BFS.
+
+The same, we don't go into details of the Floyd's algorithm.
+
+Suppose there is a shortest path between node i and node j in a graph. How do we find the shortest path from i to j?
+
+If there is a direct edge between node i and node j, then the shortest path from i to j is just the weight of that edge.
+
+If there is no direct edge between node i and node j, then the path must go through at least on other node.
+
+For any other node k, if the shortest path goes through k, then the shortest path from i to j is the sum of the shortest path from i to k and the shortest path from k to j.
+
+In this way, the original problem "shortest path from i to j" becomes two smaller subprobnlems: "shortest path from i to k" and "shortest path from k to j". This is the main feature of dynamic programming. We will use this idea to write the transfer equation
+
+If those are still confusing, don't worry, the core code of floyd's algorithm is only 3 lines, but the transfer equation is not easy to understand. But will be explaned in detail later.
