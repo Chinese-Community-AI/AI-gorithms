@@ -1,5 +1,7 @@
 # AI-gorithms
 Helping ppl learn data structures and algorithms with AI
 
-# WIP:
-<img width="2224" height="1114" alt="Screenshot 2025-11-17 at 11 21 47 PM" src="https://github.com/user-attachments/assets/c375d59c-acc0-4fe0-9199-b6d9c16d34cf" />
+# AI Tutor Chatbot Added:
+User should be able to instantly ask AI tutor questions instead of going to external sites like ChatGPT, Claude, etc.
+https://github.com/user-attachments/assets/71d0669d-1e1e-45a4-b567-75e3194dd2eb
+
