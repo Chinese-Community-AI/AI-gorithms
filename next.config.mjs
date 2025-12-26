@@ -9,7 +9,7 @@ const nextConfig = {
 };
 
 // Wrap the config with MDX
-// For Next.js 16, we use a simpler configuration
+// For Next.js 16 with Turbopack, we use a simpler configuration
 // Plugins like remark-gfm will be configured in mdx-components.tsx if needed
 const withMDX = createMDX({
   // Note: In Next.js 16 with Turbopack, we can't pass non-serializable options here

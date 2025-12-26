@@ -70,7 +70,7 @@ function NavItemComponent({
           </Link>
         )}
       </div>
-      {hasChildren && isExpanded && (
+      {hasChildren && isExpanded && item.children && (
         <div className="ml-4 mt-1">
           {item.children.map((child) => (
             <NavItemComponent key={child.href} item={child} level={level + 1} />

@@ -3,46 +3,77 @@
  *
  * This page demonstrates how to use MDX content in Next.js.
  *
- * There are two ways to use MDX:
- * 1. Direct import (what we'll show here)
- * 2. Dynamic loading (for content from a CMS or file system)
- *
- * This example uses direct import, which is simpler and works great
- * for content that's part of your codebase.
+ * NOTE: Currently using regular HTML instead of MDX imports
+ * to avoid Next.js 16/Turbopack compatibility issues.
+ * MDX files are kept in content/articles/ for future integration.
  */
 
 import ArticleContent from "@/components/article/ArticleContent";
-import ExampleArticle from "@/content/articles/example-article.mdx";
 
-/**
- * Method 1: Direct Import
- *
- * You can import MDX files directly as React components!
- * Next.js will automatically compile them.
- *
- * The MDX file becomes a React component you can render.
- */
 export default function MDXExamplePage() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">MDX Example</h1>
+  // Converted from example-article.mdx to HTML - keeping MDX files for later MDX integration
+  const content = `
+    <h1>Example MDX Article</h1>
+    
+    <p>This is an example of how to write content using MDX. MDX combines the simplicity of Markdown with the power of React components.</p>
+    
+    <h2>What You'll Learn</h2>
+    
+    <ul>
+      <li>How to write Markdown content</li>
+      <li>How to use React components in your content</li>
+      <li>How to create interactive learning materials</li>
+    </ul>
+    
+    <h2>Markdown Basics</h2>
+    
+    <p>You can use all standard Markdown features:</p>
+    
+    <ul>
+      <li><strong>Bold text</strong></li>
+      <li><em>Italic text</em></li>
+      <li><s>Strikethrough</s> (from GitHub Flavored Markdown)</li>
+      <li><a href="https://example.com">Links</a></li>
+    </ul>
+    
+    <h3>Lists</h3>
+    
+    <p>Unordered list:</p>
+    
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+    
+    <p>Ordered list:</p>
+    
+    <ol>
+      <li>First item</li>
+      <li>Second item</li>
+      <li>Third item</li>
+    </ol>
+    
+    <h2>Code Examples</h2>
+    
+    <p>Inline code: <code>const x = 5;</code></p>
+    
+    <p>Code block:</p>
+    <pre><code>function greet(name) {
+  return \`Hello, \${name}!\`;
+}</code></pre>
+    
+    <h2>Future: MDX Integration</h2>
+    
+    <p>When MDX is properly configured, this page will use the MDX file directly from <code>content/articles/example-article.mdx</code>.</p>
+  `;
 
-      {/* 
-        Method 1: Direct import
-        Just render the imported MDX component
-      */}
-      <div className="prose prose-lg dark:prose-invert max-w-none">
-        <ExampleArticle />
-      </div>
-    </div>
+  return (
+    <ArticleContent
+      title="MDX Example"
+      content={content}
+      readingTime={5}
+      showTOC={true}
+    />
   );
 }
-
-/**
- * Method 2: Using with ArticleContent (Better for your use case)
- *
- * If you want to use MDX with your existing ArticleContent component,
- * you'll need to extract the content and frontmatter.
- *
- * We'll create a helper for this next!
- */
