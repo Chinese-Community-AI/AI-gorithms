@@ -61,11 +61,6 @@ export default function MDXArticleContent({
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             {title}
           </h1>
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <span>{readingTime} min read</span>
-            <span>•</span>
-            <span>Last updated: {new Date().toLocaleDateString()}</span>
-          </div>
         </header>
 
         {/* 

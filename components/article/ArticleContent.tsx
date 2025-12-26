@@ -41,11 +41,6 @@ export default function ArticleContent({
           <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
             {title}
           </h1>
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <span>{readingTime} min read</span>
-            <span>•</span>
-            <span>Last updated: {new Date().toLocaleDateString()}</span>
-          </div>
         </header>
 
         <div className="prose prose-gray dark:prose-invert dark:prose-pre:bg-gray-900 max-w-none prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-gray-900 dark:prose-code:text-gray-100 prose-li:text-gray-700 dark:prose-li:text-gray-300">
