@@ -11,11 +11,16 @@ interface Heading {
 
 interface TableOfContentsProps {
   headings: Heading[];
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export default function TableOfContents({ headings }: TableOfContentsProps) {
+export default function TableOfContents({
+  headings,
+  isOpen,
+  onToggle,
+}: TableOfContentsProps) {
   const [activeId, setActiveId] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
   const { isFocusMode } = useFocusMode();
 
   useEffect(() => {
@@ -57,10 +62,14 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto">
-      <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
-        <div className="flex items-center gap-2 mb-4">
+      <div
+        className={`bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg transition-all ${
+          isOpen ? "p-4" : "p-2"
+        }`}
+      >
+        <div className={`flex items-center gap-2 ${isOpen ? "mb-4" : ""}`}>
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={onToggle}
             className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
             aria-label="Toggle table of contents"
           >

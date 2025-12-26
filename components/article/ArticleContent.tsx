@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import TableOfContents from "./TableOfContents";
@@ -24,11 +24,19 @@ export default function ArticleContent({
 }: ArticleContentProps) {
   const pathname = usePathname();
   const { isFocusMode } = useFocusMode();
+  const [isTOCOpen, setIsTOCOpen] = useState(true);
   const processedContent = useMemo(() => addIdsToHeadings(content), [content]);
   const headings = useMemo(
     () => extractHeadings(processedContent),
     [processedContent]
   );
+
+  // Open TOC when exiting Focus Mode
+  useEffect(() => {
+    if (!isFocusMode) {
+      setIsTOCOpen(true);
+    }
+  }, [isFocusMode]);
 
   const { previous, next } = useMemo(
     () => getNavigationNeighbors(pathname),
@@ -96,8 +104,16 @@ export default function ArticleContent({
       </div>
 
       {showTOC && headings.length > 0 && !isFocusMode && (
-        <aside className="hidden lg:block w-64 flex-shrink-0">
-          <TableOfContents headings={headings} />
+        <aside
+          className={`hidden lg:block flex-shrink-0 transition-all duration-300 ${
+            isTOCOpen ? "w-64" : "w-auto"
+          }`}
+        >
+          <TableOfContents
+            headings={headings}
+            isOpen={isTOCOpen}
+            onToggle={() => setIsTOCOpen(!isTOCOpen)}
+          />
         </aside>
       )}
     </div>
