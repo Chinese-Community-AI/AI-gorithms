@@ -3,6 +3,7 @@ import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import MainContent from "@/components/layout/MainContent";
+import MainLayout from "@/components/layout/MainLayout";
 import { FocusModeProvider } from "@/contexts/FocusModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
@@ -30,7 +31,7 @@ export default function RootLayout({
                   <Sidebar />
                   <MainContent>
                     <Header />
-                    <main className="pt-32 p-4 lg:p-8">{children}</main>
+                    <MainLayout>{children}</MainLayout>
                   </MainContent>
                 </div>
                 <SearchModal />
