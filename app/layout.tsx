@@ -5,10 +5,12 @@ import Header from "@/components/layout/Header";
 import MainContent from "@/components/layout/MainContent";
 import MainLayout from "@/components/layout/MainLayout";
 import { FocusModeProvider } from "@/contexts/FocusModeContext";
+import { TutorModeProvider } from "@/contexts/TutorModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
 import { SearchProvider } from "@/contexts/SearchContext";
 import SearchModal from "@/components/search/SearchModal";
+import ComingSoon from "@/components/tutor/ComingSoon";
 
 export const metadata: Metadata = {
   title: "AI-gorithms - Learn Algorithms with AI",
@@ -25,18 +27,21 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <FocusModeProvider>
-            <MobileMenuProvider>
-              <SearchProvider>
-                <div className="flex">
-                  <Sidebar />
-                  <MainContent>
-                    <Header />
-                    <MainLayout>{children}</MainLayout>
-                  </MainContent>
-                </div>
-                <SearchModal />
-              </SearchProvider>
-            </MobileMenuProvider>
+            <TutorModeProvider>
+              <MobileMenuProvider>
+                <SearchProvider>
+                  <div className="flex">
+                    <Sidebar />
+                    <MainContent>
+                      <Header />
+                      <MainLayout>{children}</MainLayout>
+                    </MainContent>
+                  </div>
+                  <SearchModal />
+                  <ComingSoon />
+                </SearchProvider>
+              </MobileMenuProvider>
+            </TutorModeProvider>
           </FocusModeProvider>
         </ThemeProvider>
       </body>

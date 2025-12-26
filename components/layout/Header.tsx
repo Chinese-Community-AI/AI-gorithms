@@ -1,12 +1,14 @@
 "use client";
 
 import { useFocusMode } from "@/contexts/FocusModeContext";
+import { useTutorMode } from "@/contexts/TutorModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { useSearch } from "@/contexts/SearchContext";
 
 export default function Header() {
   const { isFocusMode, toggleFocusMode } = useFocusMode();
+  const { isTutorMode, toggleTutorMode } = useTutorMode();
   const { theme, toggleTheme } = useTheme();
   const { toggleMobileMenu } = useMobileMenu();
   const { openSearch } = useSearch();
@@ -48,12 +50,14 @@ export default function Header() {
         </div>
         <div className="flex items-center space-x-2 lg:space-x-4">
           <button
-            onClick={() => {
-              // TODO: Implement AI Tutor Mode toggle
-            }}
-            className="hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            onClick={toggleTutorMode}
+            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
+              isTutorMode
+                ? "bg-purple-500 text-white hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
+                : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            }`}
           >
-            AI Tutor Mode
+            {isTutorMode ? "Exit AI Tutor" : "AI Tutor Mode"}
           </button>
           <button
             onClick={toggleFocusMode}
