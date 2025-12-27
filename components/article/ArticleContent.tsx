@@ -4,7 +4,6 @@ import { useMemo, useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import TableOfContents from "./TableOfContents";
-import ReadingProgress from "./ReadingProgress";
 import { extractHeadings, addIdsToHeadings } from "@/lib/utils/extractHeadings";
 import { getNavigationNeighbors } from "@/lib/utils/navigation";
 import { useFocusMode } from "@/contexts/FocusModeContext";
@@ -45,7 +44,6 @@ export default function ArticleContent({
 
   return (
     <div className="flex gap-8 relative">
-      <ReadingProgress />
       <div className="flex-1 min-w-0">
         <article className="max-w-4xl">
           <header className="mb-8 mt-12 scroll-mt-32">

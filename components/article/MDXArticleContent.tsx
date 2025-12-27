@@ -15,7 +15,6 @@ import { ReactNode, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import TableOfContents from "./TableOfContents";
-import ReadingProgress from "./ReadingProgress";
 import { getNavigationNeighbors } from "@/lib/utils/navigation";
 import { useFocusMode } from "@/contexts/FocusModeContext";
 
@@ -57,7 +56,6 @@ export default function MDXArticleContent({
 
   return (
     <div className="flex gap-8 relative">
-      <ReadingProgress />
       <div className="flex-1 min-w-0">
         <article className="max-w-4xl">
           <header className="mb-8 mt-12 scroll-mt-32">
