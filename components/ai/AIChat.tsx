@@ -78,8 +78,13 @@ export default function AIChat() {
 
   return (
     <aside
-      className="hidden lg:block bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 h-full w-full overflow-hidden"
-      style={{ display: "grid", gridTemplateRows: "auto 1fr auto" }}
+      className="hidden lg:block bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800 w-full overflow-hidden"
+      style={{
+        display: "grid",
+        gridTemplateRows: "auto 1fr auto",
+        height: "calc(100% - 4rem)",
+        paddingTop: "2rem",
+      }}
     >
       {/* Header */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
@@ -142,7 +147,7 @@ export default function AIChat() {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
+      <div className="px-4 pt-4 pb-2 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
         <div className="flex gap-2">
           <textarea
             ref={inputRef}
@@ -161,7 +166,7 @@ export default function AIChat() {
             Send
           </button>
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Press Enter to send, Shift+Enter for new line
         </p>
       </div>
