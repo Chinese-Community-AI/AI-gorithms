@@ -108,6 +108,14 @@ export default function Header() {
             <option>English</option>
             <option>简体中文</option>
           </select>
+          <button
+            onClick={() => {
+              // TODO: Implement login functionality
+            }}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors text-sm font-medium"
+          >
+            Login
+          </button>
         </div>
       </div>
     </header>
