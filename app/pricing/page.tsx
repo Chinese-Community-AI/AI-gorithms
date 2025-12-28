@@ -13,7 +13,7 @@ export default function PricingPage() {
       popular: false,
     },
     {
-      name: "Pro Learner",
+      name: "Early Adopter",
       price: "$9.99",
       period: "per month",
       features: [
