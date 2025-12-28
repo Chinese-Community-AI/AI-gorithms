@@ -1,7 +1,7 @@
 export default function PricingPage() {
   const plans = [
     {
-      name: "Late Majority",
+      name: "Majority",
       price: "$0",
       period: "forever",
       features: [
