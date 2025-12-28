@@ -70,6 +70,14 @@ export default function Header() {
             {isFocusMode ? "Exit AI Chat" : "AI Chat Mode"}
           </button>
           <button
+            onClick={() => {
+              // TODO: Implement Audible Mode toggle
+            }}
+            className="hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+          >
+            Audible Mode
+          </button>
+          <button
             onClick={toggleTheme}
             className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
             aria-label="Toggle theme"
