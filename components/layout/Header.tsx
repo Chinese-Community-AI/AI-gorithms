@@ -2,6 +2,7 @@
 
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useTutorMode } from "@/contexts/TutorModeContext";
+import { useAudibleMode } from "@/contexts/AudibleModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { useSearch } from "@/contexts/SearchContext";
@@ -9,6 +10,7 @@ import { useSearch } from "@/contexts/SearchContext";
 export default function Header() {
   const { isFocusMode, toggleFocusMode } = useFocusMode();
   const { isTutorMode, toggleTutorMode } = useTutorMode();
+  const { isAudibleMode, toggleAudibleMode } = useAudibleMode();
   const { theme, toggleTheme } = useTheme();
   const { toggleMobileMenu } = useMobileMenu();
   const { openSearch } = useSearch();
@@ -70,12 +72,14 @@ export default function Header() {
             {isFocusMode ? "Exit AI Chat" : "AI Chat Mode"}
           </button>
           <button
-            onClick={() => {
-              // TODO: Implement Audible Mode toggle
-            }}
-            className="hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            onClick={toggleAudibleMode}
+            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
+              isAudibleMode
+                ? "bg-orange-500 text-white hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700"
+                : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            }`}
           >
-            Audible Mode
+            {isAudibleMode ? "Exit Audible" : "Audible Mode"}
           </button>
           <button
             onClick={toggleTheme}
