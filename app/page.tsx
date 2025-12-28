@@ -18,7 +18,7 @@ export default function Home() {
     
     <h2>Choose Your Learning Path</h2>
     
-    <h3>1. One-Month Interview Ready Path</h3>
+    <h3>1. Fast Track:One-Month Interview Ready Path</h3>
     
     <ul>
       <li><strong>Goal:</strong> Become confident for technical interviews quickly</li>
@@ -27,7 +27,7 @@ export default function Home() {
       <li><strong>AI Support:</strong> Instant hints, solution walk-throughs, mock interviewer</li>
     </ul>
     
-    <h3>2. Mastery Path</h3>
+    <h3>2. Mastery Track (Working in Progress)</h3>
     
     <ul>
       <li><strong>Goal:</strong> Build deep intuition and long-term fluency</li>
