@@ -18,7 +18,7 @@ export default function Home() {
     
     <h2>Choose Your Learning Path</h2>
     
-    <h3>1. Fast Track:One-Month Interview Ready Path</h3>
+    <h3>1. Fast Track: 1 Month Interview Ready Path</h3>
     
     <ul>
       <li><strong>Goal:</strong> Become confident for technical interviews quickly</li>
