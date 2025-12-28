@@ -27,6 +27,7 @@ export default function AudioPlayer() {
     if (!isDragging) return;
 
     const handleMouseMove = (e: MouseEvent) => {
+      // Position is the center point, so we subtract the drag offset
       setPosition({
         x: e.clientX - dragOffset.x,
         y: e.clientY - dragOffset.y,
@@ -58,10 +59,13 @@ export default function AudioPlayer() {
         return;
       }
 
+      // Calculate offset from the center of the element (since we use translate(-50%, -50%))
       const rect = playerRef.current.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
       setDragOffset({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: e.clientX - centerX,
+        y: e.clientY - centerY,
       });
       setIsDragging(true);
     }
