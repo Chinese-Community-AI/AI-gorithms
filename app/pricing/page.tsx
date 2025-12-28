@@ -1,13 +1,12 @@
 export default function PricingPage() {
   const plans = [
     {
-      name: "Free Education",
+      name: "Late Majority",
       price: "$0",
       period: "forever",
       features: [
         "Access to the basics",
         "Basic practice problems",
-        "Community support",
       ],
       cta: "Login for free",
       popular: false,
@@ -21,15 +20,15 @@ export default function PricingPage() {
         "AI-powered tutor",
         "AI-powered code explanation",
         "thousands of practice problems",
-        "Tutorials: System Design and more",
-        "Priority support",
+        "Tutorials: System design and more",
+        "Community support",
         "Progress tracking",
       ],
       cta: "Improving faster now",
       popular: true,
     },
     {
-      name: "Community Pioneer",
+      name: "Community Innovator",
       price: "$19.99",
       period: "per month",
       features: [
