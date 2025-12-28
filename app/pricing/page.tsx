@@ -9,7 +9,7 @@ export default function PricingPage() {
         "Basic practice problems",
         "Community support",
       ],
-      cta: "Get Started",
+      cta: "Login for free",
       popular: false,
     },
     {
