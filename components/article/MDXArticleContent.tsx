@@ -57,7 +57,7 @@ export default function MDXArticleContent({
   return (
     <div className="flex gap-8 relative">
       <div className="flex-1 min-w-0">
-        <article className="max-w-4xl">
+        <article className={isFocusMode ? "max-w-4xl" : "w-full"}>
           <header className="mb-8 mt-12 scroll-mt-32">
             <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
               {title}

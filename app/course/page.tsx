@@ -1,23 +1,42 @@
-import ArticleContent from "@/components/article/ArticleContent";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import MDXArticleContent from "@/components/article/MDXArticleContent";
+import { getContentForRoute } from "@/lib/utils/content";
 
 export default function CoursePage() {
-  const content = `
-    <h2>Course Overview</h2>
-    <p>This comprehensive course covers everything you need to master data structures and algorithms.</p>
-    
-    <h2>What's Included</h2>
-    <ul>
-      <li>Structured learning paths</li>
-      <li>Interactive code examples</li>
-      <li>Practice problems with solutions</li>
-      <li>AI-powered explanations</li>
-    </ul>
-    
-    <h2>How to Use This Course</h2>
-    <p>Follow the navigation menu to explore different topics, or use the search function to find specific content.</p>
-  `;
+  const content = getContentForRoute("/course");
+
+  // Fallback to default content if MDX file not found
+  if (!content) {
+    return (
+      <MDXArticleContent title="Course Overview" readingTime={3}>
+        <div>
+          <h2>Course Overview</h2>
+          <p>
+            This comprehensive course covers everything you need to master data
+            structures and algorithms.
+          </p>
+
+          <h2>What's Included</h2>
+          <ul>
+            <li>Structured learning paths</li>
+            <li>Interactive code examples</li>
+            <li>Practice problems with solutions</li>
+            <li>AI-powered explanations</li>
+          </ul>
+
+          <h2>How to Use This Course</h2>
+          <p>
+            Follow the navigation menu to explore different topics, or use the
+            search function to find specific content.
+          </p>
+        </div>
+      </MDXArticleContent>
+    );
+  }
 
   return (
-    <ArticleContent title="Course Overview" content={content} readingTime={3} />
+    <MDXArticleContent title="Course Overview" readingTime={3}>
+      <MDXRemote source={content} />
+    </MDXArticleContent>
   );
 }

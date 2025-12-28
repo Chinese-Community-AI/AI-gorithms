@@ -1,19 +1,28 @@
-import ArticleContent from "@/components/article/ArticleContent";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import MDXArticleContent from "@/components/article/MDXArticleContent";
+import { getContentForRoute } from "@/lib/utils/content";
 
 export default function ReferencePage() {
-  const content = `
-    <h2>Reference Materials</h2>
-    <p>Quick reference guides and cheat sheets.</p>
-    
-    <h2>Reference Documents</h2>
-    <p>Reference materials will be available here.</p>
-  `;
+  const content = getContentForRoute("/resources/reference");
+
+  // Fallback to default content if MDX file not found
+  if (!content) {
+    return (
+      <MDXArticleContent title="Reference Materials" readingTime={2}>
+        <div>
+          <h2>Reference Materials</h2>
+          <p>Quick reference guides and cheat sheets.</p>
+
+          <h2>Reference Documents</h2>
+          <p>Reference materials will be available here.</p>
+        </div>
+      </MDXArticleContent>
+    );
+  }
 
   return (
-    <ArticleContent
-      title="Reference Materials"
-      content={content}
-      readingTime={2}
-    />
+    <MDXArticleContent title="Reference Materials" readingTime={2}>
+      <MDXRemote source={content} />
+    </MDXArticleContent>
   );
 }
