@@ -29,7 +29,7 @@ export default function PricingPage() {
       popular: true,
     },
     {
-      name: "Community Member",
+      name: "Community Pioneer",
       price: "$19.99",
       period: "per month",
       features: [
