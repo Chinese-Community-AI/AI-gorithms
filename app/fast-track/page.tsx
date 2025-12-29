@@ -106,7 +106,7 @@ const Badge = ({
         color: style.color,
         padding: "0.2rem 0.5rem",
         borderRadius: "3px",
-        fontSize: "0.75rem",
+        fontSize: "0.875rem",
         fontWeight: 500,
         border: `1px solid ${style.borderColor}`,
       }}
@@ -155,7 +155,7 @@ const TopicCard = ({
       >
         <h3
           style={{
-            fontSize: "1.125rem",
+            fontSize: "1.375rem",
             fontWeight: 600,
             margin: 0,
             color: "rgb(55, 53, 47)",
@@ -167,7 +167,7 @@ const TopicCard = ({
         {time && (
           <span
             style={{
-              fontSize: "0.875rem",
+              fontSize: "1rem",
               color: "rgba(55, 53, 47, 0.65)",
               fontStyle: "italic",
             }}
@@ -191,7 +191,7 @@ const SectionHeading = ({
   <>
     <h2
       style={{
-        fontSize: "1.5rem",
+        fontSize: "1.875rem",
         fontWeight: 600,
         marginTop: "2.5rem",
         marginBottom: subtitle ? "1rem" : "1.5rem",
@@ -232,7 +232,7 @@ const TipCard = ({
       boxShadow: "rgba(15, 15, 15, 0.03) 0px 0px 0px 1px",
     }}
   >
-    <div style={{ fontSize: "1.75rem", marginBottom: "0.5rem" }}>{emoji}</div>
+    <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>{emoji}</div>
     <strong
       style={{
         color: "rgb(55, 53, 47)",
@@ -250,14 +250,21 @@ const TipCard = ({
 // Main content component
 function FastTrackContent() {
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "3rem 2rem" }}>
+    <div
+      style={{
+        maxWidth: "900px",
+        margin: "0 auto",
+        padding: "3rem 2rem",
+        fontSize: "1.125rem",
+      }}
+    >
       {/* Overview */}
       <Callout type="info">
         <h3
           style={{
             marginTop: 0,
             marginBottom: "0.75rem",
-            fontSize: "1.1rem",
+            fontSize: "1.25rem",
             fontWeight: 600,
             color: "rgb(55, 53, 47)",
           }}
@@ -314,7 +321,7 @@ function FastTrackContent() {
               marginTop: "0.5rem",
               marginBottom: 0,
               color: "rgba(55, 53, 47, 0.65)",
-              fontSize: "0.875rem",
+              fontSize: "1rem",
               lineHeight: 1.5,
             }}
           >
@@ -327,7 +334,7 @@ function FastTrackContent() {
               marginTop: "0.5rem",
               marginBottom: 0,
               color: "rgba(55, 53, 47, 0.65)",
-              fontSize: "0.875rem",
+              fontSize: "1rem",
               lineHeight: 1.5,
             }}
           >
@@ -343,7 +350,7 @@ function FastTrackContent() {
           style={{
             marginTop: 0,
             marginBottom: "0.75rem",
-            fontSize: "1rem",
+            fontSize: "1.125rem",
             fontWeight: 600,
             color: "rgb(55, 53, 47)",
           }}
@@ -1278,7 +1285,7 @@ function FastTrackContent() {
           style={{
             marginTop: 0,
             marginBottom: "0.75rem",
-            fontSize: "1rem",
+            fontSize: "1.125rem",
             fontWeight: 600,
             color: "rgb(55, 53, 47)",
           }}
