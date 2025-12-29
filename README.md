@@ -1,5 +1,7 @@
-# AI-gorithms
+# AI-gorithms (WIP)
 Helping ppl learn data structures and algorithms with AI
+<img width="2525" height="1227" alt="Screenshot 2025-12-29 at 10 52 53 AM" src="https://github.com/user-attachments/assets/9890f49c-1a0d-4236-8881-b96909c2d76a" />
+
 
 # Placeholder for Real Time AI Tutor:
 <img width="2991" height="1189" alt="Screenshot 2025-12-26 at 5 25 04 PM" src="https://github.com/user-attachments/assets/37a2f2a5-bf0f-4dc3-a273-84fc6895eb1d" />
