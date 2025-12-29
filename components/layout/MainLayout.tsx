@@ -12,8 +12,9 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <main
-      className="pt-32 p-4 lg:p-8"
+      className="p-4 lg:p-8"
       style={{
+        marginTop: "4rem", // Height of the fixed header (h-16)
         height: "calc(100vh - 4rem)",
         display: "flex",
         flexDirection: "column",
@@ -31,7 +32,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
         }}
       >
         <div className="min-w-0 overflow-y-auto">{children}</div>
-        <div className="h-full overflow-hidden" style={{ position: "relative" }}>
+        <div
+          className="h-full overflow-hidden"
+          style={{ position: "relative" }}
+        >
           <AIChat />
         </div>
       </div>

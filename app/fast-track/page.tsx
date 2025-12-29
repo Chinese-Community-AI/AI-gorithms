@@ -87,7 +87,7 @@ const TopicCard = ({
   href?: string;
 }) => {
   const Content = (
-    <div className="group border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 mb-4 bg-white dark:bg-[#191919] hover:bg-[#37352f]/[0.02] dark:hover:bg-gray-800/30 transition-all duration-200">
+    <div className="group border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 mb-4 bg-white dark:bg-[#191919] hover:bg-[#37352f]/[0.02] dark:hover:bg-gray-800/30 transition-all duration-200 text-left">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">
           <h3 className="text-lg font-bold text-[#37352f] dark:text-gray-100 m-0 leading-tight">
@@ -128,12 +128,12 @@ const SectionHeading = ({
   <div className="mt-12 mb-6">
     <div className="flex items-center gap-2 mb-1">
       {icon && <span className="text-2xl">{icon}</span>}
-      <h2 className="text-2xl font-bold text-[#37352f] dark:text-gray-100 m-0">
+      <h2 className="text-2xl font-bold text-[#37352f] dark:text-gray-100 m-0 text-left">
         {children}
       </h2>
     </div>
     {subtitle && (
-      <p className="text-[15px] text-[#37352f]/50 dark:text-gray-400 m-0 italic font-medium">
+      <p className="text-[15px] text-[#37352f]/50 dark:text-gray-400 m-0 italic font-medium text-left">
         {subtitle}
       </p>
     )}
@@ -150,7 +150,7 @@ const TipCard = ({
   title: string;
   children: ReactNode;
 }) => (
-  <div className="border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 bg-white dark:bg-[#191919] shadow-sm">
+  <div className="border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 bg-white dark:bg-[#191919] shadow-sm text-left">
     <div className="text-3xl mb-3">{emoji}</div>
     <h4 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-2">
       {title}
@@ -168,21 +168,21 @@ function FastTrackContent() {
     <div className="max-w-[800px] mx-auto pb-20">
       {/* Intro section */}
       <div className="mb-12">
-        <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8">
+        <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
           Welcome to the Fast Track program. This curriculum is designed to take
           you from fundamentals to interview-ready efficiency in record time.
         </p>
 
         <Callout type="info" icon="🚀">
-          <p className="font-bold mb-1">Goal</p>
-          <p className="mb-3">
+          <p className="font-bold mb-1 text-left">Goal</p>
+          <p className="mb-3 text-left">
             Master core algorithm patterns and solve medium-level problems
             independently in the shortest time possible.
           </p>
-          <p className="font-bold mb-1 text-sm opacity-80 uppercase tracking-wider">
+          <p className="font-bold mb-1 text-sm opacity-80 uppercase tracking-wider text-left">
             Estimated Commitment
           </p>
-          <p>4-6 weeks (1-2 hours daily)</p>
+          <p className="text-left">4-6 weeks (1-2 hours daily)</p>
         </Callout>
       </div>
 
@@ -204,8 +204,8 @@ function FastTrackContent() {
       <SectionHeading icon="💡">Core Principles</SectionHeading>
       <div className="space-y-4 mb-12">
         <Callout type="success" icon="💎">
-          <p className="font-bold mb-2">Three Keys to Success</p>
-          <ul className="list-disc pl-5 space-y-2">
+          <p className="font-bold mb-2 text-left">Three Keys to Success</p>
+          <ul className="list-disc pl-5 space-y-2 text-left">
             <li>
               <strong>Template-First</strong>: Learn unified frameworks instead
               of memorizing specific solutions.
@@ -222,9 +222,11 @@ function FastTrackContent() {
         </Callout>
 
         <Callout type="warning" icon="💡">
-          <strong>Important</strong>: This curriculum is already optimized. Do
-          not skip the "Framework" articles to jump straight to problems.
-          Foundations are what save you time in the long run.
+          <p className="text-left">
+            <strong>Important</strong>: This curriculum is already optimized. Do
+            not skip the "Framework" articles to jump straight to problems.
+            Foundations are what save you time in the long run.
+          </p>
         </Callout>
       </div>
 
@@ -240,7 +242,7 @@ function FastTrackContent() {
           badgeVariant="default"
           time="2 days"
         >
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>Array basics and circular array technique</li>
             <li>Linked list principles & Two-pointer technique</li>
             <li>Sequential vs linked storage analysis</li>
@@ -254,11 +256,11 @@ function FastTrackContent() {
           badgeVariant="default"
           time="1-2 days"
         >
-          <p className="mb-2">
+          <p className="mb-2 text-left">
             <strong>Core Focus:</strong> Hash table principles and usage
             patterns like LinkedHashMap and ArrayHashMap.
           </p>
-          <p className="text-sm opacity-60 italic">
+          <p className="text-sm opacity-60 italic text-left">
             Note: You can skip detailed collision resolution implementations.
           </p>
         </TopicCard>
@@ -269,11 +271,11 @@ function FastTrackContent() {
           badgeVariant="critical"
           time="2-3 days"
         >
-          <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-md mb-3 text-sm text-red-800 dark:text-red-300 border border-red-100 dark:border-red-900/30">
+          <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-md mb-3 text-sm text-red-800 dark:text-red-300 border border-red-100 dark:border-red-900/30 text-left">
             <strong>Crucial</strong>: All recursive algorithms are essentially
             tree traversals. Mastery here unlocks DFS, Backtracking, and DP.
           </div>
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>Recursive & level-order traversal frameworks</li>
             <li>N-ary trees & binary tree properties</li>
             <li>DFS vs BFS decision decision matrix</li>
@@ -286,7 +288,7 @@ function FastTrackContent() {
           badgeVariant="intermediate"
           time="1.5 days"
         >
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>
               <strong>BST</strong>: "Left smaller, right larger" search
               properties
@@ -303,7 +305,7 @@ function FastTrackContent() {
           badgeVariant="default"
           time="1 day"
         >
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>Adjacency list vs matrix representations</li>
             <li>Standard DFS/BFS traversal templates</li>
           </ul>
@@ -316,9 +318,11 @@ function FastTrackContent() {
       </SectionHeading>
 
       <Callout type="info" icon="⭐">
-        <strong>Mandatory Reading</strong>: Before diving into patterns, read
-        the <em>Framework Thinking for Learning DSA</em>. It reveals the essence
-        shared by all algorithms.
+        <p className="text-left">
+          <strong>Mandatory Reading</strong>: Before diving into patterns, read
+          the <em>Framework Thinking for Learning DSA</em>. It reveals the
+          essence shared by all algorithms.
+        </p>
       </Callout>
 
       <div className="mt-8 space-y-2">
@@ -328,7 +332,7 @@ function FastTrackContent() {
           badgeVariant="intermediate"
           time="2 days"
         >
-          <ul className="list-disc pl-5 space-y-1 text-sm">
+          <ul className="list-disc pl-5 space-y-1 text-sm text-left">
             <li>Two-pointer technique framework (1 day)</li>
             <li>Classic list problems & recursive operations (1 day)</li>
           </ul>
@@ -341,11 +345,11 @@ function FastTrackContent() {
           time="4-5 days"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-2 mb-2">
-            <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700">
+            <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
               <span className="font-bold block mb-1">Key Techniques</span>
               Binary search, Sliding window, Two-pointers
             </div>
-            <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700">
+            <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
               <span className="font-bold block mb-1">Specialized</span>
               Prefix sums, Difference arrays, 2D traversal
             </div>
@@ -358,7 +362,7 @@ function FastTrackContent() {
           badgeVariant="intermediate"
           time="3 days"
         >
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>
               Monotonic stack/queue frameworks (Critical for "Next Greater
               Element" types)
@@ -374,10 +378,12 @@ function FastTrackContent() {
           time="5-7 days"
         >
           <Callout type="critical" icon="⚠️">
-            <strong>Interview Success</strong>: This is the most crucial
-            section. Spend extra time here.
+            <p className="text-left">
+              <strong>Interview Success</strong>: This is the most crucial
+              section. Spend extra time here.
+            </p>
           </Callout>
-          <div className="mt-3 space-y-2 text-sm">
+          <div className="mt-3 space-y-2 text-sm text-left">
             <p>
               <strong>Phase 1</strong>: Traversal vs Decomposition thinking
               models
@@ -399,7 +405,7 @@ function FastTrackContent() {
           badgeVariant="intermediate"
           time="4 days"
         >
-          <ul className="list-disc pl-5 space-y-1 text-sm">
+          <ul className="list-disc pl-5 space-y-1 text-sm text-left">
             <li>Topological Sort & Cycle Detection (Critical)</li>
             <li>Union-Find (Kruskal's, Bipartite checks)</li>
             <li>Dijkstra's Shortest Path Framework</li>
@@ -412,10 +418,10 @@ function FastTrackContent() {
           badgeVariant="advanced"
           time="5-7 days"
         >
-          <p className="mb-3 text-sm italic opacity-70 font-medium italic">
+          <p className="mb-3 text-sm italic opacity-70 font-medium italic text-left">
             "The fallback solution for any difficult problem."
           </p>
-          <ul className="list-disc pl-5 space-y-1">
+          <ul className="list-disc pl-5 space-y-1 text-left">
             <li>Standard Backtracking Template (Permutations, Subsets)</li>
             <li>State management and "Choose-Explore-Unchoose" pattern</li>
             <li>Grid DFS (Island problems)</li>
@@ -430,19 +436,19 @@ function FastTrackContent() {
         >
           <div className="mt-2 space-y-4">
             <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-blue-500 block mb-1">
+              <span className="text-xs uppercase font-bold tracking-widest text-blue-500 block mb-1 text-left">
                 Foundations
               </span>
-              <p className="text-sm">
+              <p className="text-sm text-left">
                 Memoization, State transition equations, Base cases
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-              <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700">
+              <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
                 <span className="font-bold block mb-1">Sequence DP</span>
                 LIS, LCS, Edit Distance
               </div>
-              <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700">
+              <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
                 <span className="font-bold block mb-1">Knapsack & Others</span>
                 0/1, Complete, Game Theory
               </div>
@@ -455,32 +461,32 @@ function FastTrackContent() {
       <SectionHeading icon="📑">Final Study Tips</SectionHeading>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2">
+          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left">
             Effective Practice
           </h4>
           <ul className="list-none p-0 space-y-3">
-            <li className="flex gap-2 text-sm leading-relaxed">
+            <li className="flex gap-2 text-sm leading-relaxed text-left">
               <span className="text-blue-500 font-bold">•</span>
               Don't get stuck for &gt;30 mins. Read the editorial, understand
               the pattern, and revisit in 2 days.
             </li>
-            <li className="flex gap-2 text-sm leading-relaxed">
+            <li className="flex gap-2 text-sm leading-relaxed text-left">
               <span className="text-blue-500 font-bold">•</span>
               Write templates by hand at least once to build muscle memory.
             </li>
           </ul>
         </div>
         <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2">
+          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left">
             Review Strategy
           </h4>
           <ul className="list-none p-0 space-y-3">
-            <li className="flex gap-2 text-sm leading-relaxed">
+            <li className="flex gap-2 text-sm leading-relaxed text-left">
               <span className="text-green-500 font-bold">•</span>
               Use the Visual Roadmap to track your progress and navigate related
               concepts.
             </li>
-            <li className="flex gap-2 text-sm leading-relaxed">
+            <li className="flex gap-2 text-sm leading-relaxed text-left">
               <span className="text-green-500 font-bold">•</span>
               Explain the algorithm to the AI Chatbot to verify your
               understanding.
@@ -500,10 +506,10 @@ export default function FastTrackPage() {
           <div className="flex items-center gap-4 mb-4">
             <span className="text-5xl lg:text-6xl">🚀</span>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight">
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight text-left">
             1 Month Fast Track
           </h1>
-          <p className="mt-4 text-xl text-[#37352f]/60 dark:text-gray-400 font-medium">
+          <p className="mt-4 text-xl text-[#37352f]/60 dark:text-gray-400 font-medium text-left">
             Your roadmap to mastering algorithm patterns and smashing technical
             interviews.
           </p>
