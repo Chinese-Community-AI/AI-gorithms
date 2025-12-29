@@ -381,7 +381,7 @@ function FastTrackContent() {
       </Callout>
       <Callout type="warning">
         <p style={{ margin: 0, color: "rgb(55, 53, 47)", lineHeight: 1.6 }}>
-          <strong>Important:</strong> Don't skip framework articles to jump
+          <strong>Important:</strong> This is already fast tracked. Don't skip framework articles to jump
           straight to problems. Solid foundations save time in the long run.
         </p>
       </Callout>
