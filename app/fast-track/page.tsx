@@ -1335,7 +1335,7 @@ export default function FastTrackPage() {
         <article className="w-full">
           <header className="mb-8 mt-12 scroll-mt-32">
             <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-              1 Month Interview Oriented Fast Track
+              1 Month Fast Track
             </h1>
           </header>
 
