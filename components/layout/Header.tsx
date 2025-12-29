@@ -10,13 +10,13 @@ import { useSearch } from "@/contexts/SearchContext";
 const NavButton = ({
   onClick,
   isActive,
-  activeColor,
+  activeClass,
   label,
   activeLabel,
 }: {
   onClick: () => void;
   isActive: boolean;
-  activeColor: string;
+  activeClass: string;
   label: string;
   activeLabel: string;
 }) => (
@@ -24,7 +24,7 @@ const NavButton = ({
     onClick={onClick}
     className={`hidden sm:block px-3 py-1.5 text-xs lg:text-sm rounded-sm font-medium transition-all duration-200 ${
       isActive
-        ? `${activeColor} text-white shadow-sm`
+        ? `${activeClass} shadow-sm`
         : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[var(--sidebar-hover)]"
     }`}
   >
@@ -101,21 +101,21 @@ export default function Header() {
           <NavButton
             onClick={toggleTutorMode}
             isActive={isTutorMode}
-            activeColor="bg-purple-600 dark:bg-purple-700"
+            activeClass="bg-[#f4f0f7] text-[#6931a5] dark:bg-[#251c2e] dark:text-[#a66ed1]"
             label="AI Tutor"
             activeLabel="Exit Tutor"
           />
           <NavButton
             onClick={toggleFocusMode}
             isActive={isFocusMode}
-            activeColor="bg-[#37352f] dark:bg-gray-100 dark:!text-[#191919]"
+            activeClass="bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919]"
             label="AI Chat"
             activeLabel="Exit Chat"
           />
           <NavButton
             onClick={toggleAudibleMode}
             isActive={isAudibleMode}
-            activeColor="bg-orange-600 dark:bg-orange-700"
+            activeClass="bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d]"
             label="Audible"
             activeLabel="Exit Audible"
           />
