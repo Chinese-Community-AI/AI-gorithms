@@ -12,10 +12,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <main
-      className="p-4 lg:p-8"
+      className="p-4 lg:p-10"
       style={{
-        marginTop: "4rem", // Height of the fixed header (h-16)
-        height: "calc(100vh - 4rem)",
+        marginTop: "3rem", // Height of the fixed header (h-12)
+        height: "calc(100vh - 3rem)",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",

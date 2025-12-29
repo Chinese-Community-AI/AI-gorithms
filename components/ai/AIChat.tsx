@@ -78,7 +78,7 @@ export default function AIChat() {
 
   return (
     <aside
-      className="hidden lg:block bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-800"
+      className="hidden lg:block bg-[var(--background)] border-l border-[rgba(55,53,47,0.09)]"
       style={{
         display: "grid",
         gridTemplateRows: "auto 1fr auto",
@@ -93,13 +93,13 @@ export default function AIChat() {
       }}
     >
       {/* Header */}
-      <div className="p-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 flex-shrink-0">
+      <div className="p-4 border-b border-[rgba(55,53,47,0.09)] bg-[var(--sidebar-bg)] flex-shrink-0">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">
               AI Tutor
             </h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-[11px] text-[var(--foreground)] opacity-50 font-medium">
               Ask questions about the content
             </p>
           </div>
@@ -107,7 +107,7 @@ export default function AIChat() {
       </div>
 
       {/* Messages */}
-      <div className="overflow-y-auto p-4 space-y-4 min-h-0">
+      <div className="overflow-y-auto p-4 space-y-6 min-h-0 bg-[var(--background)] scrollbar-thin">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -116,34 +116,38 @@ export default function AIChat() {
             }`}
           >
             <div
-              className={`max-w-[80%] rounded-lg px-4 py-2 ${
+              className={`max-w-[90%] rounded-lg px-4 py-2 text-sm leading-relaxed ${
                 message.role === "user"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  ? "bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919] shadow-sm"
+                  : "bg-[var(--sidebar-bg)] text-[var(--foreground)] border border-[rgba(55,53,47,0.05)]"
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-              <p className="text-xs mt-1 opacity-70">
+              <div className="whitespace-pre-wrap">{message.content}</div>
+              <div
+                className={`text-[10px] mt-1.5 font-medium opacity-40 ${
+                  message.role === "user" ? "text-right" : "text-left"
+                }`}
+              >
                 {message.timestamp.toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
-              </p>
+              </div>
             </div>
           </div>
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-lg px-4 py-2">
-              <div className="flex space-x-1">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+            <div className="bg-[var(--sidebar-bg)] rounded-lg px-4 py-3 border border-[rgba(55,53,47,0.05)]">
+              <div className="flex space-x-1.5">
+                <div className="w-1.5 h-1.5 bg-[var(--foreground)] opacity-20 rounded-full animate-bounce"></div>
                 <div
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "0.1s" }}
+                  className="w-1.5 h-1.5 bg-[var(--foreground)] opacity-20 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.15s" }}
                 ></div>
                 <div
-                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                  style={{ animationDelay: "0.2s" }}
+                  className="w-1.5 h-1.5 bg-[var(--foreground)] opacity-20 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.3s" }}
                 ></div>
               </div>
             </div>
@@ -152,28 +156,46 @@ export default function AIChat() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-950">
-        <div className="flex gap-2">
+      {/* Input Area */}
+      <div className="p-4 border-t border-[rgba(55,53,47,0.09)] bg-[var(--sidebar-bg)]">
+        <div className="relative group">
           <textarea
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask a question..."
+            placeholder="Ask AI anything..."
             rows={2}
-            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full px-4 py-3 bg-[var(--background)] border border-[rgba(55,53,47,0.12)] rounded-lg text-[var(--foreground)] text-sm placeholder-[var(--foreground)] placeholder-opacity-30 focus:outline-none focus:ring-2 focus:ring-[#37352f]/10 dark:focus:ring-white/10 resize-none shadow-sm transition-all duration-200"
           />
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || isLoading}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed transition-colors"
-          >
-            Send
-          </button>
+          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+            <button
+              onClick={handleSend}
+              disabled={!input.trim() || isLoading}
+              className={`p-1.5 rounded-md transition-all duration-200 ${
+                !input.trim() || isLoading
+                  ? "text-[var(--foreground)] opacity-20"
+                  : "text-white bg-[#37352f] dark:bg-gray-100 dark:text-[#191919] hover:opacity-90 shadow-sm"
+              }`}
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-          Press Enter to send, Shift+Enter for new line
+        <p className="text-[10px] text-[var(--foreground)] opacity-30 mt-2 text-center font-medium">
+          Press Enter to send • Shift+Enter for new line
         </p>
       </div>
     </aside>

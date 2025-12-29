@@ -436,7 +436,7 @@ function FastTrackContent() {
         >
           <div className="mt-2 space-y-4">
             <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-blue-500 block mb-1 text-left">
+              <span className="text-xs uppercase font-bold tracking-widest text-[#37352f]/40 dark:text-gray-500 block mb-1 text-left">
                 Foundations
               </span>
               <p className="text-sm text-left">
@@ -466,12 +466,12 @@ function FastTrackContent() {
           </h4>
           <ul className="list-none p-0 space-y-3">
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-blue-500 font-bold">•</span>
+              <span className="text-[#37352f] font-bold opacity-40">•</span>
               Don't get stuck for &gt;30 mins. Read the editorial, understand
               the pattern, and revisit in 2 days.
             </li>
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-blue-500 font-bold">•</span>
+              <span className="text-[#37352f] font-bold opacity-40">•</span>
               Write templates by hand at least once to build muscle memory.
             </li>
           </ul>
@@ -482,12 +482,12 @@ function FastTrackContent() {
           </h4>
           <ul className="list-none p-0 space-y-3">
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-green-500 font-bold">•</span>
+              <span className="text-[#37352f] font-bold opacity-40">•</span>
               Use the Visual Roadmap to track your progress and navigate related
               concepts.
             </li>
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-green-500 font-bold">•</span>
+              <span className="text-[#37352f] font-bold opacity-40">•</span>
               Explain the algorithm to the AI Chatbot to verify your
               understanding.
             </li>

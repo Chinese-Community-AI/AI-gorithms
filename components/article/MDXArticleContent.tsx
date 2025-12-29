@@ -58,8 +58,8 @@ export default function MDXArticleContent({
     <div className="flex gap-8 relative">
       <div className="flex-1 min-w-0">
         <article className={isFocusMode ? "max-w-4xl" : "w-full"}>
-          <header className="mb-8 mt-12 scroll-mt-32">
-            <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+          <header className="mb-8 mt-8 scroll-mt-24">
+            <h1 className="text-3xl lg:text-4xl font-extrabold mb-4 text-[var(--foreground)] tracking-tight">
               {title}
             </h1>
           </header>
@@ -73,20 +73,20 @@ export default function MDXArticleContent({
             {children}
           </div>
 
-          <footer className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+          <footer className="mt-12 pt-8 border-t border-[rgba(55,53,47,0.09)] dark:border-gray-800">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex gap-2">
                 {previous ? (
                   <Link
                     href={previous.href}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-[#37352f] text-white rounded hover:bg-black dark:bg-gray-100 dark:text-[#191919] dark:hover:bg-white transition-colors text-sm font-medium"
                   >
                     ← Previous: {previous.title}
                   </Link>
                 ) : (
                   <button
                     disabled
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-500 rounded cursor-not-allowed"
+                    className="px-4 py-2 bg-[var(--sidebar-bg)] text-[var(--foreground)] opacity-30 rounded cursor-not-allowed border border-[rgba(55,53,47,0.09)] text-sm font-medium"
                   >
                     ← Previous
                   </button>
@@ -94,20 +94,20 @@ export default function MDXArticleContent({
                 {next ? (
                   <Link
                     href={next.href}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-[#37352f] text-white rounded hover:bg-black dark:bg-gray-100 dark:text-[#191919] dark:hover:bg-white transition-colors text-sm font-medium"
                   >
                     Next: {next.title} →
                   </Link>
                 ) : (
                   <button
                     disabled
-                    className="px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-500 rounded cursor-not-allowed"
+                    className="px-4 py-2 bg-[var(--sidebar-bg)] text-[var(--foreground)] opacity-30 rounded cursor-not-allowed border border-[rgba(55,53,47,0.09)] text-sm font-medium"
                   >
                     Next →
                   </button>
                 )}
               </div>
-              <button className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors">
+              <button className="px-4 py-2 border border-[rgba(55,53,47,0.15)] rounded hover:bg-[var(--sidebar-hover)] text-[var(--foreground)] opacity-70 transition-colors text-sm font-medium">
                 Share
               </button>
             </div>

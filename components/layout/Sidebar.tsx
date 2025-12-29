@@ -7,6 +7,24 @@ import { usePathname } from "next/navigation";
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 
+const ChevronIcon = ({ isExpanded }: { isExpanded: boolean }) => (
+  <svg
+    viewBox="0 0 100 100"
+    className={`w-3 h-3 transition-transform duration-150 ${
+      isExpanded ? "rotate-90" : ""
+    }`}
+  >
+    <path
+      d="M30,15 L70,50 L30,85"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="12"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
 function NavItemComponent({
   item,
   level = 0,
@@ -26,52 +44,50 @@ function NavItemComponent({
 
   return (
     <div>
-      <div className="flex items-center">
-        {hasChildren && (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setIsExpanded(!isExpanded);
-            }}
-            className="p-1 mr-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
-          >
-            {isExpanded ? "▼" : "▶"}
-          </button>
-        )}
-        {hasChildren ? (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setIsExpanded(!isExpanded);
-            }}
-            className={`flex-1 text-left px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 ${
-              isActive
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold"
-                : ""
-            }`}
-            style={{ paddingLeft: `${level * 1 + 0.75}rem` }}
-          >
-            {item.title}
-          </button>
-        ) : (
-          <Link
-            href={item.href}
-            onClick={handleLinkClick}
-            className={`flex-1 px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 text-sm text-gray-700 dark:text-gray-300 ${
-              isActive
-                ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-semibold"
-                : ""
-            }`}
-            style={{ paddingLeft: `${level * 1 + 0.75}rem` }}
-          >
-            {item.title}
-          </Link>
-        )}
+      <div className="flex items-center group relative px-1">
+        <div
+          className={`flex-1 flex items-center rounded-[4px] transition-colors duration-150 ease-in-out cursor-pointer py-[3px] my-[1px] ${
+            isActive
+              ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+              : "hover:bg-[rgba(55,53,47,0.05)] text-[var(--foreground)] opacity-80 hover:opacity-100"
+          }`}
+          style={{ paddingLeft: `${level * 0.75 + 0.25}rem` }}
+          onClick={() => hasChildren && setIsExpanded(!isExpanded)}
+        >
+          <div className="w-5 h-5 flex items-center justify-center mr-0.5">
+            {hasChildren && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsExpanded(!isExpanded);
+                }}
+                className="p-0.5 rounded-sm hover:bg-[rgba(55,53,47,0.1)] text-[var(--foreground)] opacity-40 hover:opacity-100 transition-all"
+              >
+                <ChevronIcon isExpanded={isExpanded} />
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center flex-1 min-w-0 pr-2">
+            {!hasChildren ? (
+              <Link
+                href={item.href}
+                onClick={handleLinkClick}
+                className="flex-1 text-[13.5px] leading-tight truncate no-underline py-0.5"
+              >
+                {item.title}
+              </Link>
+            ) : (
+              <span className="flex-1 text-[13.5px] leading-tight truncate py-0.5 font-medium opacity-90">
+                {item.title}
+              </span>
+            )}
+          </div>
+        </div>
       </div>
       {hasChildren && isExpanded && item.children && (
-        <div className="ml-4 mt-1">
+        <div className="mt-0">
           {item.children.map((child) => (
             <NavItemComponent key={child.href} item={child} level={level + 1} />
           ))}
@@ -95,82 +111,103 @@ export default function Sidebar() {
       {/* Mobile overlay */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="lg:hidden fixed inset-0 bg-black/10 backdrop-blur-[2px] z-30"
           onClick={closeMobileMenu}
         />
       )}
 
       <aside
         className={`${
-          isOpen ? "w-64" : "w-16"
-        } bg-gray-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 h-screen fixed left-0 top-0 overflow-y-auto z-40 ${
+          isOpen ? "w-[240px]" : "w-0"
+        } bg-[var(--sidebar-bg)] transition-all duration-300 h-screen fixed left-0 top-0 overflow-y-auto overflow-x-hidden z-40 ${
           isMobileMenuOpen
             ? "translate-x-0"
             : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2
-              className={`font-bold text-lg text-gray-900 dark:text-gray-100 ${
-                isOpen ? "block" : "hidden"
-              }`}
-            >
-              AI-gorithms
-            </h2>
+        <div className="py-2 flex flex-col h-full">
+          {/* Header/Brand Area */}
+          <div className="px-4 py-3 flex items-center justify-between group">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <div className="w-5 h-5 bg-[#37352f] rounded flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-[10px] font-bold">A</span>
+              </div>
+              <h2 className="font-bold text-[14px] text-[var(--foreground)] truncate opacity-80">
+                AI-gorithms
+              </h2>
+            </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="hidden lg:block p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
-              aria-label="Toggle sidebar"
-            >
-              {isOpen ? "←" : "→"}
-            </button>
-            <button
-              onClick={closeMobileMenu}
-              className="lg:hidden p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
-              aria-label="Close menu"
+              className="p-1 hover:bg-[rgba(55,53,47,0.08)] rounded text-[var(--foreground)] opacity-0 group-hover:opacity-40 hover:!opacity-80 transition-all"
             >
               <svg
-                className="w-6 h-6"
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                viewBox="0 0 24 24"
+                strokeWidth="2"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path d="M15 19l-7-7 7-7" />
               </svg>
             </button>
           </div>
 
-          {isOpen && (
-            <nav className="space-y-1">
-              <Link
-                href="/"
-                onClick={closeMobileMenu}
-                className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold text-gray-700 dark:text-gray-300"
-              >
-                Home
-              </Link>
-              <Link
-                href="/pricing"
-                onClick={closeMobileMenu}
-                className="block px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-800 font-semibold text-gray-700 dark:text-gray-300"
-              >
-                Pricing
-              </Link>
-              <div className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
-                {navigation.map((item) => (
-                  <NavItemComponent key={item.href} item={item} />
-                ))}
-              </div>
-            </nav>
-          )}
+          <nav className="flex-1 px-2 space-y-[1px]">
+            <Link
+              href="/"
+              onClick={closeMobileMenu}
+              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
+                usePathname() === "/"
+                  ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+                  : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
+              }`}
+            >
+              <span className="mr-2 opacity-60">🏠</span>
+              Home
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={closeMobileMenu}
+              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
+                usePathname() === "/pricing"
+                  ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+                  : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
+              }`}
+            >
+              <span className="mr-2 opacity-60">💰</span>
+              Pricing
+            </Link>
+
+            <div className="mt-4 pt-4 border-t border-[rgba(55,53,47,0.06)] px-2 mb-2">
+              <span className="text-[11px] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1">
+                Content
+              </span>
+            </div>
+
+            {navigation.map((item) => (
+              <NavItemComponent key={item.href} item={item} />
+            ))}
+          </nav>
         </div>
       </aside>
+
+      {/* Re-open button when sidebar is closed */}
+      {!isOpen && !isFocusMode && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed left-4 top-4 p-2 bg-[var(--background)] border border-[rgba(55,53,47,0.09)] rounded-md shadow-sm z-50 text-[var(--foreground)] opacity-60 hover:opacity-100 transition-all"
+        >
+          <svg
+            className="w-4 h-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      )}
     </>
   );
 }

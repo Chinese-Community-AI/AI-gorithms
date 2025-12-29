@@ -7,6 +7,31 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { useSearch } from "@/contexts/SearchContext";
 
+const NavButton = ({
+  onClick,
+  isActive,
+  activeColor,
+  label,
+  activeLabel,
+}: {
+  onClick: () => void;
+  isActive: boolean;
+  activeColor: string;
+  label: string;
+  activeLabel: string;
+}) => (
+  <button
+    onClick={onClick}
+    className={`hidden sm:block px-3 py-1.5 text-xs lg:text-sm rounded-sm font-medium transition-all duration-200 ${
+      isActive
+        ? `${activeColor} text-white shadow-sm`
+        : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[var(--sidebar-hover)]"
+    }`}
+  >
+    {isActive ? activeLabel : label}
+  </button>
+);
+
 export default function Header() {
   const { isFocusMode, toggleFocusMode } = useFocusMode();
   const { isTutorMode, toggleTutorMode } = useTutorMode();
@@ -17,19 +42,22 @@ export default function Header() {
 
   return (
     <header
-      className={`bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 h-16 fixed top-0 z-10 transition-all duration-300 ${
+      className={`bg-[var(--background)] border-b border-[rgba(55,53,47,0.09)] h-12 fixed top-0 z-10 transition-all duration-300 ${
         isFocusMode ? "left-0 right-0" : "lg:left-64 left-0 right-0"
       }`}
+      style={{
+        left: isFocusMode ? "0" : "240px",
+      }}
     >
       <div className="h-full flex items-center justify-between px-4 lg:px-6">
-        <div className="flex items-center space-x-2 lg:space-x-4">
+        <div className="flex items-center space-x-2">
           <button
             onClick={toggleMobileMenu}
-            className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
+            className="lg:hidden p-1.5 hover:bg-[var(--sidebar-hover)] rounded text-[var(--foreground)] opacity-70"
             aria-label="Toggle menu"
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -42,53 +70,66 @@ export default function Header() {
               />
             </svg>
           </button>
-          <input
-            type="text"
-            placeholder="Search..."
-            onClick={openSearch}
-            readOnly
-            className="hidden sm:block px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm lg:text-base cursor-pointer"
-          />
+
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-40">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              onClick={openSearch}
+              readOnly
+              className="hidden sm:block pl-9 pr-4 py-1.5 w-48 lg:w-64 bg-[var(--sidebar-hover)] border-none rounded-md text-[var(--foreground)] placeholder-[var(--foreground)] placeholder-opacity-40 focus:outline-none text-sm cursor-pointer transition-all duration-200 hover:bg-[rgba(55,53,47,0.12)]"
+            />
+          </div>
         </div>
-        <div className="flex items-center space-x-2 lg:space-x-4">
-          <button
+
+        <div className="flex items-center space-x-1 lg:space-x-2">
+          <NavButton
             onClick={toggleTutorMode}
-            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
-              isTutorMode
-                ? "bg-purple-500 text-white hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
-                : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
-            }`}
-          >
-            {isTutorMode ? "Exit AI Tutor" : "AI Tutor Mode"}
-          </button>
-          <button
+            isActive={isTutorMode}
+            activeColor="bg-purple-600 dark:bg-purple-700"
+            label="AI Tutor"
+            activeLabel="Exit Tutor"
+          />
+          <NavButton
             onClick={toggleFocusMode}
-            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
-              isFocusMode
-                ? "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-                : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
-            }`}
-          >
-            {isFocusMode ? "Exit AI Chat" : "AI Chat Mode"}
-          </button>
-          <button
+            isActive={isFocusMode}
+            activeColor="bg-[#37352f] dark:bg-gray-100 dark:!text-[#191919]"
+            label="AI Chat"
+            activeLabel="Exit Chat"
+          />
+          <NavButton
             onClick={toggleAudibleMode}
-            className={`hidden sm:block px-3 lg:px-4 py-2 text-xs lg:text-sm rounded transition-colors ${
-              isAudibleMode
-                ? "bg-orange-500 text-white hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-700"
-                : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
-            }`}
-          >
-            {isAudibleMode ? "Exit Audible" : "Audible Mode"}
-          </button>
+            isActive={isAudibleMode}
+            activeColor="bg-orange-600 dark:bg-orange-700"
+            label="Audible"
+            activeLabel="Exit Audible"
+          />
+
+          <div className="w-px h-4 bg-[rgba(55,53,47,0.09)] mx-1" />
+
           <button
             onClick={toggleTheme}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded text-gray-700 dark:text-gray-300"
+            className="p-1.5 hover:bg-[var(--sidebar-hover)] rounded text-[var(--foreground)] opacity-60 hover:opacity-100 transition-all"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
               <svg
-                className="w-5 h-5"
+                className="w-4.5 h-4.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -102,7 +143,7 @@ export default function Header() {
               </svg>
             ) : (
               <svg
-                className="w-5 h-5"
+                className="w-4.5 h-4.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -116,15 +157,15 @@ export default function Header() {
               </svg>
             )}
           </button>
-          <select className="hidden lg:block px-3 py-2 border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm">
+
+          <select className="hidden md:block bg-transparent hover:bg-[var(--sidebar-hover)] px-2 py-1 rounded text-[var(--foreground)] opacity-70 text-xs font-medium focus:outline-none cursor-pointer border-none">
             <option>English</option>
             <option>简体中文</option>
           </select>
+
           <button
-            onClick={() => {
-              // TODO: Implement login functionality
-            }}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 transition-colors text-sm font-medium"
+            onClick={() => {}}
+            className="px-3 py-1.5 bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919] rounded-md font-bold text-xs lg:text-sm hover:opacity-90 transition-opacity ml-2 shadow-sm"
           >
             Login
           </button>

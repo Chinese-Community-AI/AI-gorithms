@@ -54,7 +54,7 @@ const PlanCard = ({
       className={`relative flex flex-col p-6 rounded-lg border ${accentColors[color]} ${bgColors[color]} transition-all duration-200 hover:shadow-sm`}
     >
       {popular && (
-        <div className="absolute -top-3 left-4 bg-blue-500 text-white px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider">
+        <div className="absolute -top-3 left-4 bg-[#37352f] dark:bg-gray-100 text-white dark:text-[#191919] px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider">
           Most Popular
         </div>
       )}
@@ -90,7 +90,7 @@ const PlanCard = ({
       <button
         className={`w-full py-2 px-4 rounded border text-sm font-bold transition-all duration-200 ${
           popular
-            ? "bg-blue-500 border-blue-500 text-white hover:bg-blue-600"
+            ? "bg-[#37352f] border-[#37352f] text-white hover:bg-black dark:bg-gray-100 dark:border-gray-100 dark:text-[#191919] dark:hover:bg-white"
             : "bg-white dark:bg-transparent border-[#37352f]/10 dark:border-gray-700 text-[#37352f] dark:text-gray-100 hover:bg-[#37352f]/[0.02] dark:hover:bg-gray-800"
         }`}
       >
