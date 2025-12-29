@@ -21,18 +21,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
       }}
     >
       <div
-        className={`grid gap-8 flex-1 items-stretch ${
+        className={`grid gap-8 items-stretch ${
           isFocusMode ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1"
         }`}
         style={{
           gridTemplateRows: "1fr",
           minHeight: 0,
-          maxHeight: "100%",
-          overflow: "hidden",
+          height: "100%",
         }}
       >
         <div className="min-w-0 overflow-y-auto">{children}</div>
-        <div className="h-full min-h-0 flex overflow-hidden">
+        <div className="h-full overflow-hidden" style={{ position: "relative" }}>
           <AIChat />
         </div>
       </div>
