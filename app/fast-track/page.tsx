@@ -435,9 +435,11 @@ export default function FastTrackPage() {
 
   return (
     <ArticleContent
-      title="Quick Mastery Learning Plan: Data Structures & Algorithms"
+      title="1 Month Interview Oriented Fast Track"
       content={content}
       readingTime={15}
     />
   );
 }
+
+
