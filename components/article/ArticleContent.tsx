@@ -52,7 +52,7 @@ export default function ArticleContent({
             </h1>
           </header>
 
-          <div className="prose prose-gray dark:prose-invert dark:prose-pre:bg-gray-900 max-w-none prose-headings:text-gray-900 dark:prose-headings:text-gray-100 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-100 prose-code:text-gray-900 dark:prose-code:text-gray-100 prose-li:text-gray-700 dark:prose-li:text-gray-300">
+          <div className="prose prose-gray dark:prose-invert dark:prose-pre:bg-gray-900 max-w-none prose-headings:text-[var(--foreground)] prose-p:text-[var(--foreground)] prose-p:opacity-90 prose-strong:text-[var(--foreground)] prose-code:text-[#d9730d] prose-li:text-[var(--foreground)] prose-li:opacity-90">
             <div
               className="article-content"
               dangerouslySetInnerHTML={{ __html: processedContent }}
@@ -65,7 +65,7 @@ export default function ArticleContent({
                 {previous ? (
                   <Link
                     href={previous.href}
-                    className="px-4 py-2 bg-[#37352f] text-white rounded hover:bg-black dark:bg-gray-100 dark:text-[#191919] dark:hover:bg-white transition-colors text-sm font-medium"
+                    className="px-4 py-2 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] rounded hover:opacity-80 transition-colors text-sm font-bold border border-[#d9730d]/10"
                   >
                     ← Previous: {previous.title}
                   </Link>
@@ -80,7 +80,7 @@ export default function ArticleContent({
                 {next ? (
                   <Link
                     href={next.href}
-                    className="px-4 py-2 bg-[#37352f] text-white rounded hover:bg-black dark:bg-gray-100 dark:text-[#191919] dark:hover:bg-white transition-colors text-sm font-medium"
+                    className="px-4 py-2 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] rounded hover:opacity-80 transition-colors text-sm font-bold border border-[#d9730d]/10"
                   >
                     Next: {next.title} →
                   </Link>

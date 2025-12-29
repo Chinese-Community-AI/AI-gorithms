@@ -52,13 +52,12 @@ const QuickAccessCard = ({
   title: string;
   description: string;
   href: string;
-  color: "blue" | "orange" | "green" | "purple";
+  color: "orange" | "yellow" | "green";
 }) => {
   const bgColors = {
-    blue: "bg-[#e7f3f8] dark:bg-blue-900/20",
-    orange: "bg-[#fbf3db] dark:bg-orange-900/20",
+    orange: "bg-[#faebdd] dark:bg-orange-900/20",
+    yellow: "bg-[#fbf3db] dark:bg-yellow-900/20",
     green: "bg-[#edf3e8] dark:bg-green-900/20",
-    purple: "bg-[#f4f0f7] dark:bg-purple-900/20",
   };
 
   return (
@@ -217,7 +216,7 @@ export default function Home() {
               title="Fast Track"
               description="1-3 months interview ready path"
               href="/fast-track"
-              color="blue"
+              color="orange"
             />
             <QuickAccessCard
               icon="📚"
@@ -231,7 +230,7 @@ export default function Home() {
               title="Pricing"
               description="View plans and features"
               href="/pricing"
-              color="purple"
+              color="yellow"
             />
           </div>
         </section>
@@ -247,18 +246,18 @@ export default function Home() {
         </section>
 
         {/* Motivation / Footer-like Callout */}
-        <div className="mt-20 p-8 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 border border-blue-100/50 dark:border-blue-800/30 flex flex-col items-center text-center">
-          <span className="text-4xl mb-4">🏆</span>
-          <h3 className="text-xl font-bold text-[#37352f] dark:text-gray-100 mb-2">
+        <div className="mt-20 p-10 rounded-3xl bg-gradient-to-br from-[#faebdd] to-[#fbf3db] dark:from-[#2c221a] dark:to-[#2d2a1e] border border-[#d9730d]/10 dark:border-yellow-800/20 flex flex-col items-center text-center shadow-sm">
+          <span className="text-5xl mb-6">🏆</span>
+          <h3 className="text-2xl font-extrabold text-[#37352f] dark:text-gray-100 mb-3 tracking-tight">
             Ready for a challenge?
           </h3>
-          <p className="text-sm text-[#37352f]/60 dark:text-gray-400 max-w-md mb-6 leading-relaxed">
+          <p className="text-base text-[#37352f]/70 dark:text-gray-400 max-w-md mb-8 leading-relaxed font-medium">
             Consistency is the key to mastering algorithms. Try to solve at
             least one problem today using our AI-powered templates.
           </p>
           <Link
             href="/fast-track"
-            className="px-6 py-2 bg-[#37352f] dark:bg-gray-100 text-white dark:text-[#191919] rounded-full font-bold text-sm hover:opacity-90 transition-opacity no-underline"
+            className="px-8 py-3 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] rounded-xl font-bold text-base hover:opacity-80 transition-all no-underline shadow-md active:scale-95 border border-[#d9730d]/20"
           >
             Go to Fast Track
           </Link>

@@ -101,14 +101,14 @@ export default function Header() {
           <NavButton
             onClick={toggleTutorMode}
             isActive={isTutorMode}
-            activeClass="bg-[#f4f0f7] text-[#6931a5] dark:bg-[#251c2e] dark:text-[#a66ed1]"
+            activeClass="bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d]"
             label="AI Tutor"
             activeLabel="Exit Tutor"
           />
           <NavButton
             onClick={toggleFocusMode}
             isActive={isFocusMode}
-            activeClass="bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919]"
+            activeClass="bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d]"
             label="AI Chat"
             activeLabel="Exit Chat"
           />
@@ -165,7 +165,7 @@ export default function Header() {
 
           <button
             onClick={() => {}}
-            className="px-3 py-1.5 bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919] rounded-md font-bold text-xs lg:text-sm hover:opacity-90 transition-opacity ml-2 shadow-sm"
+            className="px-3 py-1.5 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-xs lg:text-sm hover:opacity-80 transition-opacity ml-2 shadow-sm border border-[#d9730d]/10"
           >
             Login
           </button>

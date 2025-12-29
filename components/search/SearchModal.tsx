@@ -68,37 +68,56 @@ export default function SearchModal() {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-start justify-center pt-20 px-4"
+      className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-50 flex items-start justify-center pt-20 px-4"
       onClick={closeSearch}
     >
       <div
-        className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
+        className="bg-[var(--background)] dark:bg-[#191919] rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden border border-[rgba(55,53,47,0.09)] dark:border-gray-800"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Search articles, topics..."
-            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="p-4 border-b border-[rgba(55,53,47,0.06)] dark:border-gray-800 bg-[var(--sidebar-bg)]">
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none opacity-40">
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search articles, topics..."
+              className="w-full pl-10 pr-4 py-3 bg-[var(--background)] border border-[rgba(55,53,47,0.12)] rounded-lg text-[var(--foreground)] placeholder-[var(--foreground)] placeholder-opacity-30 focus:outline-none focus:ring-2 focus:ring-[#d9730d]/10 transition-all"
+            />
+          </div>
         </div>
 
         <div className="max-h-[60vh] overflow-y-auto">
           {results.length > 0 ? (
-            <ul className="divide-y divide-gray-200 dark:divide-gray-800">
+            <ul className="divide-y divide-[rgba(55,53,47,0.06)] dark:divide-gray-800">
               {results.map((item, index) => (
                 <li key={`${item.href}-${index}`}>
                   <Link
                     href={item.href}
                     onClick={closeSearch}
-                    className="block px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-gray-100"
+                    className="block px-4 py-4 hover:bg-[var(--sidebar-hover)] transition-colors no-underline group"
                   >
-                    <div className="font-medium">{item.title}</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">
+                    <div className="font-bold text-[var(--foreground)] mb-0.5 group-hover:text-[#d9730d] transition-colors">
+                      {item.title}
+                    </div>
+                    <div className="text-[11px] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-tighter">
                       {item.href}
                     </div>
                   </Link>
@@ -106,26 +125,40 @@ export default function SearchModal() {
               ))}
             </ul>
           ) : query.trim() !== "" ? (
-            <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-              No results found for "{query}"
+            <div className="px-4 py-12 text-center">
+              <div className="text-3xl mb-3 opacity-20">🔍</div>
+              <div className="text-sm font-bold text-[var(--foreground)] opacity-40">
+                No results found for "{query}"
+              </div>
             </div>
           ) : (
-            <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-              Start typing to search...
+            <div className="px-4 py-12 text-center">
+              <div className="text-3xl mb-3 opacity-20">⌨️</div>
+              <div className="text-sm font-bold text-[var(--foreground)] opacity-40">
+                Start typing to search...
+              </div>
             </div>
           )}
         </div>
 
-        <div className="p-4 border-t border-gray-200 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400">
-          Press{" "}
-          <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">
-            Enter
-          </kbd>{" "}
-          to navigate,{" "}
-          <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded">
-            Esc
-          </kbd>{" "}
-          to close
+        <div className="p-4 border-t border-[rgba(55,53,47,0.06)] dark:border-gray-800 bg-[var(--sidebar-bg)] flex justify-between items-center">
+          <div className="flex gap-4">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-widest">
+              <kbd className="px-1.5 py-0.5 bg-[var(--background)] border border-[rgba(55,53,47,0.1)] rounded shadow-sm">
+                Enter
+              </kbd>{" "}
+              to navigate
+            </span>
+            <span className="flex items-center gap-1.5 text-[10px] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-widest">
+              <kbd className="px-1.5 py-0.5 bg-[var(--background)] border border-[rgba(55,53,47,0.1)] rounded shadow-sm">
+                Esc
+              </kbd>{" "}
+              to close
+            </span>
+          </div>
+          <span className="text-[10px] font-bold text-[#d9730d] opacity-60 uppercase tracking-widest">
+            AI-gorithms Search
+          </span>
         </div>
       </div>
     </div>

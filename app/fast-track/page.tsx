@@ -15,7 +15,7 @@ const Callout = ({
   children: ReactNode;
 }) => {
   const styles = {
-    info: "bg-[#e7f3f8] dark:bg-[#1a2b33] border-none",
+    info: "bg-[#faebdd] dark:bg-[#2c221a] border-none",
     warning: "bg-[#fbf3db] dark:bg-[#2d2a1e] border-none",
     critical: "bg-[#fdebec] dark:bg-[#331a1a] border-none",
     success: "bg-[#edf3e8] dark:bg-[#1c2d1c] border-none",
@@ -48,9 +48,9 @@ const Badge = ({
   const styles = {
     default: "bg-[#f1f1ef] text-[#37352f] dark:bg-gray-800 dark:text-gray-300",
     intermediate:
-      "bg-[#e7f3f8] text-[#0b6e99] dark:bg-blue-900/30 dark:text-blue-300",
+      "bg-[#faebdd] text-[#d9730d] dark:bg-orange-900/30 dark:text-orange-300",
     advanced:
-      "bg-[#f4f0f7] text-[#6931a5] dark:bg-purple-900/30 dark:text-purple-300",
+      "bg-[#fbf3db] text-[#dfab01] dark:bg-yellow-900/30 dark:text-yellow-300",
     critical:
       "bg-[#fdebec] text-[#ad1a1a] dark:bg-red-900/30 dark:text-red-300",
     success:
@@ -59,7 +59,7 @@ const Badge = ({
 
   return (
     <span
-      className={`px-2 py-0.5 rounded text-[12px] font-medium ${styles[variant]}`}
+      className={`px-2 py-0.5 rounded text-[12px] font-bold ${styles[variant]}`}
     >
       {label}
     </span>
@@ -128,7 +128,7 @@ const SectionHeading = ({
   <div className="mt-12 mb-6">
     <div className="flex items-center gap-2 mb-1">
       {icon && <span className="text-2xl">{icon}</span>}
-      <h2 className="text-2xl font-bold text-[#37352f] dark:text-gray-100 m-0 text-left">
+      <h2 className="text-2xl font-extrabold text-[#37352f] dark:text-gray-100 m-0 text-left tracking-tight">
         {children}
       </h2>
     </div>
@@ -150,9 +150,9 @@ const TipCard = ({
   title: string;
   children: ReactNode;
 }) => (
-  <div className="border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 bg-white dark:bg-[#191919] shadow-sm text-left">
+  <div className="border border-[#37352f]/10 dark:border-gray-800 rounded-lg p-5 bg-white dark:bg-[#191919] shadow-sm text-left hover:border-[#d9730d]/30 transition-all">
     <div className="text-3xl mb-3">{emoji}</div>
-    <h4 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-2">
+    <h4 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-2 tracking-tight">
       {title}
     </h4>
     <div className="text-sm leading-relaxed text-[#37352f]/70 dark:text-gray-400">
@@ -418,7 +418,7 @@ function FastTrackContent() {
           badgeVariant="advanced"
           time="5-7 days"
         >
-          <p className="mb-3 text-sm italic opacity-70 font-medium italic text-left">
+          <p className="mb-3 text-sm italic opacity-70 font-medium text-left">
             "The fallback solution for any difficult problem."
           </p>
           <ul className="list-disc pl-5 space-y-1 text-left">
@@ -445,11 +445,15 @@ function FastTrackContent() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
               <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                <span className="font-bold block mb-1">Sequence DP</span>
+                <span className="font-bold block mb-1 text-[#d9730d]/80">
+                  Sequence DP
+                </span>
                 LIS, LCS, Edit Distance
               </div>
               <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                <span className="font-bold block mb-1">Knapsack & Others</span>
+                <span className="font-bold block mb-1 text-[#d9730d]/80">
+                  Knapsack & Others
+                </span>
                 0/1, Complete, Game Theory
               </div>
             </div>
@@ -461,33 +465,33 @@ function FastTrackContent() {
       <SectionHeading icon="📑">Final Study Tips</SectionHeading>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left">
+          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left tracking-tight">
             Effective Practice
           </h4>
           <ul className="list-none p-0 space-y-3">
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#37352f] font-bold opacity-40">•</span>
+              <span className="text-[#d9730d] font-bold opacity-60">•</span>
               Don't get stuck for &gt;30 mins. Read the editorial, understand
               the pattern, and revisit in 2 days.
             </li>
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#37352f] font-bold opacity-40">•</span>
+              <span className="text-[#d9730d] font-bold opacity-60">•</span>
               Write templates by hand at least once to build muscle memory.
             </li>
           </ul>
         </div>
         <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left">
+          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left tracking-tight">
             Review Strategy
           </h4>
           <ul className="list-none p-0 space-y-3">
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#37352f] font-bold opacity-40">•</span>
+              <span className="text-[#d9730d] font-bold opacity-60">•</span>
               Use the Visual Roadmap to track your progress and navigate related
               concepts.
             </li>
             <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#37352f] font-bold opacity-40">•</span>
+              <span className="text-[#d9730d] font-bold opacity-60">•</span>
               Explain the algorithm to the AI Chatbot to verify your
               understanding.
             </li>

@@ -27,7 +27,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Customize heading styles
     h1: ({ children, ...props }) => (
       <h1
-        className="text-4xl font-bold mb-4 mt-8 text-gray-900 dark:text-gray-100"
+        className="text-4xl font-extrabold mb-4 mt-10 text-[var(--foreground)] tracking-tight leading-tight"
         {...props}
       >
         {children}
@@ -35,7 +35,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     h2: ({ children, ...props }) => (
       <h2
-        className="text-3xl font-bold mb-3 mt-6 text-gray-900 dark:text-gray-100"
+        className="text-2xl font-bold mb-3 mt-8 text-[var(--foreground)] tracking-tight border-b border-[rgba(55,53,47,0.09)] pb-2"
         {...props}
       >
         {children}
@@ -43,7 +43,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     h3: ({ children, ...props }) => (
       <h3
-        className="text-2xl font-semibold mb-2 mt-4 text-gray-900 dark:text-gray-100"
+        className="text-xl font-bold mb-2 mt-6 text-[var(--foreground)] tracking-tight"
         {...props}
       >
         {children}
@@ -53,7 +53,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Customize paragraph styles
     p: ({ children, ...props }) => (
       <p
-        className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed"
+        className="mb-4 text-[15.5px] leading-relaxed text-[var(--foreground)] opacity-90"
         {...props}
       >
         {children}
@@ -61,14 +61,15 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
 
     // Customize links to use Next.js Link component
-    // This enables client-side navigation (faster page loads)
     a: ({ href, children, ...props }) => {
-      // If it's an external link (starts with http), use regular <a>
+      const className =
+        "text-[#d9730d] font-semibold underline decoration-[#d9730d]/30 hover:decoration-[#d9730d] transition-all";
+
       if (href?.startsWith("http")) {
         return (
           <a
             href={href}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
+            className={className}
             target="_blank"
             rel="noopener noreferrer"
             {...props}
@@ -77,29 +78,21 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           </a>
         );
       }
-      // Internal links use Next.js Link for client-side navigation
       return (
-        <Link
-          href={href || "#"}
-          className="text-blue-600 dark:text-blue-400 hover:underline"
-          {...props}
-        >
+        <Link href={href || "#"} className={className} {...props}>
           {children}
         </Link>
       );
     },
 
     // Customize code blocks
-    // Inline code (single backticks) uses <code>
     code: ({ children, className, ...props }) => {
-      // Check if it's a code block (has className) or inline code
       const isInline = !className;
 
       if (isInline) {
-        // Inline code styling
         return (
           <code
-            className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded text-sm font-mono"
+            className="px-1.5 py-0.5 bg-[var(--sidebar-bg)] text-[#d9730d] dark:text-[#d9730d] rounded-[4px] text-[0.9em] font-mono font-medium border border-[rgba(55,53,47,0.06)]"
             {...props}
           >
             {children}
@@ -107,8 +100,6 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         );
       }
 
-      // Code block - extract language from className
-      // className format: "language-javascript"
       const language = className?.replace("language-", "") || "text";
       const codeString = String(children).replace(/\n$/, "");
 
@@ -118,7 +109,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Customize blockquotes
     blockquote: ({ children, ...props }) => (
       <blockquote
-        className="border-l-4 border-blue-500 pl-4 py-2 my-4 italic text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 rounded-r"
+        className="border-l-4 border-[#d9730d] pl-5 py-1 my-6 italic text-[var(--foreground)] opacity-80 bg-[#faebdd]/20 dark:bg-orange-900/5 rounded-r-lg"
         {...props}
       >
         {children}
@@ -128,7 +119,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Customize lists
     ul: ({ children, ...props }) => (
       <ul
-        className="list-disc list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300"
+        className="list-disc list-outside mb-6 space-y-2 text-[var(--foreground)] opacity-90 ml-5"
         {...props}
       >
         {children}
@@ -136,32 +127,29 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     ol: ({ children, ...props }) => (
       <ol
-        className="list-decimal list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300"
+        className="list-decimal list-outside mb-6 space-y-2 text-[var(--foreground)] opacity-90 ml-5"
         {...props}
       >
         {children}
       </ol>
     ),
     li: ({ children, ...props }) => (
-      <li className="ml-4" {...props}>
+      <li className="pl-1 mb-1" {...props}>
         {children}
       </li>
     ),
 
-    // Customize tables (from remark-gfm)
+    // Customize tables
     table: ({ children, ...props }) => (
-      <div className="overflow-x-auto my-6">
-        <table
-          className="min-w-full border-collapse border border-gray-300 dark:border-gray-700"
-          {...props}
-        >
+      <div className="overflow-x-auto my-8 border border-[rgba(55,53,47,0.09)] rounded-xl shadow-sm">
+        <table className="min-w-full border-collapse" {...props}>
           {children}
         </table>
       </div>
     ),
     th: ({ children, ...props }) => (
       <th
-        className="border border-gray-300 dark:border-gray-700 px-4 py-2 bg-gray-100 dark:bg-gray-800 font-semibold text-left"
+        className="border-b border-[rgba(55,53,47,0.09)] px-4 py-3 bg-[var(--sidebar-bg)] font-bold text-left text-sm uppercase tracking-wider opacity-60"
         {...props}
       >
         {children}
@@ -169,29 +157,26 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     td: ({ children, ...props }) => (
       <td
-        className="border border-gray-300 dark:border-gray-700 px-4 py-2"
+        className="border-b border-[rgba(55,53,47,0.06)] px-4 py-3 text-sm text-[var(--foreground)] opacity-90"
         {...props}
       >
         {children}
       </td>
     ),
 
-    // Customize horizontal rule
     hr: ({ ...props }) => (
-      <hr className="my-8 border-gray-300 dark:border-gray-700" {...props} />
+      <hr className="my-10 border-[rgba(55,53,47,0.09)]" {...props} />
     ),
 
-    // Customize images
     img: ({ src, alt, ...props }) => (
       <img
         src={src}
         alt={alt}
-        className="rounded-lg my-6 max-w-full h-auto"
+        className="rounded-xl my-8 max-w-full h-auto shadow-md border border-[rgba(55,53,47,0.06)]"
         {...props}
       />
     ),
 
-    // Spread any other components passed in
     ...components,
   };
 }

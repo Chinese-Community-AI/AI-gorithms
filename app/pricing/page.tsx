@@ -35,18 +35,18 @@ const PlanCard = ({
   features: string[];
   cta: string;
   popular: boolean;
-  color?: "default" | "blue" | "purple";
+  color?: "default" | "orange" | "yellow";
 }) => {
   const bgColors = {
     default: "bg-white dark:bg-[#191919]",
-    blue: "bg-[#e7f3f8] dark:bg-blue-900/10",
-    purple: "bg-[#f4f0f7] dark:bg-purple-900/10",
+    orange: "bg-[#faebdd] dark:bg-[#2c221a]",
+    yellow: "bg-[#fbf3db] dark:bg-yellow-900/10",
   };
 
   const accentColors = {
     default: "border-[#37352f]/10 dark:border-gray-800",
-    blue: "border-blue-200/50 dark:border-blue-800/30",
-    purple: "border-purple-200/50 dark:border-purple-800/30",
+    orange: "border-[#d9730d]/20 dark:border-[#d9730d]/30",
+    yellow: "border-[#dfab01]/20 dark:border-yellow-800/30",
   };
 
   return (
@@ -90,8 +90,8 @@ const PlanCard = ({
       <button
         className={`w-full py-2 px-4 rounded border text-sm font-bold transition-all duration-200 ${
           popular
-            ? "bg-[#37352f] border-[#37352f] text-white hover:bg-black dark:bg-gray-100 dark:border-gray-100 dark:text-[#191919] dark:hover:bg-white"
-            : "bg-white dark:bg-transparent border-[#37352f]/10 dark:border-gray-700 text-[#37352f] dark:text-gray-100 hover:bg-[#37352f]/[0.02] dark:hover:bg-gray-800"
+            ? "bg-[#faebdd] border-[#d9730d]/20 text-[#d9730d] hover:bg-[#faebdd]/80 dark:bg-[#2c221a] dark:text-[#d9730d] dark:border-[#d9730d]/30"
+            : "bg-white dark:bg-transparent border-[#37352f]/10 dark:border-gray-700 text-[#37352f] dark:text-gray-100 hover:bg-[#faebdd]/20 dark:hover:bg-[#2c221a]/50"
         }`}
       >
         {cta}
@@ -132,7 +132,7 @@ export default function PricingPage() {
       ],
       cta: "Get started",
       popular: true,
-      color: "blue" as const,
+      color: "orange" as const,
     },
     {
       name: "Community Innovator",
@@ -148,7 +148,7 @@ export default function PricingPage() {
       ],
       cta: "Join the community",
       popular: false,
-      color: "purple" as const,
+      color: "yellow" as const,
     },
   ];
 

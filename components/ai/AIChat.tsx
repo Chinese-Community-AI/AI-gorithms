@@ -118,7 +118,7 @@ export default function AIChat() {
             <div
               className={`max-w-[90%] rounded-lg px-4 py-2 text-sm leading-relaxed ${
                 message.role === "user"
-                  ? "bg-[#37352f] text-white dark:bg-gray-100 dark:text-[#191919] shadow-sm"
+                  ? "bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] shadow-sm border border-[#d9730d]/10"
                   : "bg-[var(--sidebar-bg)] text-[var(--foreground)] border border-[rgba(55,53,47,0.05)]"
               }`}
             >
@@ -175,7 +175,7 @@ export default function AIChat() {
               className={`p-1.5 rounded-md transition-all duration-200 ${
                 !input.trim() || isLoading
                   ? "text-[var(--foreground)] opacity-20"
-                  : "text-white bg-[#37352f] dark:bg-gray-100 dark:text-[#191919] hover:opacity-90 shadow-sm"
+                  : "text-[#d9730d] bg-[#faebdd] dark:bg-[#2c221a] hover:opacity-80 shadow-sm border border-[#d9730d]/10"
               }`}
             >
               <svg

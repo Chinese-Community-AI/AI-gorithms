@@ -61,22 +61,36 @@ export default function TableOfContents({
   }
 
   return (
-    <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto">
+    <div className="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto pr-2 scrollbar-thin">
       <div
-        className={`bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg transition-all ${
+        className={`bg-[var(--sidebar-bg)] border border-[rgba(55,53,47,0.09)] dark:border-gray-800 rounded-xl transition-all shadow-sm ${
           isOpen ? "p-4" : "p-2"
         }`}
       >
         <div className={`flex items-center gap-2 ${isOpen ? "mb-4" : ""}`}>
           <button
             onClick={onToggle}
-            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded text-gray-600 dark:text-gray-400 flex-shrink-0"
+            className="p-1 hover:bg-[var(--sidebar-hover)] rounded text-[var(--foreground)] opacity-40 hover:opacity-100 transition-all flex-shrink-0"
             aria-label="Toggle table of contents"
           >
-            {isOpen ? "▼" : "▲"}
+            <svg
+              viewBox="0 0 100 100"
+              className={`w-3 h-3 transition-transform duration-200 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            >
+              <path
+                d="M15,30 L50,70 L85,30"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="12"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
           <h3
-            className={`font-semibold text-sm uppercase text-gray-500 dark:text-gray-400 ${
+            className={`font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] opacity-40 ${
               isOpen ? "block" : "hidden"
             }`}
           >
@@ -84,7 +98,7 @@ export default function TableOfContents({
           </h3>
         </div>
         {isOpen && (
-          <nav className="space-y-1">
+          <nav className="space-y-[1px]">
             {headings.map((heading) => (
               <a
                 key={heading.id}
@@ -93,13 +107,13 @@ export default function TableOfContents({
                   e.preventDefault();
                   scrollToHeading(heading.id);
                 }}
-                className={`block text-sm py-1 px-2 rounded transition-colors ${
+                className={`block text-[13px] py-1.5 px-3 rounded-md transition-all no-underline leading-tight ${
                   activeId === heading.id
-                    ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-medium"
-                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    ? "bg-[#faebdd] text-[#d9730d] font-bold shadow-sm"
+                    : "text-[var(--foreground)] opacity-60 hover:opacity-100 hover:bg-[var(--sidebar-hover)]"
                 }`}
                 style={{
-                  paddingLeft: `${(heading.level - 1) * 0.75 + 0.5}rem`,
+                  marginLeft: `${(heading.level - 1) * 0.5}rem`,
                 }}
               >
                 {heading.text}

@@ -48,7 +48,7 @@ function NavItemComponent({
         <div
           className={`flex-1 flex items-center rounded-[4px] transition-colors duration-150 ease-in-out cursor-pointer py-[3px] my-[1px] ${
             isActive
-              ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+              ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
               : "hover:bg-[rgba(55,53,47,0.05)] text-[var(--foreground)] opacity-80 hover:opacity-100"
           }`}
           style={{ paddingLeft: `${level * 0.75 + 0.25}rem` }}
@@ -129,8 +129,10 @@ export default function Sidebar() {
           {/* Header/Brand Area */}
           <div className="px-4 py-3 flex items-center justify-between group">
             <div className="flex items-center gap-2 overflow-hidden">
-              <div className="w-5 h-5 bg-[#37352f] rounded flex items-center justify-center flex-shrink-0">
-                <span className="text-white text-[10px] font-bold">A</span>
+              <div className="w-5 h-5 bg-[#faebdd] border border-[#d9730d]/20 rounded flex items-center justify-center flex-shrink-0 shadow-sm">
+                <span className="text-[#d9730d] text-[10px] font-extrabold">
+                  A
+                </span>
               </div>
               <h2 className="font-bold text-[14px] text-[var(--foreground)] truncate opacity-80">
                 AI-gorithms
@@ -158,7 +160,7 @@ export default function Sidebar() {
               onClick={closeMobileMenu}
               className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
                 usePathname() === "/"
-                  ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+                  ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
                   : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
               }`}
             >
@@ -170,7 +172,7 @@ export default function Sidebar() {
               onClick={closeMobileMenu}
               className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
                 usePathname() === "/pricing"
-                  ? "bg-[rgba(55,53,47,0.08)] font-semibold text-[var(--foreground)]"
+                  ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
                   : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
               }`}
             >
