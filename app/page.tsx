@@ -123,7 +123,7 @@ export default function Home() {
               style={{
                 minWidth: "200px",
                 border: "1px solid rgba(55, 53, 47, 0.09)",
-                borderRadius: "3px",
+                borderRadius: "6px",
                 padding: "1rem",
                 background: "white",
                 textDecoration: "none",
@@ -393,7 +393,7 @@ export default function Home() {
               style={{
                 minWidth: "240px",
                 border: "1px solid rgba(55, 53, 47, 0.09)",
-                borderRadius: "3px",
+                borderRadius: "6px",
                 padding: "1rem",
                 background: "white",
                 textDecoration: "none",
