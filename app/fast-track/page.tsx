@@ -169,8 +169,10 @@ function FastTrackContent() {
       {/* Intro section */}
       <div className="mb-12">
         <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
-          Welcome to the Fast Track program. This curriculum is designed to take
-          you from fundamentals to interview-ready efficiency in record time.
+          No BS, interview-focused study plan covering essential patterns and problems
+          only. All interview questions derive from these foundational patterns.
+          Master these core concepts and you'll be equipped to solve any
+          reasonable problem in your interview.
         </p>
 
         <Callout type="info" icon="🚀">
