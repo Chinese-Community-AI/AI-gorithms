@@ -507,16 +507,9 @@ export default function FastTrackPage() {
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
       <div className="max-w-[800px] mx-auto pt-20 px-6 lg:px-10">
         <header className="mb-12">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-5xl lg:text-6xl">🚀</span>
-          </div>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight text-left">
             1 Month Fast Track
           </h1>
-          <p className="mt-4 text-xl text-[#37352f]/60 dark:text-gray-400 font-medium text-left">
-            Your roadmap to mastering algorithm patterns and smashing technical
-            interviews.
-          </p>
         </header>
 
         <div className="h-px bg-[#37352f]/10 dark:bg-gray-800 w-full mb-12" />
