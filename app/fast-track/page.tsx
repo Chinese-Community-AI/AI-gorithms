@@ -169,36 +169,41 @@ function FastTrackContent() {
       {/* Intro section */}
       <div className="mb-12">
         <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
-          No BS, interview-focused study plan covering essential patterns and problems
-          only. All interview questions derive from these foundational patterns.
-          Master these core concepts and you'll be equipped to solve any
-          reasonable problem in your interview.
+          This is a no-BS, interview-focused roadmap. Every reasonable interview
+          question is just a variation of a few core patterns. Master these
+          foundations, and you'll stop memorizing code and start seeing
+          solutions intuitively.
         </p>
 
         <Callout type="info" icon="🚀">
-          <p className="font-bold mb-1 text-left">Goal</p>
-          <p className="mb-3 text-left">
-            Master core algorithm patterns and solve medium-level problems
-            independently in the shortest time possible.
+          <p className="font-bold mb-1 text-left uppercase tracking-widest text-[11px] opacity-60">
+            The Goal
           </p>
-          <p className="font-bold mb-1 text-sm opacity-80 uppercase tracking-wider text-left">
-            Estimated Commitment
+          <p className="text-lg font-bold mb-3 text-left">
+            Acquire pattern-based intuition to solve Medium/Hard problems in
+            record time.
           </p>
-          <p className="text-left">4-6 weeks (1-2 hours daily)</p>
+          <p className="font-bold mb-1 text-xs opacity-80 uppercase tracking-wider text-left">
+            Time Commitment
+          </p>
+          <p className="text-left font-medium">4-6 weeks (1-2 hours daily)</p>
         </Callout>
       </div>
 
       {/* Target Audience */}
-      <SectionHeading icon="🎯">Target Audience</SectionHeading>
+      <SectionHeading icon="🎯">Who is this for?</SectionHeading>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-        <TipCard emoji="⏰" title="Limited Time">
-          Need to prepare for technical interviews on a tight schedule.
+        <TipCard emoji="⏰" title="Fast-Track Prep">
+          You need to be interview-ready in weeks, not months, and can't afford
+          to waste time on low-impact problems.
         </TipCard>
-        <TipCard emoji="🎯" title="High Impact">
-          Want to focus only on the most frequently tested topics and patterns.
+        <TipCard emoji="🧘" title="Zero Frustration">
+          Learn directly from patterns and answers. Skip the hours of pain—once
+          you master the core patterns, solutions will follow naturally.
         </TipCard>
-        <TipCard emoji="📚" title="Structured">
-          Prefer a clear, template-based approach over random problem solving.
+        <TipCard emoji="💎" title="Anti-Grind Method">
+          Master the underlying logic once. Stop the endless cycle of solving
+          and memorizing thousands of individual LeetCode problems.
         </TipCard>
       </div>
 
@@ -508,10 +513,14 @@ export default function FastTrackPage() {
   return (
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
       <div className="max-w-[800px] mx-auto pt-20 px-6 lg:px-10">
-        <header className="mb-12">
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight text-left">
-            1 Month Fast Track
+        <header className="mb-12 text-left">
+          <h1 className="text-4xl lg:text-6xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
+            The Pattern-First Fast Track
           </h1>
+          <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium">
+            Stop grinding LeetCode. Start mastering the underlying patterns that
+            actually matter.
+          </p>
         </header>
 
         <div className="h-px bg-[#37352f]/10 dark:bg-gray-800 w-full mb-12" />
