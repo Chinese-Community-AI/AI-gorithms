@@ -572,7 +572,22 @@ export default function FastTrackPage() {
 
           <div className="h-px bg-[#37352f]/10 dark:bg-gray-800 w-full mb-12" />
 
-          <div className="min-h-[500px]">{steps[step].content}</div>
+          <div className="relative">
+            {/* Ghost Card 2 (Deepest) */}
+            {step < steps.length - 2 && (
+              <div className="absolute top-8 left-6 right-6 -bottom-8 bg-[#37352f]/[0.02] dark:bg-white/[0.01] rounded-3xl border border-[#37352f]/[0.03] dark:border-white/[0.02] pointer-events-none" />
+            )}
+
+            {/* Ghost Card 1 (Middle) */}
+            {step < steps.length - 1 && (
+              <div className="absolute top-4 left-3 right-3 -bottom-4 bg-[#37352f]/[0.04] dark:bg-white/[0.02] rounded-3xl border border-[#37352f]/[0.05] dark:border-white/[0.03] pointer-events-none shadow-sm" />
+            )}
+
+            {/* Main Active Card */}
+            <div className="relative z-20 bg-white dark:bg-[#1e1e1e] p-8 lg:p-12 rounded-3xl border border-[rgba(55,53,47,0.09)] dark:border-gray-800 shadow-xl shadow-[#37352f]/5 min-h-[500px] transition-all duration-500">
+              {steps[step].content}
+            </div>
+          </div>
 
           {/* Mobile Navigation (Bottom) - Only show when side nav is hidden */}
           <div className="lg:hidden mt-16 flex items-center justify-between border-t border-[#37352f]/10 pt-8">
