@@ -1,0 +1,41 @@
+---
+title: "Introduction to Arrays"
+description: "The most fundamental data structure: Contiguous memory and O(1) access."
+---
+
+# Introduction to Arrays
+
+Arrays are the most basic and fundamental way to store a collection of data in a computer's memory. If you understand how a post office box system works, you already understand Arrays.
+
+## What is an Array?
+
+In technical terms, an array is a **contiguous** block of memory. This means all the elements are stored right next to each other, like a row of lockers in a hallway.
+
+### Key Characteristics
+
+- **Fixed Size:** Traditionally, arrays have a fixed size defined at creation.
+- **Contiguous Memory:** Every element is adjacent to the next.
+- **Index-Based:** We access elements using their numerical position (starting from 0).
+
+## Why Use Arrays?
+
+The "Superpower" of the array is **Random Access**.
+
+Because the computer knows exactly where the first element is and how big each element is, it can calculate the memory address of _any_ element instantly using math:
+`Address = Start + (Index * Size)`
+
+> [!info]
+> This gives us **O(1) Time Complexity** for reading any element, no matter how large the array is.
+
+## Core Operations
+
+| Operation     | Time Complexity | Why?                                                   |
+| :------------ | :-------------- | :----------------------------------------------------- |
+| **Access**    | O(1)            | Direct math calculation to memory address.             |
+| **Search**    | O(n)            | Might have to check every element one by one.          |
+| **Insertion** | O(n)            | Need to shift all subsequent elements to make room.    |
+| **Deletion**  | O(n)            | Need to shift all subsequent elements to fill the gap. |
+
+---
+
+In the next section, we'll look at **Dynamic Arrays** and how languages like Python and Java handle resizing automatically.

@@ -16,6 +16,26 @@ export const navigation: NavItem[] = [
     href: "/basics",
     children: [
       {
+        title: "Arrays",
+        href: "/basics/01-arrays",
+        children: [
+          {
+            title: "Introduction to Arrays",
+            href: "/basics/01-arrays/intro",
+          },
+        ],
+      },
+      {
+        title: "Linked Lists",
+        href: "/basics/02-linked-lists",
+        children: [
+          {
+            title: "Introduction to Linked Lists",
+            href: "/basics/02-linked-lists/intro",
+          },
+        ],
+      },
+      {
         title: "Quick Introduction",
         href: "/basics/quick-introduction",
       },

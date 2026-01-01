@@ -28,6 +28,8 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
 
           <h2>Available Topics</h2>
           <ul>
+            <li>Arrays</li>
+            <li>Linked Lists</li>
             <li>10 Sorting Algorithms</li>
             <li>Binary Tree Structure and Traversal</li>
             <li>Binary Tree Variations</li>

@@ -1,0 +1,52 @@
+---
+title: "Introduction to Linked Lists"
+description: "Non-contiguous storage: Flexibility at the cost of random access."
+---
+
+# Introduction to Linked Lists
+
+If an Array is like a row of lockers, a **Linked List** is like a **Scavenger Hunt**.
+
+In a scavenger hunt, you don't know where all the clues are at once. You find the first clue, which tells you where the second clue is. The second clue tells you where the third is, and so on.
+
+## What is a Linked List?
+
+A Linked List is a linear data structure where elements are **not** stored in contiguous memory locations. Instead, each element (called a **Node**) is a separate object that contains two things:
+
+1.  The **Data** (the value you want to store).
+2.  A **Pointer** (the address of the next node).
+
+### Visual Representation
+
+`[Data | Next] -> [Data | Next] -> [Data | Null]`
+
+## Why Use Linked Lists?
+
+The "Superpower" of the Linked List is **Dynamic Insertion and Deletion**.
+
+Unlike an array, you don't need to "shift" everything when you want to add an item in the middle. You just update the pointers of the neighboring nodes.
+
+> [!info]
+> This gives us **O(1) Time Complexity** for insertion/deletion _if_ we already have a reference to the node.
+
+## Core Operations
+
+| Operation     | Time Complexity | Why?                                                       |
+| :------------ | :-------------- | :--------------------------------------------------------- |
+| **Access**    | O(n)            | Must start at the 'Head' and follow pointers one by one.   |
+| **Search**    | O(n)            | Must traverse the list node by node.                       |
+| **Insertion** | O(1)\*          | Just change two pointers (requires reference to the node). |
+| **Deletion**  | O(1)\*          | Just change one pointer (requires reference to the node).  |
+
+## Arrays vs. Linked Lists
+
+| Feature           | Array           | Linked List    |
+| :---------------- | :-------------- | :------------- |
+| **Memory**        | Contiguous      | Non-contiguous |
+| **Access**        | O(1)            | O(n)           |
+| **Insert/Delete** | O(n)            | O(1)           |
+| **Size**          | Fixed (usually) | Dynamic        |
+
+---
+
+In the next section, we'll explore **Doubly Linked Lists** and common interview patterns like the **Two-Pointer technique**.
