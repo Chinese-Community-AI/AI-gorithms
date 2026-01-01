@@ -207,36 +207,6 @@ function FastTrackContent() {
         </TipCard>
       </div>
 
-      {/* Core Principles */}
-      <SectionHeading icon="💡">Core Principles</SectionHeading>
-      <div className="space-y-4 mb-12">
-        <Callout type="success" icon="💎">
-          <p className="font-bold mb-2 text-left">Three Keys to Success</p>
-          <ul className="list-disc pl-5 space-y-2 text-left">
-            <li>
-              <strong>Template-First</strong>: Learn unified frameworks instead
-              of memorizing specific solutions.
-            </li>
-            <li>
-              <strong>Progressive Loading</strong>: Build unbreakable
-              foundations before moving to advanced topics.
-            </li>
-            <li>
-              <strong>Concept Over Grinding</strong>: Understand the "why"
-              before the "how".
-            </li>
-          </ul>
-        </Callout>
-
-        <Callout type="warning" icon="💡">
-          <p className="text-left">
-            <strong>Important</strong>: This curriculum is already optimized. Do
-            not skip the "Framework" articles to jump straight to problems.
-            Foundations are what save you time in the long run.
-          </p>
-        </Callout>
-      </div>
-
       {/* Week 1-2 */}
       <SectionHeading subtitle="Weeks 1-2" icon="🧱">
         Part 1: Data Structures Fundamentals
@@ -466,44 +436,6 @@ function FastTrackContent() {
             </div>
           </div>
         </TopicCard>
-      </div>
-
-      {/* Final Tips */}
-      <SectionHeading icon="📑">Final Study Tips</SectionHeading>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left tracking-tight">
-            Effective Practice
-          </h4>
-          <ul className="list-none p-0 space-y-3">
-            <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#d9730d] font-bold opacity-60">•</span>
-              Don't get stuck for &gt;30 mins. Read the editorial, understand
-              the pattern, and revisit in 2 days.
-            </li>
-            <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#d9730d] font-bold opacity-60">•</span>
-              Write templates by hand at least once to build muscle memory.
-            </li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-bold text-[#37352f] dark:text-gray-100 border-b border-[#37352f]/10 pb-2 text-left tracking-tight">
-            Review Strategy
-          </h4>
-          <ul className="list-none p-0 space-y-3">
-            <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#d9730d] font-bold opacity-60">•</span>
-              Use the Visual Roadmap to track your progress and navigate related
-              concepts.
-            </li>
-            <li className="flex gap-2 text-sm leading-relaxed text-left">
-              <span className="text-[#d9730d] font-bold opacity-60">•</span>
-              Explain the algorithm to the AI Chatbot to verify your
-              understanding.
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
   );
