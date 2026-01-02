@@ -32,8 +32,11 @@ function NavItemComponent({
   item: NavItem;
   level?: number;
 }) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
+  const [isExpanded, setIsExpanded] = useState(
+    item.title === "Part 1: Data Structures Basics" ||
+      (item.href !== "/" && pathname.startsWith(item.href))
+  );
   const { closeMobileMenu } = useMobileMenu();
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.href;
