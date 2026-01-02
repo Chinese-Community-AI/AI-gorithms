@@ -88,37 +88,37 @@ arr.set(0, 100);
 // find index by value, O(N)
 int index = arr.indexOf(666);`    },
     {
-      label: "cpp",
-      language: "cpp",
-      code:`// In C++, use std::vector
-vector<int> arr;
+      label: "javascript",
+      language: "javascript",
+      code:`// In JS, the Array is dynamic
+let arr = [];
 
-for (int i = 0; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
 // append to end, O(1)
-arr.push_back(i);
+arr.push(i);
 }
 
 // insert element 666 at index 2, O(N)
-arr.insert(arr.begin() + 2, 666);
+arr.splice(2, 0, 666);
 
 // insert at beginning, O(N)
-arr.insert(arr.begin(), -1);
+arr.unshift(-1);
 
 // delete last element, O(1)
-arr.pop_back();
+arr.pop();
 
 // delete element at index 2, O(N)
-arr.erase(arr.begin() + 2);
+arr.splice(2, 1);
 
 // query by index, O(1)
-int a = arr[0];
+let a = arr[0];
 
 // modify by index, O(1)
 arr[0] = 100;
 
 // find index by value, O(N)
-auto it = find(arr.begin(), arr.end(), 666);
-int index = (it != arr.end()) ? distance(arr.begin(), it) : -1;`    },
+let index = arr.indexOf(666);`
+    },
     {
       label: "go",
       language: "go",
@@ -157,37 +157,37 @@ break
 }
 }`    },
     {
-      label: "javascript",
-      language: "javascript",
-      code:`// In JS, the Array is dynamic
-let arr = [];
+      label: "cpp",
+      language: "cpp",
+      code:`// In C++, use std::vector
+vector<int> arr;
 
-for (let i = 0; i < 10; i++) {
+for (int i = 0; i < 10; i++) {
 // append to end, O(1)
-arr.push(i);
+arr.push_back(i);
 }
 
 // insert element 666 at index 2, O(N)
-arr.splice(2, 0, 666);
+arr.insert(arr.begin() + 2, 666);
 
 // insert at beginning, O(N)
-arr.unshift(-1);
+arr.insert(arr.begin(), -1);
 
 // delete last element, O(1)
-arr.pop();
+arr.pop_back();
 
 // delete element at index 2, O(N)
-arr.splice(2, 1);
+arr.erase(arr.begin() + 2);
 
 // query by index, O(1)
-let a = arr[0];
+int a = arr[0];
 
 // modify by index, O(1)
 arr[0] = 100;
 
 // find index by value, O(N)
-let index = arr.indexOf(666);`
-}
+auto it = find(arr.begin(), arr.end(), 666);
+int index = (it != arr.end()) ? distance(arr.begin(), it) : -1;` },
 ]}
 />
 
@@ -364,6 +364,76 @@ Here is how you would implement a dynamic array like `ArrayList` or `vector` fro
 }`,
     },
     {
+      label: "javascript",
+      language: "javascript",
+      code: `class MyArrayList {
+constructor(initCapacity = 1) {
+this.data = new Array(initCapacity);
+this.size = 0;
+}
+
+    addLast(e) {
+        if (this.size === this.data.length) this._resize(2 * this.data.length);
+        this.data[this.size++] = e;
+    }
+
+    removeLast() {
+        if (this.size === 0) throw new Error("Empty");
+        if (this.size === Math.floor(this.data.length / 4)) {
+            this._resize(Math.floor(this.data.length / 2));
+        }
+        const val = this.data[--this.size];
+        this.data[this.size] = undefined; // GC
+        return val;
+    }
+
+    _resize(newCap) {
+        let temp = new Array(newCap);
+        for (let i = 0; i < this.size; i++) temp[i] = this.data[i];
+        this.data = temp;
+    }
+
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type MyArrayList[T any] struct {
+data []T
+size int
+}
+
+func NewMyArrayList[T any](initCap int) \*MyArrayList[T] {
+return &MyArrayList[T]{data: make([]T, initCap), size: 0}
+}
+
+func (l _MyArrayList[T]) AddLast(e T) {
+if l.size == len(l.data) {
+l.resize(2 _ len(l.data))
+}
+l.data[l.size] = e
+l.size++
+}
+
+func (l \*MyArrayList[T]) RemoveLast() T {
+if l.size == 0 { panic("empty") }
+if l.size == len(l.data)/4 {
+l.resize(len(l.data) / 2)
+}
+val := l.data[l.size-1]
+var zero T
+l.data[l.size-1] = zero // GC
+l.size--
+return val
+}
+
+func (l \*MyArrayList[T]) resize(newCap int) {
+newData := make([]T, newCap)
+copy(newData, l.data[:l.size])
+l.data = newData
+}`,
+    },
+    {
       label: "cpp",
       language: "cpp",
       code: `template <typename T>
@@ -413,76 +483,6 @@ data = new T[cap];
     }
 
 };`,
-    },
-    {
-      label: "go",
-      language: "go",
-      code: `type MyArrayList[T any] struct {
-data []T
-size int
-}
-
-func NewMyArrayList[T any](initCap int) \*MyArrayList[T] {
-return &MyArrayList[T]{data: make([]T, initCap), size: 0}
-}
-
-func (l _MyArrayList[T]) AddLast(e T) {
-if l.size == len(l.data) {
-l.resize(2 _ len(l.data))
-}
-l.data[l.size] = e
-l.size++
-}
-
-func (l \*MyArrayList[T]) RemoveLast() T {
-if l.size == 0 { panic("empty") }
-if l.size == len(l.data)/4 {
-l.resize(len(l.data) / 2)
-}
-val := l.data[l.size-1]
-var zero T
-l.data[l.size-1] = zero // GC
-l.size--
-return val
-}
-
-func (l \*MyArrayList[T]) resize(newCap int) {
-newData := make([]T, newCap)
-copy(newData, l.data[:l.size])
-l.data = newData
-}`,
-    },
-    {
-      label: "javascript",
-      language: "javascript",
-      code: `class MyArrayList {
-constructor(initCapacity = 1) {
-this.data = new Array(initCapacity);
-this.size = 0;
-}
-
-    addLast(e) {
-        if (this.size === this.data.length) this._resize(2 * this.data.length);
-        this.data[this.size++] = e;
-    }
-
-    removeLast() {
-        if (this.size === 0) throw new Error("Empty");
-        if (this.size === Math.floor(this.data.length / 4)) {
-            this._resize(Math.floor(this.data.length / 2));
-        }
-        const val = this.data[--this.size];
-        this.data[this.size] = undefined; // GC
-        return val;
-    }
-
-    _resize(newCap) {
-        let temp = new Array(newCap);
-        for (let i = 0; i < this.size; i++) temp[i] = this.data[i];
-        this.data = temp;
-    }
-
-}`,
 },
 ]}
 />

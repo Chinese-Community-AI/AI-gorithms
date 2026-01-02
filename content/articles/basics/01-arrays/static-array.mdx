@@ -7,30 +7,6 @@ Here's how to define a static array:
 <CodeTabs
   tabs={[
     {
-      label: "java",
-      language: "java",
-      code: `// Define a static array of size 10
-int[] arr = new int[10];
-
-// Assign values using index
-arr[0] = 1;
-arr[1] = 2;
-
-// Retrieve values using index
-int a = arr[0];`    },
-    {
-      label: "cpp",
-      language: "cpp",
-      code:`// Define a static array of size 10
-int arr[10];
-
-// Assign values using index
-arr[0] = 1;
-arr[1] = 2;
-
-// Retrieve values using index
-int a = arr[0];`    },
-    {
       label: "python",
       language: "python",
       code:`# Python does not have true static arrays
@@ -48,19 +24,19 @@ arr[1] = 2
 
 # retrieve values using index
 
-a = arr[0]`    },
+a = arr[0]`   },
     {
-      label: "go",
-      language: "go",
+      label: "java",
+      language: "java",
       code:`// Define a static array of size 10
-var arr [10]int
+int[] arr = new int[10];
 
 // Assign values using index
-arr[0] = 1
-arr[1] = 2
+arr[0] = 1;
+arr[1] = 2;
 
 // Retrieve values using index
-a := arr[0]`    },
+int a = arr[0];`    },
     {
       label: "javascript",
       language: "javascript",
@@ -76,7 +52,31 @@ arr[1] = 2;
 
 // retrieve values using index
 let a = arr[0];`
-}
+    },
+    {
+      label: "go",
+      language: "go",
+      code:`// Define a static array of size 10
+var arr [10]int
+
+// Assign values using index
+arr[0] = 1
+arr[1] = 2
+
+// Retrieve values using index
+a := arr[0]`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// Define a static array of size 10
+int arr[10];
+
+// Assign values using index
+arr[0] = 1;
+arr[1] = 2;
+
+// Retrieve values using index
+int a = arr[0];` },
 ]}
 />
 
@@ -123,6 +123,13 @@ If the array has space, just set the value at the next available index. This is 
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Append element 4 to the end
+arr[4] = 4
+arr[5] = 5`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Append element 4 to the end
@@ -130,18 +137,11 @@ arr[4] = 4;
 arr[5] = 5;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Append element 4 to the end
 arr[4] = 4;
 arr[5] = 5;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Append element 4 to the end
-arr[4] = 4
-arr[5] = 5`,
     },
     {
       label: "go",
@@ -151,8 +151,8 @@ arr[4] = 4
 arr[5] = 5`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Append element 4 to the end
 arr[4] = 4;
 arr[5] = 5;`,
@@ -167,6 +167,15 @@ To insert an element at index 2, you must "move data" to make space. This takes 
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Insert element 666 at index 2
+# Move elements from index 2 onwards one step back
+for i in range(4, 2, -1):
+    arr[i] = arr[i - 1]
+arr[2] = 666`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Insert element 666 at index 2
@@ -177,23 +186,14 @@ for (int i = 4; i > 2; i--) {
 arr[2] = 666;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Insert element 666 at index 2
 // Move elements from index 2 onwards one step back
-for (int i = 4; i > 2; i--) {
+for (let i = 4; i > 2; i--) {
     arr[i] = arr[i - 1];
 }
 arr[2] = 666;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Insert element 666 at index 2
-# Move elements from index 2 onwards one step back
-for i in range(4, 2, -1):
-    arr[i] = arr[i - 1]
-arr[2] = 666`,
     },
     {
       label: "go",
@@ -206,11 +206,11 @@ for i := 4; i > 2; i-- {
 arr[2] = 666`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Insert element 666 at index 2
 // Move elements from index 2 onwards one step back
-for (let i = 4; i > 2; i--) {
+for (int i = 4; i > 2; i--) {
     arr[i] = arr[i - 1];
 }
 arr[2] = 666;`,
@@ -225,6 +225,15 @@ A static array cannot grow. If it's full and you need more space, you must alloc
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Need to expand the array
+newArr = [0] \* 20
+for i in range(10):
+    newArr[i] = arr[i]
+newArr[10] = 10`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Need to expand the array
@@ -235,23 +244,14 @@ for (int i = 0; i < 10; i++) {
 newArr[10] = 10;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Need to expand the array
-int newArr[20];
-for (int i = 0; i < 10; i++) {
+let newArr = new Array(20).fill(0);
+for (let i = 0; i < 10; i++) {
     newArr[i] = arr[i];
 }
 newArr[10] = 10;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Need to expand the array
-newArr = [0] \* 20
-for i in range(10):
-    newArr[i] = arr[i]
-newArr[10] = 10`,
     },
     {
       label: "go",
@@ -264,11 +264,11 @@ for i := 0; i < 10; i++ {
 newArr[10] = 10`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Need to expand the array
-let newArr = new Array(20).fill(0);
-for (let i = 0; i < 10; i++) {
+int newArr[20];
+for (int i = 0; i < 10; i++) {
     newArr[i] = arr[i];
 }
 newArr[10] = 10;`,
@@ -285,22 +285,22 @@ Just mark the last element as empty or decrement your count. This is **O(1)**.
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Remove the last element
+arr[4] = -1`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Remove the last element
 arr[4] = -1;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Remove the last element
 arr[4] = -1;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Remove the last element
-arr[4] = -1`,
     },
     {
       label: "go",
@@ -309,8 +309,8 @@ arr[4] = -1`,
 arr[4] = -1`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Remove the last element
 arr[4] = -1;`,
     },
@@ -324,6 +324,14 @@ To keep the array continuous, you must move all elements after the deleted one f
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Delete element at index 1
+for i in range(1, 4):
+    arr[i] = arr[i + 1]
+arr[4] = -1`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Delete element at index 1
@@ -333,21 +341,13 @@ for (int i = 1; i < 4; i++) {
 arr[4] = -1;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Delete element at index 1
-for (int i = 1; i < 4; i++) {
+for (let i = 1; i < 4; i++) {
     arr[i] = arr[i + 1];
 }
 arr[4] = -1;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Delete element at index 1
-for i in range(1, 4):
-    arr[i] = arr[i + 1]
-arr[4] = -1`,
     },
     {
       label: "go",
@@ -359,10 +359,10 @@ for i := 1; i < 4; i++ {
 arr[4] = -1`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Delete element at index 1
-for (let i = 1; i < 4; i++) {
+for (int i = 1; i < 4; i++) {
     arr[i] = arr[i + 1];
 }
 arr[4] = -1;`,
@@ -377,6 +377,16 @@ As we saw in the "How It Works" section, because arrays use continuous memory, w
 <CodeTabs
   tabs={[
     {
+      label: "python",
+      language: "python",
+      code: `# Access: Get the value at index 1
+val = arr[1]
+
+# Update: Change the value at index 1
+
+arr[1] = 999`,
+    },
+    {
       label: "java",
       language: "java",
       code: `// Access: Get the value at index 1
@@ -386,23 +396,13 @@ int val = arr[1];
 arr[1] = 999;`,
     },
     {
-      label: "cpp",
-      language: "cpp",
+      label: "javascript",
+      language: "javascript",
       code: `// Access: Get the value at index 1
-int val = arr[1];
+let val = arr[1];
 
 // Update: Change the value at index 1
 arr[1] = 999;`,
-    },
-    {
-      label: "python",
-      language: "python",
-      code: `# Access: Get the value at index 1
-val = arr[1]
-
-# Update: Change the value at index 1
-
-arr[1] = 999`,
     },
     {
       label: "go",
@@ -414,10 +414,10 @@ val := arr[1]
 arr[1] = 999`,
     },
     {
-      label: "javascript",
-      language: "javascript",
+      label: "cpp",
+      language: "cpp",
       code: `// Access: Get the value at index 1
-let val = arr[1];
+int val = arr[1];
 
 // Update: Change the value at index 1
 arr[1] = 999;`,
