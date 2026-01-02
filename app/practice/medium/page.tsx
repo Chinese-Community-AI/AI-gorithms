@@ -8,7 +8,7 @@ export default function MediumProblemsPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Medium Problems" readingTime={2}>
+      <MDXArticleContent title="Medium Problems" >
         <div>
           <h2>Medium Problems</h2>
           <p>Challenge yourself with intermediate-level problems.</p>
@@ -21,7 +21,7 @@ export default function MediumProblemsPage() {
   }
 
   return (
-    <MDXArticleContent title="Medium Problems" readingTime={2}>
+    <MDXArticleContent title="Medium Problems" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

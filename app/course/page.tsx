@@ -8,7 +8,7 @@ export default function CoursePage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Course Overview" readingTime={3}>
+      <MDXArticleContent title="Course Overview" >
         <div>
           <h2>Course Overview</h2>
           <p>
@@ -35,7 +35,7 @@ export default function CoursePage() {
   }
 
   return (
-    <MDXArticleContent title="Course Overview" readingTime={3}>
+    <MDXArticleContent title="Course Overview" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

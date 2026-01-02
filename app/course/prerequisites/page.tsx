@@ -8,7 +8,7 @@ export default function CoursePrerequisitesPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Prerequisites" readingTime={2}>
+      <MDXArticleContent title="Prerequisites" >
         <div>
           <h2>Prerequisites</h2>
           <p>Before starting this course, you should have:</p>
@@ -26,7 +26,7 @@ export default function CoursePrerequisitesPage() {
   }
 
   return (
-    <MDXArticleContent title="Prerequisites" readingTime={2}>
+    <MDXArticleContent title="Prerequisites" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

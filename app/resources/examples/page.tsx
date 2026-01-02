@@ -8,7 +8,7 @@ export default function CodeExamplesPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Code Examples" readingTime={2}>
+      <MDXArticleContent title="Code Examples" >
         <div>
           <h2>Code Examples</h2>
           <p>Browse through well-documented code examples.</p>
@@ -21,7 +21,7 @@ export default function CodeExamplesPage() {
   }
 
   return (
-    <MDXArticleContent title="Code Examples" readingTime={2}>
+    <MDXArticleContent title="Code Examples" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

@@ -8,7 +8,7 @@ export default function CourseObjectivesPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Learning Objectives" readingTime={2}>
+      <MDXArticleContent title="Learning Objectives" >
         <div>
           <h2>Learning Objectives</h2>
           <p>By the end of this course, you will be able to:</p>
@@ -25,7 +25,7 @@ export default function CourseObjectivesPage() {
   }
 
   return (
-    <MDXArticleContent title="Learning Objectives" readingTime={2}>
+    <MDXArticleContent title="Learning Objectives" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

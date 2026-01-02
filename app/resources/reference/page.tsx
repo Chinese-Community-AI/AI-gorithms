@@ -8,7 +8,7 @@ export default function ReferencePage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Reference Materials" readingTime={2}>
+      <MDXArticleContent title="Reference Materials" >
         <div>
           <h2>Reference Materials</h2>
           <p>Quick reference guides and cheat sheets.</p>
@@ -21,7 +21,7 @@ export default function ReferencePage() {
   }
 
   return (
-    <MDXArticleContent title="Reference Materials" readingTime={2}>
+    <MDXArticleContent title="Reference Materials" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

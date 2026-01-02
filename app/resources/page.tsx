@@ -15,5 +15,5 @@ export default function ResourcesPage() {
     <p>Quick reference guides, cheat sheets, and documentation for quick lookups.</p>
   `;
 
-  return <ArticleContent title="Resources" content={content} readingTime={2} />;
+  return <ArticleContent title="Resources" content={content}  />;
 }

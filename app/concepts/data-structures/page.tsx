@@ -8,9 +8,9 @@ export default function DataStructuresPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Data Structures Basics" readingTime={3}>
+      <MDXArticleContent title="Part 1: Data Structures Basics" >
         <div>
-          <h2>Data Structures Basics</h2>
+          <h2>Part 1: Data Structures Basics</h2>
           <p>Learn the fundamental data structures used in computer science.</p>
 
           <h2>What are Data Structures?</h2>
@@ -24,7 +24,7 @@ export default function DataStructuresPage() {
   }
 
   return (
-    <MDXArticleContent title="Data Structures Basics" readingTime={3}>
+    <MDXArticleContent title="Part 1: Data Structures Basics" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

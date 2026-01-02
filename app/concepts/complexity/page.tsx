@@ -8,7 +8,7 @@ export default function ComplexityPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Complexity Analysis" readingTime={4}>
+      <MDXArticleContent title="Complexity Analysis" >
         <div>
           <h2>Complexity Analysis</h2>
           <p>Learn how to analyze the efficiency of algorithms.</p>
@@ -24,7 +24,7 @@ export default function ComplexityPage() {
   }
 
   return (
-    <MDXArticleContent title="Complexity Analysis" readingTime={4}>
+    <MDXArticleContent title="Complexity Analysis" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

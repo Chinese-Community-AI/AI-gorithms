@@ -1,6 +1,7 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import MDXArticleContent from "@/components/article/MDXArticleContent";
 import { getContentForRoute } from "@/lib/utils/content";
+import { parseFrontmatter } from "@/lib/utils/mdx";
 import { notFound } from "next/navigation";
 
 interface BasicsPageProps {
@@ -18,9 +19,9 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
   // Handle the index page (/basics)
   if (slug.length === 0) {
     return (
-      <MDXArticleContent title="Basics" readingTime={5}>
+      <MDXArticleContent title="Part 1: Data Structures Basics">
         <div>
-          <h2>Basics</h2>
+          <h2>Part 1: Data Structures Basics</h2>
           <p>
             Welcome to the Basics section. Select a topic from the navigation to
             get started.
@@ -43,22 +44,27 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
   }
 
   const route = `/basics/${slug.join("/")}`;
-  const content = getContentForRoute(route);
+  const rawContent = getContentForRoute(route);
 
   // If no content found, show 404
-  if (!content) {
+  if (!rawContent) {
     notFound();
   }
 
-  // Extract title from the last part of the slug
-  const title = slug[slug.length - 1]
-    .split(/[-_]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+  // Parse frontmatter and body
+  const { frontmatter, body } = parseFrontmatter(rawContent);
+
+  // Extract title from the last part of the slug if not in frontmatter
+  const title =
+    frontmatter.title ||
+    slug[slug.length - 1]
+      .split(/[-_]/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
   return (
-    <MDXArticleContent title={title} readingTime={5}>
-      <MDXRemote source={content} />
+    <MDXArticleContent title={title}>
+      <MDXRemote source={body} />
     </MDXArticleContent>
   );
 }

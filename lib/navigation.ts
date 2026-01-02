@@ -12,9 +12,13 @@ export const navigation: NavItem[] = [
     href: "/fast-track",
   },
   {
-    title: "Basics",
+    title: "Part 1: Data Structures Basics",
     href: "/basics",
     children: [
+      {
+        title: "Quick Introduction",
+        href: "/basics/quick-introduction",
+      },
       {
         title: "Arrays",
         href: "/basics/01-arrays",
@@ -34,10 +38,6 @@ export const navigation: NavItem[] = [
             href: "/basics/02-linked-lists/intro",
           },
         ],
-      },
-      {
-        title: "Quick Introduction",
-        href: "/basics/quick-introduction",
       },
       {
         title: "10 Sorting Algorithms",

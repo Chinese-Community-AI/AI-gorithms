@@ -72,7 +72,7 @@ export default function MDXExamplePage() {
     <ArticleContent
       title="MDX Example"
       content={content}
-      readingTime={5}
+      
       showTOC={true}
     />
   );

@@ -8,7 +8,7 @@ export default function HardProblemsPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Hard Problems" readingTime={2}>
+      <MDXArticleContent title="Hard Problems" >
         <div>
           <h2>Hard Problems</h2>
           <p>Master advanced algorithms with challenging problems.</p>
@@ -21,7 +21,7 @@ export default function HardProblemsPage() {
   }
 
   return (
-    <MDXArticleContent title="Hard Problems" readingTime={2}>
+    <MDXArticleContent title="Hard Problems" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

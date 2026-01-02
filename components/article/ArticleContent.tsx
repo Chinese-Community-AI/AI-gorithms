@@ -11,14 +11,12 @@ import { useFocusMode } from "@/contexts/FocusModeContext";
 interface ArticleContentProps {
   title: string;
   content: string;
-  readingTime?: number;
   showTOC?: boolean;
 }
 
 export default function ArticleContent({
   title,
   content,
-  readingTime = 5,
   showTOC = true,
 }: ArticleContentProps) {
   const pathname = usePathname();

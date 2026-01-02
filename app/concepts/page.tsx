@@ -5,7 +5,7 @@ export default function ConceptsPage() {
     <h2>Core Concepts</h2>
     <p>Understanding the fundamental concepts is crucial for mastering algorithms and data structures.</p>
     
-    <h2>Data Structures Basics</h2>
+    <h2>Part 1: Data Structures Basics</h2>
     <p>Learn about arrays, linked lists, stacks, queues, trees, and graphs.</p>
     
     <h2>Algorithm Fundamentals</h2>
@@ -16,6 +16,6 @@ export default function ConceptsPage() {
   `;
 
   return (
-    <ArticleContent title="Core Concepts" content={content} readingTime={4} />
+    <ArticleContent title="Core Concepts" content={content}  />
   );
 }

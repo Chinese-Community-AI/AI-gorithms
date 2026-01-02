@@ -20,7 +20,7 @@ export default function PracticePage() {
     <ArticleContent
       title="Practice Problems"
       content={content}
-      readingTime={3}
+      
     />
   );
 }

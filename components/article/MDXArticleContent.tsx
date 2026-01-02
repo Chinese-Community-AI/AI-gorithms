@@ -30,11 +30,6 @@ interface MDXArticleContentProps {
   title?: string;
 
   /**
-   * Optional reading time (if not provided in frontmatter)
-   */
-  readingTime?: number;
-
-  /**
    * Whether to show the table of contents
    */
   showTOC?: boolean;
@@ -43,7 +38,6 @@ interface MDXArticleContentProps {
 export default function MDXArticleContent({
   children,
   title = "Article",
-  readingTime = 5,
   showTOC = true,
 }: MDXArticleContentProps) {
   const pathname = usePathname();

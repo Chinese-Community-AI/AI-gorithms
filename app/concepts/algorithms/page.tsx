@@ -8,7 +8,7 @@ export default function AlgorithmsPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Algorithm Fundamentals" readingTime={3}>
+      <MDXArticleContent title="Algorithm Fundamentals" >
         <div>
           <h2>Algorithm Fundamentals</h2>
           <p>Understanding algorithms is key to writing efficient code.</p>
@@ -21,7 +21,7 @@ export default function AlgorithmsPage() {
   }
 
   return (
-    <MDXArticleContent title="Algorithm Fundamentals" readingTime={3}>
+    <MDXArticleContent title="Algorithm Fundamentals" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

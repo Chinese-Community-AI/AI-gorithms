@@ -8,7 +8,7 @@ export default function VisualizationsPage() {
   // Fallback to default content if MDX file not found
   if (!content) {
     return (
-      <MDXArticleContent title="Visualizations" readingTime={2}>
+      <MDXArticleContent title="Visualizations" >
         <div>
           <h2>Visualizations</h2>
           <p>Interactive visualizations to help you understand algorithms.</p>
@@ -21,7 +21,7 @@ export default function VisualizationsPage() {
   }
 
   return (
-    <MDXArticleContent title="Visualizations" readingTime={2}>
+    <MDXArticleContent title="Visualizations" >
       <MDXRemote source={content} />
     </MDXArticleContent>
   );

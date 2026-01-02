@@ -266,12 +266,12 @@ export default function FastTrackPage() {
       ),
     },
     {
-      title: "The Building Blocks",
+      title: "Data Structures Basics",
       icon: "🧱",
       content: (
         <div className="animate-in fade-in duration-500">
           <SectionHeading subtitle="Weeks 1-2" icon="🧱">
-            Part 1: Data Structures Fundamentals
+            Part 1: Data Structures Basics
           </SectionHeading>
 
           <div className="space-y-2">
@@ -356,7 +356,7 @@ export default function FastTrackPage() {
       ),
     },
     {
-      title: "The Master Patterns",
+      title: "Algorithm Patterns",
       icon: "🧠",
       content: (
         <div className="animate-in fade-in duration-500">

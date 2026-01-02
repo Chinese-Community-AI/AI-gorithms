@@ -220,7 +220,7 @@ export default function Home() {
             />
             <QuickAccessCard
               icon="📚"
-              title="Basics"
+              title="Part 1: Data Structures Basics"
               description="Fundamental data structures"
               href="/basics"
               color="green"
