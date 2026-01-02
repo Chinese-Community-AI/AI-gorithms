@@ -31,6 +31,10 @@ export const navigation: NavItem[] = [
             title: "Static Array",
             href: "/basics/01-arrays/static-array",
           },
+          {
+            title: "Dynamic Array",
+            href: "/basics/01-arrays/dynamic-array",
+          },
         ],
       },
       {
