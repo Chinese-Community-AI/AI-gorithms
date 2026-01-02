@@ -8,7 +8,7 @@ export interface NavItem {
 // For now, using a static structure that matches the basics directory
 export const navigation: NavItem[] = [
   {
-    title: "1 Month Fast Track",
+    title: "Fast Track",
     href: "/fast-track",
   },
   {

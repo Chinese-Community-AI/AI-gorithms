@@ -204,26 +204,25 @@ export default function FastTrackPage() {
 
   const steps = [
     {
-      title: "Preparation",
-      icon: "🎯",
+      title: "Preface",
+      icon: "📖",
       content: (
         <div className="animate-in fade-in duration-500">
-          <header className="mb-12 text-left">
+          <header className="mb-6 text-left">
             <h1 className="text-4xl lg:text-6xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
-              The Pattern-First Fast Track
+              Fast Track
             </h1>
-            <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-8">
-              Stop grinding LeetCode. Start mastering the underlying patterns
-              that actually matter.
+            <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
+              Master patterns, not problems.
             </p>
           </header>
 
           <div className="mb-12">
             <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
-              This is a no-BS, interview-focused roadmap. Every reasonable
-              interview question is just a variation of a few core patterns.
-              Master these foundations, and you'll stop memorizing code and
-              start seeing solutions intuitively.
+              This is an interview-focused roadmap. Every reasonable interview
+              question is just a variation of a few core patterns. Master these
+              foundations, and you'll stop memorizing code and start seeing
+              solutions intuitively.
             </p>
 
             <Callout type="info" icon="🚀">
@@ -231,8 +230,7 @@ export default function FastTrackPage() {
                 The Goal
               </p>
               <p className="text-lg font-bold mb-3 text-left">
-                Acquire pattern-based intuition to solve Medium/Hard problems in
-                record time.
+                Able to solve resonable interview questions ASAP.
               </p>
               <p className="font-bold mb-1 text-xs opacity-80 uppercase tracking-wider text-left text-gray-500 dark:text-gray-400">
                 Time Commitment
