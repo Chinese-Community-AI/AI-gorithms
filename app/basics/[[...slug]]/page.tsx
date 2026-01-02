@@ -29,6 +29,7 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
 
           <h2>Available Topics</h2>
           <ul>
+            <li>1 Minute Introduction</li>
             <li>Arrays</li>
             <li>Linked Lists</li>
             <li>10 Sorting Algorithms</li>
