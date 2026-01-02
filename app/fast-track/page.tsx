@@ -127,8 +127,8 @@ const SectionHeading = ({
 }) => (
   <div className="mt-4 mb-6">
     <div className="flex items-center gap-2 mb-1">
-      {icon && <span className="text-2xl">{icon}</span>}
-      <h2 className="text-2xl font-extrabold text-[#37352f] dark:text-gray-100 m-0 text-left tracking-tight">
+      {icon && <span className="text-2xl lg:text-3xl">{icon}</span>}
+      <h2 className="text-3xl lg:text-4xl font-extrabold text-[#37352f] dark:text-gray-100 m-0 text-left tracking-tight">
         {children}
       </h2>
     </div>
@@ -164,34 +164,39 @@ const TipCard = ({
 const PhaseContainer = ({
   children,
   phase,
-  title,
-  icon,
+  isFirst = false,
   isLast = false,
 }: {
   children: ReactNode;
   phase: string;
-  title: string;
-  icon: string;
+  isFirst?: boolean;
   isLast?: boolean;
 }) => (
-  <div className="relative pl-8 pb-16 lg:pl-12 last:pb-0">
-    {!isLast && (
-      <div className="absolute left-[11px] lg:left-[15px] top-10 bottom-0 w-[2px] bg-[#faebdd] dark:bg-[#2c221a]" />
+  <div className="relative pl-8 pb-12 lg:pl-16 last:pb-0 group/phase">
+    {/* The Vertical Line - Ensures continuity between phases */}
+    {(!isFirst || !isLast) && (
+      <div
+        className={`absolute left-[11px] lg:left-[15px] w-[2px] bg-[#faebdd] dark:bg-[#2c221a] z-0 ${
+          isFirst ? "top-[12px] lg:top-[16px]" : "top-0"
+        } ${
+          isLast
+            ? "bottom-[calc(100%-12px)] lg:bottom-[calc(100%-16px)]"
+            : "bottom-0"
+        }`}
+      />
     )}
-    <div className="absolute left-0 top-0 w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#faebdd] dark:bg-[#d9730d]/20 border-4 border-white dark:border-[#191919] flex items-center justify-center z-10 shadow-sm">
-      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#d9730d]" />
-    </div>
 
-    <div className="mb-4">
-      <span className="text-[11px] font-bold uppercase tracking-widest text-[#d9730d] bg-[#faebdd] dark:bg-[#d9730d]/20 px-2 py-0.5 rounded">
+    {/* Milestone Dot & Label */}
+    <div className="absolute left-0 top-0 flex items-center h-6 lg:h-8 z-10">
+      <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-full bg-[#faebdd] dark:bg-[#d9730d]/20 border-4 border-white dark:border-[#191919] flex items-center justify-center shadow-sm">
+        <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full bg-[#d9730d]" />
+      </div>
+      <span className="ml-3 text-[11px] font-bold uppercase tracking-widest text-[#d9730d] bg-[#faebdd] dark:bg-[#d9730d]/20 px-2 py-0.5 rounded whitespace-nowrap">
         {phase}
       </span>
-      <h2 className="text-2xl lg:text-3xl font-extrabold mt-2 text-[#37352f] dark:text-gray-100 flex items-center gap-3">
-        <span>{icon}</span> {title}
-      </h2>
     </div>
 
-    <div className="bg-white dark:bg-[#1e1e1e] p-6 lg:p-10 rounded-2xl border border-[rgba(55,53,47,0.09)] dark:border-gray-800 shadow-sm">
+    <div className="mt-8 lg:mt-10 bg-white dark:bg-[#1e1e1e] p-6 lg:p-10 rounded-2xl border border-[rgba(55,53,47,0.09)] dark:border-gray-800 shadow-sm">
       {children}
     </div>
   </div>
@@ -209,7 +214,7 @@ export default function FastTrackPage() {
       content: (
         <div className="animate-in fade-in duration-500">
           <header className="mb-6 text-left">
-            <h1 className="text-4xl lg:text-6xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
+            <h1 className="text-3xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
               Fast Track
             </h1>
             <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
@@ -514,13 +519,12 @@ export default function FastTrackPage() {
   return (
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
       <div className="max-w-[900px] mx-auto pt-6 lg:pt-10 px-6 lg:px-10 pb-32">
-        <div className="space-y-4">
+        <div className="flex flex-col">
           {steps.map((s, idx) => (
             <PhaseContainer
               key={idx}
-              phase={`Phase ${idx}`}
-              title={s.title}
-              icon={s.icon}
+              phase={idx === 0 ? "Preface" : `Part ${idx}`}
+              isFirst={idx === 0}
               isLast={idx === steps.length - 1}
             >
               {s.content}
