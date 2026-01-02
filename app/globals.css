@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #fcfcfc;
   --foreground: #37352f;
-  --sidebar-bg: #f1f1ef;
+  --sidebar-bg: #f7f6f3;
   --sidebar-hover: rgba(55, 53, 47, 0.08);
 }
 

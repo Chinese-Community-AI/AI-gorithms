@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  vscDarkPlus,
+  oneLight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface CodeBlockProps {
   code: string;
@@ -16,6 +20,7 @@ export default function CodeBlock({
   title,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const { theme } = useTheme();
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(code);
@@ -32,14 +37,17 @@ export default function CodeBlock({
           </span>
         </div>
       )}
-      <div className="relative">
+      <div className="relative group">
         <SyntaxHighlighter
           language={language}
-          style={vscDarkPlus}
+          style={theme === "dark" ? vscDarkPlus : oneLight}
           customStyle={{
             margin: 0,
             borderRadius: title ? "0 0 0.5rem 0.5rem" : "0.5rem",
-            padding: "1rem",
+            padding: "1.5rem",
+            backgroundColor: theme === "dark" ? "#1e1e1e" : "#f8f9fa",
+            fontSize: "0.95rem",
+            lineHeight: "1.6",
           }}
           showLineNumbers={false}
         >
@@ -47,7 +55,7 @@ export default function CodeBlock({
         </SyntaxHighlighter>
         <button
           onClick={copyToClipboard}
-          className="absolute top-2 right-2 px-3 py-1 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded transition-colors"
+          className="absolute top-3 right-3 px-3 py-1.5 bg-gray-200/50 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 text-xs font-medium rounded-md transition-all opacity-0 group-hover:opacity-100"
         >
           {copied ? "Copied!" : "Copy"}
         </button>

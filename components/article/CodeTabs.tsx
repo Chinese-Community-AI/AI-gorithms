@@ -17,8 +17,8 @@ export default function CodeTabs({ tabs }: CodeTabsProps) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="my-8 border border-[rgba(55,53,47,0.09)] rounded-xl overflow-hidden shadow-sm bg-[#f7f6f3] dark:bg-[#191919]">
-      <div className="flex border-b border-[rgba(55,53,47,0.09)] bg-[rgba(55,53,47,0.02)] overflow-x-auto scrollbar-hide">
+    <div className="my-8 border border-[rgba(55,53,47,0.09)] rounded-xl overflow-hidden shadow-sm bg-[#fcfcfc] dark:bg-[#191919]">
+      <div className="flex border-b border-[rgba(55,53,47,0.09)] bg-[#f8f9fa] dark:bg-[rgba(55,53,47,0.02)] overflow-x-auto scrollbar-hide">
         {tabs.map((tab, index) => (
           <button
             key={index}
