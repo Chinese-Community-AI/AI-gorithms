@@ -3,6 +3,7 @@ import MDXArticleContent from "@/components/article/MDXArticleContent";
 import { getContentForRoute } from "@/lib/utils/content";
 import { parseFrontmatter } from "@/lib/utils/mdx";
 import { notFound } from "next/navigation";
+import { mdxComponents } from "@/components/mdx/MDXComponents";
 
 interface BasicsPageProps {
   params: Promise<{
@@ -65,7 +66,7 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
 
   return (
     <MDXArticleContent title={title}>
-      <MDXRemote source={body} />
+      <MDXRemote source={body} components={mdxComponents} />
     </MDXArticleContent>
   );
 }

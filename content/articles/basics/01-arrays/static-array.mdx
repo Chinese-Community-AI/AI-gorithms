@@ -1,0 +1,119 @@
+You must decide the element type and size when creating a static array. Only C++, Java, and Go support true static arrays. Python and JavaScript do not.
+
+Static arrays are low-level and rarely used in everyday coding. We usually work with dynamic arrays instead. But understanding static arrays is important—they form the foundation for everything else.
+
+Here's how to define a static array:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Define a static array of size 10
+int[] arr = new int[10];
+
+// Assign values using index
+arr[0] = 1;
+arr[1] = 2;
+
+// Retrieve values using index
+int a = arr[0];`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// Define a static array of size 10
+int arr[10];
+
+// Assign values using index
+arr[0] = 1;
+arr[1] = 2;
+
+// Retrieve values using index
+int a = arr[0];`    },
+    {
+      label: "python",
+      language: "python",
+      code:`# Python does not have true static arrays
+
+# We can use lists to simulate them
+
+# define a list of size 10
+
+arr = [0] \* 10
+
+# assign values using index
+
+arr[0] = 1
+arr[1] = 2
+
+# retrieve values using index
+
+a = arr[0]`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// Define a static array of size 10
+var arr [10]int
+
+// Assign values using index
+arr[0] = 1
+arr[1] = 2
+
+// Retrieve values using index
+a := arr[0]`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// JavaScript does not have native static arrays
+// We can simulate them with Array
+
+// define an array of size 10
+let arr = new Array(10).fill(0);
+
+// assign values using index
+arr[0] = 1;
+arr[1] = 2;
+
+// retrieve values using index
+let a = arr[0];`
+}
+]}
+/>
+
+That's it. There is not much more you can do with static arrays.
+
+## How It Works
+
+When you write `int arr[10]` in C++, two things happen:
+
+1. It creates a continuous block of memory in RAM, sized at 10 × `sizeof(int)` bytes. On most systems, an `int` is 4 bytes, so the block uses 40 bytes.
+2. It defines a variable `arr` that holds the starting address of this memory block.
+
+When you write `arr[1] = 2`:
+
+1. It calculates the address by taking the array's starting address and adding 1 × `sizeof(int)` bytes (4 bytes) to reach the second item.
+2. It writes the number 2 into the 4 bytes starting at that address.
+
+## Why Index Starts at 0
+
+Arrays start at 0 because it simplifies address calculation. `arr[0]` is just the array's starting address. The first 4 bytes store the first item. `arr[1]` is the starting address plus 4 bytes; the next 4 bytes store the second item, and so on.
+
+The array name `arr` is actually a pointer to the start of the memory block. Using this address directly gives you the first item: `*arr` is the same as `arr[0]`.
+
+## Initialization
+
+If you don't initialize the array (using something like `memset`), the values will be random. That's because `int arr[10]` only requests a memory block from the operating system—it doesn't know what was stored there before.
+
+**Note:** This behavior is specific to C/C++. In Java or Go, the system automatically sets all new array items to 0.
+
+## The Power of Arrays
+
+A static array is a continuous block of memory. The statement `int arr[10]` tells us:
+
+1. We know the starting address (stored in `arr`).
+2. We know the element type (`int` = 4 bytes).
+3. We know the total size (10 × 4 = 40 bytes).
+
+This structure gives arrays **random access**: we can get any element's value in O(1) time by calculating its address from the start address and index.
+
+But every strength has a weakness. This continuous memory layout makes arrays powerful, but it also causes some problems, which we will discuss next.

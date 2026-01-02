@@ -27,6 +27,10 @@ export const navigation: NavItem[] = [
             title: "1 Minute Introduction",
             href: "/basics/01-arrays/1-minute-introduction",
           },
+          {
+            title: "Static Array",
+            href: "/basics/01-arrays/static-array",
+          },
         ],
       },
       {
