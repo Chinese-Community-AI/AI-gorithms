@@ -513,7 +513,7 @@ export default function FastTrackPage() {
 
   return (
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
-      <div className="max-w-[900px] mx-auto pt-12 lg:pt-20 px-6 lg:px-10 pb-32">
+      <div className="max-w-[900px] mx-auto pt-6 lg:pt-10 px-6 lg:px-10 pb-32">
         <div className="space-y-4">
           {steps.map((s, idx) => (
             <PhaseContainer
