@@ -31,10 +31,6 @@ export const navigation: NavItem[] = [
             title: "Static Array",
             href: "/basics/01-arrays/static-array",
           },
-          {
-            title: "Static Array Operations",
-            href: "/basics/01-arrays/static-array-operations",
-          },
         ],
       },
       {

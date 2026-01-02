@@ -94,7 +94,7 @@ When you write `arr[1] = 2`:
 1. It calculates the address by taking the array's starting address and adding 1 × `sizeof(int)` bytes (4 bytes) to reach the second item.
 2. It writes the number 2 into the 4 bytes starting at that address.
 
-## Why Index Starts at 0
+### Why Index Starts at 0
 
 Arrays start at 0 because it simplifies address calculation. `arr[0]` is just the array's starting address. The first 4 bytes store the first item. `arr[1]` is the starting address plus 4 bytes; the next 4 bytes store the second item, and so on.
 
@@ -106,14 +106,346 @@ If you don't initialize the array (using something like `memset`), the values wi
 
 **Note:** This behavior is specific to C/C++. In Java or Go, the system automatically sets all new array items to 0.
 
-## The Power of Arrays
+---
 
-A static array is a continuous block of memory. The statement `int arr[10]` tells us:
+## Basic Operations (CRUD)
 
-1. We know the starting address (stored in `arr`).
-2. We know the element type (`int` = 4 bytes).
-3. We know the total size (10 × 4 = 40 bytes).
+The main job of a data structure is to add, delete, search, and update elements. Now that we understand how memory works, let's see how these operations are performed.
 
-This structure gives arrays **random access**: we can get any element's value in O(1) time by calculating its address from the start address and index.
+### Add
 
-But every strength has a weakness. This continuous memory layout makes arrays powerful, but it also causes some problems, which we will discuss next.
+Adding elements to a static array can be tricky because its size is fixed.
+
+#### Case 1: Append to the end
+
+If the array has space, just set the value at the next available index. This is very fast: **O(1)**.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Append element 4 to the end
+arr[4] = 4;
+arr[5] = 5;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Append element 4 to the end
+arr[4] = 4;
+arr[5] = 5;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Append element 4 to the end
+arr[4] = 4
+arr[5] = 5`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Append element 4 to the end
+arr[4] = 4
+arr[5] = 5`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Append element 4 to the end
+arr[4] = 4;
+arr[5] = 5;`,
+    },
+  ]}
+/>
+
+#### Case 2: Insert in the middle
+
+To insert an element at index 2, you must "move data" to make space. This takes **O(N)** time because you have to shift elements.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Insert element 666 at index 2
+// Move elements from index 2 onwards one step back
+for (int i = 4; i > 2; i--) {
+    arr[i] = arr[i - 1];
+}
+arr[2] = 666;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Insert element 666 at index 2
+// Move elements from index 2 onwards one step back
+for (int i = 4; i > 2; i--) {
+    arr[i] = arr[i - 1];
+}
+arr[2] = 666;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Insert element 666 at index 2
+# Move elements from index 2 onwards one step back
+for i in range(4, 2, -1):
+    arr[i] = arr[i - 1]
+arr[2] = 666`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Insert element 666 at index 2
+// Move elements from index 2 onwards one step back
+for i := 4; i > 2; i-- {
+    arr[i] = arr[i - 1]
+}
+arr[2] = 666`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Insert element 666 at index 2
+// Move elements from index 2 onwards one step back
+for (let i = 4; i > 2; i--) {
+    arr[i] = arr[i - 1];
+}
+arr[2] = 666;`,
+    },
+  ]}
+/>
+
+#### Case 3: The array is full (Expanding)
+
+A static array cannot grow. If it's full and you need more space, you must allocate a new, larger block of memory and copy everything over. This "expansion" takes **O(N)** time.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Need to expand the array
+int[] newArr = new int[20];
+for (int i = 0; i < 10; i++) {
+    newArr[i] = arr[i];
+}
+newArr[10] = 10;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Need to expand the array
+int newArr[20];
+for (int i = 0; i < 10; i++) {
+    newArr[i] = arr[i];
+}
+newArr[10] = 10;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Need to expand the array
+newArr = [0] \* 20
+for i in range(10):
+    newArr[i] = arr[i]
+newArr[10] = 10`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Need to expand the array
+var newArr [20]int
+for i := 0; i < 10; i++ {
+    newArr[i] = arr[i]
+}
+newArr[10] = 10`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Need to expand the array
+let newArr = new Array(20).fill(0);
+for (let i = 0; i < 10; i++) {
+    newArr[i] = arr[i];
+}
+newArr[10] = 10;`,
+    },
+  ]}
+/>
+
+### Delete
+
+#### Case 1: Delete from the end
+
+Just mark the last element as empty or decrement your count. This is **O(1)**.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Remove the last element
+arr[4] = -1;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Remove the last element
+arr[4] = -1;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Remove the last element
+arr[4] = -1`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Remove the last element
+arr[4] = -1`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Remove the last element
+arr[4] = -1;`,
+    },
+  ]}
+/>
+
+#### Case 2: Delete from the middle
+
+To keep the array continuous, you must move all elements after the deleted one forward by one position. This takes **O(N)**.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Delete element at index 1
+for (int i = 1; i < 4; i++) {
+    arr[i] = arr[i + 1];
+}
+arr[4] = -1;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Delete element at index 1
+for (int i = 1; i < 4; i++) {
+    arr[i] = arr[i + 1];
+}
+arr[4] = -1;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Delete element at index 1
+for i in range(1, 4):
+    arr[i] = arr[i + 1]
+arr[4] = -1`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Delete element at index 1
+for i := 1; i < 4; i++ {
+    arr[i] = arr[i + 1]
+}
+arr[4] = -1`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Delete element at index 1
+for (let i = 1; i < 4; i++) {
+    arr[i] = arr[i + 1];
+}
+arr[4] = -1;`,
+    },
+  ]}
+/>
+
+### Access & Update
+
+As we saw in the "How It Works" section, because arrays use continuous memory, we can jump to any index instantly. Both Access and Update take **O(1)** time.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Access: Get the value at index 1
+int val = arr[1];
+
+// Update: Change the value at index 1
+arr[1] = 999;`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Access: Get the value at index 1
+int val = arr[1];
+
+// Update: Change the value at index 1
+arr[1] = 999;`,
+    },
+    {
+      label: "python",
+      language: "python",
+      code: `# Access: Get the value at index 1
+val = arr[1]
+
+# Update: Change the value at index 1
+
+arr[1] = 999`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Access: Get the value at index 1
+val := arr[1]
+
+// Update: Change the value at index 1
+arr[1] = 999`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Access: Get the value at index 1
+let val = arr[1];
+
+// Update: Change the value at index 1
+arr[1] = 999;`,
+},
+]}
+/>
+
+---
+
+## Summary
+
+The time complexity for the main operations of static arrays:
+
+**Add:**
+
+- Add an element at the end: **O(1)**
+- Insert an element in the middle: **O(N)**
+
+**Delete:**
+
+- Remove the last element: **O(1)**
+- Remove an element from the middle: **O(N)**
+
+**Access:** Get the value at a given index: **O(1)**
+**Update:** Modify the value at a given index: **O(1)**
+
+### Important Notes
+
+**About resizing:** Resizing doesn't happen every time. We use "amortized time complexity" to explain this. This is covered in detail in _How to Analyze Time and Space Complexity_.
+
+**About search vs access:** Access and update are O(1) only when you know the **index**. If you only have a **value** and need to find where it is (search), you have to check each element one by one, which takes **O(N)** time.
