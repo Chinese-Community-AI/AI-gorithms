@@ -177,12 +177,22 @@ export default function Header() {
           </select>
 
           {!authLoading && (
-            <button
-              onClick={handleAuthClick}
-              className="px-3 py-1.5 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-xs lg:text-sm hover:opacity-80 transition-opacity ml-2 shadow-sm border border-[#d9730d]/10"
-            >
-              {user ? "Logout" : "Login"}
-            </button>
+            <div className="flex items-center gap-2">
+              {user && (
+                <button
+                  onClick={() => router.push("/profile")}
+                  className="px-3 py-1.5 text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[var(--sidebar-hover)] rounded-md font-medium text-xs lg:text-sm transition-all"
+                >
+                  Profile
+                </button>
+              )}
+              <button
+                onClick={handleAuthClick}
+                className="px-3 py-1.5 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-xs lg:text-sm hover:opacity-80 transition-opacity ml-2 shadow-sm border border-[#d9730d]/10"
+              >
+                {user ? "Logout" : "Login"}
+              </button>
+            </div>
           )}
         </div>
       </div>

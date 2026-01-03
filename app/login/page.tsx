@@ -26,7 +26,7 @@ export default function LoginPage() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/api/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/api/auth/callback?next=/profile`,
           },
         });
 
@@ -39,7 +39,7 @@ export default function LoginPage() {
         });
 
         if (error) throw error;
-        router.push("/");
+        router.push("/profile");
         router.refresh();
       }
     } catch (error: any) {
