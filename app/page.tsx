@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 
 // --- Reusable Components ---
@@ -166,14 +166,218 @@ const LearningPathCard = ({
   );
 };
 
+// --- Feature Card Component ---
+
+const FeatureCard = ({
+  icon,
+  title,
+  description,
+  featureId,
+  onFeatureClick,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+  featureId: "tutor" | "chat" | "audible";
+  onFeatureClick: (id: "tutor" | "chat" | "audible") => void;
+}) => {
+  return (
+    <button
+      onClick={() => onFeatureClick(featureId)}
+      className="w-full p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl hover:border-[#d9730d]/30 dark:hover:border-[#d9730d]/40 hover:shadow-md transition-all duration-200 text-left group cursor-pointer"
+    >
+      <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">
+        {icon}
+      </div>
+      <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2 group-hover:text-[#d9730d] dark:group-hover:text-[#d9730d] transition-colors duration-200">
+        {title}
+      </h3>
+      <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
+        {description}
+      </p>
+    </button>
+  );
+};
+
+// --- Feature Overlay Component ---
+
+const FeatureOverlay = ({
+  featureId,
+  onClose,
+}: {
+  featureId: "tutor" | "chat" | "audible" | null;
+  onClose: () => void;
+}) => {
+  const [showArrow, setShowArrow] = useState(false);
+  const [buttonPosition, setButtonPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (featureId) {
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // Find the navbar button after scroll
+      setTimeout(() => {
+        const buttonLabels = {
+          tutor: "AI Tutor",
+          chat: "AI Chat",
+          audible: "Audible",
+        };
+
+        // Find all buttons in the header
+        const header = document.querySelector("header");
+        if (!header) return;
+
+        const buttons = header.querySelectorAll("button");
+        let targetButton: Element | null = null;
+
+        // Find the button with matching text
+        buttons.forEach((button) => {
+          const text = button.textContent?.trim();
+          if (
+            text === buttonLabels[featureId] ||
+            text?.includes(buttonLabels[featureId])
+          ) {
+            targetButton = button;
+          }
+        });
+
+        if (targetButton) {
+          const rect = targetButton.getBoundingClientRect();
+          setButtonPosition({
+            x: rect.left + rect.width / 2, // Center of button
+            y: rect.top + rect.height / 2, // Center of button
+          });
+          setShowArrow(true);
+        }
+      }, 500); // Wait for scroll to complete
+    } else {
+      setShowArrow(false);
+      setButtonPosition(null);
+    }
+  }, [featureId]);
+
+  if (!featureId || !buttonPosition) return null;
+
+  const featureNames = {
+    tutor: "AI Tutor",
+    chat: "AI Chat",
+    audible: "Audible",
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 pointer-events-none">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* Arrow pointing to navbar button */}
+      {showArrow && buttonPosition && (
+        <>
+          {/* Arrow line */}
+          <svg
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 1 }}
+          >
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="10"
+                refX="9"
+                refY="3"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3, 0 6"
+                  fill="#d9730d"
+                  className="animate-pulse"
+                />
+              </marker>
+            </defs>
+            <line
+              x1={buttonPosition.x}
+              y1={buttonPosition.y + 60}
+              x2={buttonPosition.x}
+              y2={buttonPosition.y}
+              stroke="#d9730d"
+              strokeWidth="3"
+              markerEnd="url(#arrowhead)"
+              className="animate-pulse"
+            />
+          </svg>
+
+          {/* Highlight circle around button */}
+          <div
+            className="absolute rounded-full border-4 border-[#d9730d] animate-ping pointer-events-none"
+            style={{
+              left: buttonPosition.x - 30,
+              top: buttonPosition.y - 30,
+              width: 60,
+              height: 60,
+            }}
+          />
+          <div
+            className="absolute rounded-full border-2 border-[#d9730d] pointer-events-none"
+            style={{
+              left: buttonPosition.x - 30,
+              top: buttonPosition.y - 30,
+              width: 60,
+              height: 60,
+            }}
+          />
+
+          {/* Tooltip */}
+          <div
+            className="absolute bg-[#37352f] dark:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap shadow-lg pointer-events-auto"
+            style={{
+              left: buttonPosition.x,
+              top: buttonPosition.y + 50,
+              transform: "translateX(-50%)",
+            }}
+          >
+            Click {featureNames[featureId]} here
+            <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#37352f] dark:bg-gray-800 rotate-45"></div>
+          </div>
+        </>
+      )}
+
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 bg-white dark:bg-[#191919] text-[#37352f] dark:text-gray-100 px-4 py-2 rounded-lg shadow-lg font-medium hover:bg-[#faebdd] dark:hover:bg-[#2c221a] transition-colors pointer-events-auto z-10"
+      >
+        Close
+      </button>
+    </div>
+  );
+};
+
 // --- Main Page Component ---
 
 export default function Home() {
+  const [highlightedFeature, setHighlightedFeature] = useState<
+    "tutor" | "chat" | "audible" | null
+  >(null);
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good morning";
     if (hour < 18) return "Good afternoon";
     return "Good evening";
+  };
+
+  const handleFeatureClick = (featureId: "tutor" | "chat" | "audible") => {
+    setHighlightedFeature(featureId);
+    // Auto-close after 5 seconds
+    setTimeout(() => {
+      setHighlightedFeature(null);
+    }, 5000);
   };
 
   const recentlyVisited = [
@@ -251,35 +455,35 @@ export default function Home() {
         <section className="mt-20">
           <SectionHeader icon="✨" title="Platform Features" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
-              <div className="text-4xl mb-4">🤖</div>
-              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
-                AI Tutor
-              </h3>
-              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
-                Coming soon
-              </p>
-            </div>
-            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
-              <div className="text-4xl mb-4">💬</div>
-              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
-                AI Chat
-              </h3>
-              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
-                In-website chatbot for instant help
-              </p>
-            </div>
-            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
-              <div className="text-4xl mb-4">🎧</div>
-              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
-                Audible
-              </h3>
-              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
-                Learn everywhere by listening to the content
-              </p>
-            </div>
+            <FeatureCard
+              icon="🤖"
+              title="AI Tutor"
+              description="Coming soon"
+              featureId="tutor"
+              onFeatureClick={handleFeatureClick}
+            />
+            <FeatureCard
+              icon="💬"
+              title="AI Chat"
+              description="In-website chatbot for instant help"
+              featureId="chat"
+              onFeatureClick={handleFeatureClick}
+            />
+            <FeatureCard
+              icon="🎧"
+              title="Audible"
+              description="Learn everywhere by listening to the content"
+              featureId="audible"
+              onFeatureClick={handleFeatureClick}
+            />
           </div>
         </section>
+
+        {/* Feature Overlay */}
+        <FeatureOverlay
+          featureId={highlightedFeature}
+          onClose={() => setHighlightedFeature(null)}
+        />
       </div>
     </div>
   );
