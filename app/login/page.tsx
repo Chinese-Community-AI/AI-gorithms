@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -13,6 +13,14 @@ export default function LoginPage() {
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
+
+  // Prevent body scrolling on login page
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,31 +73,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#191919] px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-[#37352f] dark:text-gray-100 mb-2">
+    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-[#191919] px-4 overflow-hidden">
+      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="text-center mb-5">
+          <h1 className="text-2xl lg:text-3xl font-bold text-[#37352f] dark:text-gray-100 mb-2">
             Welcome to AI-gorithms
           </h1>
-          <p className="text-[#37352f]/60 dark:text-gray-400">
+          <p className="text-sm lg:text-base text-[#37352f]/60 dark:text-gray-400">
             {isSignUp ? "Create your account" : "Sign in to your account"}
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#1e1e1e] border border-[rgba(55,53,47,0.09)] dark:border-gray-800 rounded-lg p-8 shadow-sm">
+        <div className="bg-white dark:bg-[#1e1e1e] border border-[rgba(55,53,47,0.09)] dark:border-gray-800 rounded-lg p-5 lg:p-6 shadow-sm">
           {error && (
-            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded text-red-800 dark:text-red-300 text-sm">
+            <div className="mb-3 p-2.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 rounded text-red-800 dark:text-red-300 text-sm">
               {error}
             </div>
           )}
 
           {message && (
-            <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900/30 rounded text-green-800 dark:text-green-300 text-sm">
+            <div className="mb-3 p-2.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900/30 rounded text-green-800 dark:text-green-300 text-sm">
               {message}
             </div>
           )}
 
-          <form onSubmit={handleAuth} className="space-y-4">
+          <form onSubmit={handleAuth} className="space-y-3">
             <div>
               <label
                 htmlFor="email"
@@ -136,7 +144,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6">
+          <div className="mt-5">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[rgba(55,53,47,0.09)] dark:border-gray-700"></div>
@@ -151,7 +159,7 @@ export default function LoginPage() {
             <button
               onClick={handleGoogleAuth}
               disabled={loading}
-              className="mt-4 w-full px-4 py-2 border border-[rgba(55,53,47,0.09)] dark:border-gray-700 rounded-md font-medium text-[#37352f] dark:text-gray-100 hover:bg-[rgba(55,53,47,0.05)] dark:hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="mt-3 w-full px-4 py-2 border border-[rgba(55,53,47,0.09)] dark:border-gray-700 rounded-md font-medium text-[#37352f] dark:text-gray-100 hover:bg-[rgba(55,53,47,0.05)] dark:hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -175,7 +183,7 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="mt-6 text-center text-sm">
+          <div className="mt-5 text-center text-sm">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
               className="text-[#d9730d] hover:underline"
