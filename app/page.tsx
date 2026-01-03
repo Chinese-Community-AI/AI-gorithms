@@ -206,15 +206,12 @@ export default function Home() {
 
   return (
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
-      <div className="max-w-[1000px] mx-auto pt-20 px-6 lg:px-10 pb-20">
+      <div className="max-w-[1000px] mx-auto pt-8 px-6 lg:px-10 pb-20">
         {/* Header / Greeting */}
-        <header className="mb-16">
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight mb-2">
-            {getGreeting()}, AI-gorithm Learner
+        <header className="mb-12">
+          <h1 className="text-2xl lg:text-3xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight">
+            {getGreeting()}
           </h1>
-          <p className="text-lg text-[#37352f]/60 dark:text-gray-400 font-medium">
-            Continue your journey to master data structures and algorithms.
-          </p>
         </header>
 
         {/* Learning Paths */}
@@ -250,23 +247,39 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Motivation / Footer-like Callout */}
-        <div className="mt-20 p-10 rounded-3xl bg-gradient-to-br from-[#faebdd] to-[#fbf3db] dark:from-[#2c221a] dark:to-[#2d2a1e] border border-[#d9730d]/10 dark:border-yellow-800/20 flex flex-col items-center text-center shadow-sm">
-          <span className="text-5xl mb-6">🏆</span>
-          <h3 className="text-2xl font-extrabold text-[#37352f] dark:text-gray-100 mb-3 tracking-tight">
-            Ready for a challenge?
-          </h3>
-          <p className="text-base text-[#37352f]/70 dark:text-gray-400 max-w-md mb-8 leading-relaxed font-medium">
-            Consistency is the key to mastering algorithms. Try to solve at
-            least one problem today using our AI-powered templates.
-          </p>
-          <Link
-            href="/fast-track"
-            className="px-8 py-3 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] rounded-xl font-bold text-base hover:opacity-80 transition-all no-underline shadow-md active:scale-95 border border-[#d9730d]/20"
-          >
-            Go to Fast Track
-          </Link>
-        </div>
+        {/* Features */}
+        <section className="mt-20">
+          <SectionHeader icon="✨" title="Platform Features" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
+              <div className="text-4xl mb-4">🤖</div>
+              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
+                AI Tutor
+              </h3>
+              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
+                Coming soon
+              </p>
+            </div>
+            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
+              <div className="text-4xl mb-4">💬</div>
+              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
+                AI Chat
+              </h3>
+              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
+                In-website chatbot for instant help
+              </p>
+            </div>
+            <div className="p-6 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-xl">
+              <div className="text-4xl mb-4">🎧</div>
+              <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-lg mb-2">
+                Audible
+              </h3>
+              <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed">
+                Learn everywhere by listening to the content
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
