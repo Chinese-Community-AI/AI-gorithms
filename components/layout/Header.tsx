@@ -6,6 +6,8 @@ import { useAudibleMode } from "@/contexts/AudibleModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { useSearch } from "@/contexts/SearchContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const NavButton = ({
   onClick,
@@ -39,6 +41,17 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { toggleMobileMenu } = useMobileMenu();
   const { openSearch } = useSearch();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const router = useRouter();
+
+  const handleAuthClick = async () => {
+    if (user) {
+      await signOut();
+      router.push("/");
+    } else {
+      router.push("/login");
+    }
+  };
 
   return (
     <header
@@ -163,12 +176,14 @@ export default function Header() {
             <option>简体中文</option>
           </select>
 
-          <button
-            onClick={() => {}}
-            className="px-3 py-1.5 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-xs lg:text-sm hover:opacity-80 transition-opacity ml-2 shadow-sm border border-[#d9730d]/10"
-          >
-            Login
-          </button>
+          {!authLoading && (
+            <button
+              onClick={handleAuthClick}
+              className="px-3 py-1.5 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-xs lg:text-sm hover:opacity-80 transition-opacity ml-2 shadow-sm border border-[#d9730d]/10"
+            >
+              {user ? "Logout" : "Login"}
+            </button>
+          )}
         </div>
       </div>
     </header>

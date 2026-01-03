@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
 import { SearchProvider } from "@/contexts/SearchContext";
 import { PlanProvider } from "@/contexts/PlanContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import SearchModal from "@/components/search/SearchModal";
 import ComingSoon from "@/components/tutor/ComingSoon";
 import AudioPlayer from "@/components/audio/AudioPlayer";
@@ -29,28 +30,30 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <PlanProvider>
-            <FocusModeProvider>
-              <TutorModeProvider>
-                <AudibleModeProvider>
-                  <MobileMenuProvider>
-                    <SearchProvider>
-                      <div className="flex">
-                        <Sidebar />
-                        <MainContent>
-                          <Header />
-                          <MainLayout>{children}</MainLayout>
-                        </MainContent>
-                      </div>
-                      <SearchModal />
-                      <ComingSoon />
-                      <AudioPlayer />
-                    </SearchProvider>
-                  </MobileMenuProvider>
-                </AudibleModeProvider>
-              </TutorModeProvider>
-            </FocusModeProvider>
-          </PlanProvider>
+          <AuthProvider>
+            <PlanProvider>
+              <FocusModeProvider>
+                <TutorModeProvider>
+                  <AudibleModeProvider>
+                    <MobileMenuProvider>
+                      <SearchProvider>
+                        <div className="flex">
+                          <Sidebar />
+                          <MainContent>
+                            <Header />
+                            <MainLayout>{children}</MainLayout>
+                          </MainContent>
+                        </div>
+                        <SearchModal />
+                        <ComingSoon />
+                        <AudioPlayer />
+                      </SearchProvider>
+                    </MobileMenuProvider>
+                  </AudibleModeProvider>
+                </TutorModeProvider>
+              </FocusModeProvider>
+            </PlanProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
