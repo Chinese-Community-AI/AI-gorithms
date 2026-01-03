@@ -525,23 +525,22 @@ export default function FastTrackPage() {
     ],
     mastery: [
       {
-        title: "Mastery Introduction",
-        icon: "🏆",
+        title: "Coming Soon",
+        icon: "⏳",
         content: (
-          <div className="animate-in fade-in duration-500">
-            <header className="mb-6 text-left">
-              <h1 className="text-3xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
-                Mastery Plan
-              </h1>
-              <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
-                The comprehensive path to technical expertise.
-              </p>
-            </header>
-            <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
-              Content for the Mastery Plan is coming soon. This plan will cover
-              deep-dive theoretical concepts, low-level implementations, and
-              advanced mathematical analysis of algorithms.
+          <div className="animate-in fade-in duration-500 min-h-[300px] flex flex-col items-center justify-center text-center">
+            <div className="text-5xl mb-6">🏆</div>
+            <h1 className="text-3xl lg:text-4xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight mb-4">
+              Mastery Plan
+            </h1>
+            <p className="text-xl text-[#37352f]/60 dark:text-gray-400 max-w-md mx-auto leading-relaxed">
+              We are currently crafting the ultimate deep-dive curriculum.
+              Theoretical foundations and advanced implementations are coming
+              soon.
             </p>
+            <div className="mt-8 px-4 py-2 bg-[#f1f1ef] dark:bg-gray-800 rounded-full text-xs font-bold uppercase tracking-widest text-[#37352f]/40 dark:text-gray-500">
+              Under Development
+            </div>
           </div>
         ),
       },

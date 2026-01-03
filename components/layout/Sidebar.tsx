@@ -43,8 +43,9 @@ function NavItemComponent({
   const isActive = pathname === item.href;
   const { activePlan, setActivePlan } = usePlan();
 
-  const isFastTrack = item.href === "/fast-track";
-  const displayTitle = isFastTrack
+  const isFastTrackSwitcher =
+    item.href === "/fast-track" && item.title === "Fast Track";
+  const displayTitle = isFastTrackSwitcher
     ? activePlan === "fast-track"
       ? "Fast Track"
       : "Mastery Plan"
@@ -63,7 +64,7 @@ function NavItemComponent({
   return (
     <div className="mb-0.5">
       <div className="flex items-center group relative px-1">
-        {isFastTrack ? (
+        {isFastTrackSwitcher ? (
           <div className="flex-1 flex flex-col mb-1 mt-2 px-1">
             <Link
               href="/fast-track"
@@ -162,6 +163,19 @@ export default function Sidebar() {
   const { isFocusMode } = useFocusMode();
   const { isMobileMenuOpen, closeMobileMenu } = useMobileMenu();
 
+  const { activePlan } = usePlan();
+
+  const filteredNavigation =
+    activePlan === "mastery"
+      ? [
+          navigation[0], // Keep Fast Track/Mastery switcher
+          {
+            title: "Coming Soon...",
+            href: "/fast-track",
+          },
+        ]
+      : navigation;
+
   if (isFocusMode) {
     return null;
   }
@@ -246,7 +260,7 @@ export default function Sidebar() {
               </span>
             </div>
 
-            {navigation.map((item) => (
+            {filteredNavigation.map((item) => (
               <NavItemComponent key={item.href} item={item} />
             ))}
           </nav>
