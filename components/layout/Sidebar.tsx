@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useFocusMode } from "@/contexts/FocusModeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
+import { usePlan } from "@/contexts/PlanContext";
 
 const ChevronIcon = ({ isExpanded }: { isExpanded: boolean }) => (
   <svg
@@ -40,54 +41,110 @@ function NavItemComponent({
   const { closeMobileMenu } = useMobileMenu();
   const hasChildren = item.children && item.children.length > 0;
   const isActive = pathname === item.href;
+  const { activePlan, setActivePlan } = usePlan();
+
+  const isFastTrack = item.href === "/fast-track";
+  const displayTitle = isFastTrack
+    ? activePlan === "fast-track"
+      ? "Fast Track"
+      : "Mastery Plan"
+    : item.title;
 
   const handleLinkClick = () => {
     closeMobileMenu();
   };
 
+  const togglePlan = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setActivePlan(activePlan === "fast-track" ? "mastery" : "fast-track");
+  };
+
   return (
-    <div>
+    <div className="mb-0.5">
       <div className="flex items-center group relative px-1">
-        <div
-          className={`flex-1 flex items-center rounded-[4px] transition-colors duration-150 ease-in-out cursor-pointer py-[3px] my-[1px] ${
-            isActive
-              ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
-              : "hover:bg-[rgba(55,53,47,0.05)] text-[var(--foreground)] opacity-80 hover:opacity-100"
-          }`}
-          style={{ paddingLeft: `${level * 0.75 + 0.25}rem` }}
-          onClick={() => hasChildren && setIsExpanded(!isExpanded)}
-        >
-          <div className="w-5 h-5 flex items-center justify-center mr-0.5">
-            {hasChildren && (
+        {isFastTrack ? (
+          <div className="flex-1 flex flex-col mb-1 mt-2 px-1">
+            <Link
+              href="/fast-track"
+              onClick={handleLinkClick}
+              className="text-[11px] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1 mb-1.5 no-underline hover:opacity-60 transition-opacity"
+            >
+              Learning Path
+            </Link>
+            <div className="flex bg-[rgba(55,53,47,0.05)] dark:bg-gray-800/50 p-0.5 rounded-md w-full">
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  e.stopPropagation();
-                  setIsExpanded(!isExpanded);
+                  setActivePlan("fast-track");
                 }}
-                className="p-0.5 rounded-sm hover:bg-[rgba(55,53,47,0.1)] text-[var(--foreground)] opacity-40 hover:opacity-100 transition-all"
+                className={`flex-1 px-2 py-1 text-[11px] font-bold rounded transition-all ${
+                  activePlan === "fast-track"
+                    ? "bg-white dark:bg-[#252525] text-[#d9730d] shadow-sm"
+                    : "text-[var(--foreground)] opacity-40 hover:opacity-60"
+                }`}
               >
-                <ChevronIcon isExpanded={isExpanded} />
+                Fast Track
               </button>
-            )}
-          </div>
-
-          <div className="flex items-center flex-1 min-w-0 pr-2">
-            {!hasChildren ? (
-              <Link
-                href={item.href}
-                onClick={handleLinkClick}
-                className="flex-1 text-[13.5px] leading-tight truncate no-underline py-0.5"
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActivePlan("mastery");
+                }}
+                className={`flex-1 px-2 py-1 text-[11px] font-bold rounded transition-all ${
+                  activePlan === "mastery"
+                    ? "bg-white dark:bg-[#252525] text-[#d9730d] shadow-sm"
+                    : "text-[var(--foreground)] opacity-40 hover:opacity-60"
+                }`}
               >
-                {item.title}
-              </Link>
-            ) : (
-              <span className="flex-1 text-[13.5px] leading-tight truncate py-0.5 font-medium opacity-90">
-                {item.title}
-              </span>
-            )}
+                Mastery
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className={`flex-1 flex items-center rounded-[4px] transition-colors duration-150 ease-in-out cursor-pointer py-[3px] my-[1px] ${
+              isActive
+                ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
+                : "hover:bg-[rgba(55,53,47,0.05)] text-[var(--foreground)] opacity-80 hover:opacity-100"
+            }`}
+            style={{ paddingLeft: `${level * 0.75 + 0.25}rem` }}
+            onClick={() => hasChildren && setIsExpanded(!isExpanded)}
+          >
+            <div className="w-5 h-5 flex items-center justify-center mr-0.5">
+              {hasChildren && (
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsExpanded(!isExpanded);
+                  }}
+                  className="p-0.5 rounded-sm hover:bg-[rgba(55,53,47,0.1)] text-[var(--foreground)] opacity-40 hover:opacity-100 transition-all"
+                >
+                  <ChevronIcon isExpanded={isExpanded} />
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center flex-1 min-w-0 pr-2">
+              {!hasChildren ? (
+                <div className="flex-1 flex items-center justify-between min-w-0">
+                  <Link
+                    href={item.href}
+                    onClick={handleLinkClick}
+                    className="flex-1 text-[13.5px] leading-tight truncate no-underline py-0.5"
+                  >
+                    {displayTitle}
+                  </Link>
+                </div>
+              ) : (
+                <span className="flex-1 text-[13.5px] leading-tight truncate py-0.5 font-medium opacity-90">
+                  {displayTitle}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       {hasChildren && isExpanded && item.children && (
         <div className="mt-0">

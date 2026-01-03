@@ -6,6 +6,7 @@ import { useAudibleMode } from "@/contexts/AudibleModeContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useMobileMenu } from "@/contexts/MobileMenuContext";
 import { useSearch } from "@/contexts/SearchContext";
+import { usePlan } from "@/contexts/PlanContext";
 
 const NavButton = ({
   onClick,
@@ -39,6 +40,7 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { toggleMobileMenu } = useMobileMenu();
   const { openSearch } = useSearch();
+  const { activePlan, setActivePlan } = usePlan();
 
   return (
     <header
@@ -119,6 +121,17 @@ export default function Header() {
             label="Audible"
             activeLabel="Exit Audible"
           />
+
+          <div className="w-px h-4 bg-[rgba(55,53,47,0.09)] mx-1" />
+
+          <select
+            value={activePlan}
+            onChange={(e) => setActivePlan(e.target.value as any)}
+            className="hidden sm:block bg-transparent hover:bg-[var(--sidebar-hover)] px-2 py-1 rounded text-[var(--foreground)] opacity-70 text-xs font-bold focus:outline-none cursor-pointer border-none appearance-none"
+          >
+            <option value="fast-track">Fast Track</option>
+            <option value="mastery">Mastery Plan</option>
+          </select>
 
           <div className="w-px h-4 bg-[rgba(55,53,47,0.09)] mx-1" />
 

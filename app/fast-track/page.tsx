@@ -1,7 +1,8 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
+import { usePlan } from "@/contexts/PlanContext";
 
 // --- Reusable Components ---
 
@@ -205,327 +206,387 @@ const PhaseContainer = ({
 // --- Main Page Component ---
 
 export default function FastTrackPage() {
-  const [step, setStep] = useState(0);
+  const { activePlan, setActivePlan } = usePlan();
 
-  const steps = [
-    {
-      title: "Preface",
-      icon: "📖",
-      content: (
-        <div className="animate-in fade-in duration-500">
-          <header className="mb-6 text-left">
-            <h1 className="text-3xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
-              Fast Track
-            </h1>
-            <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
-              Master patterns, not problems.
-            </p>
-          </header>
-
-          <div className="mb-12">
-            <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
-              This is an interview-focused roadmap. Every reasonable interview
-              question is just a variation of a few core patterns. Master these
-              foundations, and you'll stop memorizing code and start seeing
-              solutions intuitively.
-            </p>
-
-            <Callout type="info" icon="🚀">
-              <p className="font-bold mb-1 text-left uppercase tracking-widest text-[11px] opacity-60">
-                The Goal
+  const PLANS = {
+    "fast-track": [
+      {
+        title: "Preface",
+        icon: "📖",
+        content: (
+          <div className="animate-in fade-in duration-500">
+            <header className="mb-6 text-left">
+              <h1 className="text-3xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
+                Fast Track
+              </h1>
+              <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
+                Master patterns, not problems.
               </p>
-              <p className="text-lg font-bold mb-3 text-left">
-                Able to solve resonable interview questions ASAP.
+            </header>
+
+            <div className="mb-12">
+              <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
+                This is an interview-focused roadmap. Every reasonable interview
+                question is just a variation of a few core patterns. Master
+                these foundations, and you'll stop memorizing code and start
+                seeing solutions intuitively.
               </p>
-              <p className="font-bold mb-1 text-xs opacity-80 uppercase tracking-wider text-left text-gray-500 dark:text-gray-400">
-                Time Commitment
-              </p>
-              <p className="text-left font-medium">
-                4-6 weeks (1-2 hours daily)
-              </p>
-            </Callout>
-          </div>
 
-          <SectionHeading icon="🎯">Who is this for?</SectionHeading>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-            <TipCard emoji="⏰" title="Fast-Track Prep">
-              You need to be interview-ready in weeks, not months, and can't
-              afford to waste time on low-impact problems.
-            </TipCard>
-            <TipCard emoji="🧘" title="Zero Frustration">
-              Learn from patterns and answers directly. Skip the hours of
-              pain—once you master the core patterns, solutions follow
-              naturally.
-            </TipCard>
-            <TipCard emoji="💎" title="Anti-Grind Method">
-              Master the underlying logic once. Stop the endless cycle of
-              solving and memorizing thousands of individual LeetCode problems.
-            </TipCard>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Data Structures Basics",
-      icon: "🧱",
-      content: (
-        <div className="animate-in fade-in duration-500">
-          <SectionHeading subtitle="Weeks 1-2" icon="🧱">
-            Part 1: Data Structures Basics
-          </SectionHeading>
-
-          <div className="space-y-2">
-            <TopicCard
-              title="Arrays & Linked Lists"
-              badge="Beginner"
-              badgeVariant="default"
-              time="2 days"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>Array basics and circular array technique</li>
-                <li>Linked list principles & Two-pointer technique</li>
-                <li>Sequential vs linked storage analysis</li>
-                <li>O(1) insertion/deletion optimizations</li>
-              </ul>
-            </TopicCard>
-
-            <TopicCard
-              title="Hash Tables"
-              badge="Beginner"
-              badgeVariant="default"
-              time="1-2 days"
-            >
-              <p className="mb-2 text-left text-gray-600 dark:text-gray-400">
-                <strong>Core Focus:</strong> Hash table principles and usage
-                patterns like LinkedHashMap and ArrayHashMap.
-              </p>
-              <p className="text-sm opacity-60 italic text-left">
-                Note: You can skip detailed collision resolution
-                implementations.
-              </p>
-            </TopicCard>
-
-            <TopicCard
-              title="Binary Trees"
-              badge="Critical Foundation"
-              badgeVariant="critical"
-              time="2-3 days"
-            >
-              <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-md mb-3 text-sm text-red-800 dark:text-red-300 border border-red-100 dark:border-red-900/30 text-left">
-                <strong>Crucial</strong>: All recursive algorithms are
-                essentially tree traversals. Mastery here unlocks DFS,
-                Backtracking, and DP.
-              </div>
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>Recursive & level-order traversal frameworks</li>
-                <li>N-ary trees & binary tree properties</li>
-                <li>DFS vs BFS decision matrix</li>
-              </ul>
-            </TopicCard>
-
-            <TopicCard
-              title="Heaps & BSTs"
-              badge="Essential"
-              badgeVariant="intermediate"
-              time="1.5 days"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>
-                  <strong>BST</strong>: "Left smaller, right larger" search
-                  properties
-                </li>
-                <li>
-                  <strong>Heap</strong>: Priority queues and O(log N) operations
-                </li>
-              </ul>
-            </TopicCard>
-
-            <TopicCard
-              title="Graphs Basics"
-              badge="Beginner"
-              badgeVariant="default"
-              time="1 day"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>Adjacency list vs matrix representations</li>
-                <li>Standard DFS/BFS traversal templates</li>
-              </ul>
-            </TopicCard>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Algorithm Patterns",
-      icon: "🧠",
-      content: (
-        <div className="animate-in fade-in duration-500">
-          <SectionHeading subtitle="Weeks 2-5" icon="🧠">
-            Part 2: Algorithm Patterns
-          </SectionHeading>
-
-          <Callout type="info" icon="⭐">
-            <p className="text-left">
-              <strong>Mandatory Reading</strong>: Before diving into patterns,
-              read the <em>Framework Thinking for Learning DSA</em>. It reveals
-              the essence shared by all algorithms.
-            </p>
-          </Callout>
-
-          <div className="mt-8 space-y-2">
-            <TopicCard
-              title="Linked List Techniques"
-              badge="Intermediate"
-              badgeVariant="intermediate"
-              time="2 days"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-sm text-left text-gray-600 dark:text-gray-400">
-                <li>Two-pointer technique framework (1 day)</li>
-                <li>Classic list problems & recursive operations (1 day)</li>
-              </ul>
-            </TopicCard>
-
-            <TopicCard
-              title="Advanced Array Patterns"
-              badge="Intermediate"
-              badgeVariant="intermediate"
-              time="4-5 days"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-2 mb-2">
-                <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                  <span className="font-bold block mb-1">Key Techniques</span>
-                  Binary search, Sliding window, Two-pointers
-                </div>
-                <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                  <span className="font-bold block mb-1">Specialized</span>
-                  Prefix sums, Difference arrays, 2D traversal
-                </div>
-              </div>
-            </TopicCard>
-
-            <TopicCard
-              title="Stacks & Queues"
-              badge="Intermediate"
-              badgeVariant="intermediate"
-              time="3 days"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>
-                  Monotonic stack/queue frameworks (Critical for "Next Greater
-                  Element" types)
-                </li>
-                <li>Basic implementations and classic interview problems</li>
-              </ul>
-            </TopicCard>
-
-            <TopicCard
-              title="Binary Tree Deep Dive"
-              badge="High Frequency"
-              badgeVariant="critical"
-              time="5-7 days"
-            >
-              <Callout type="critical" icon="⚠️">
-                <p className="text-left">
-                  <strong>Interview Success</strong>: This is the most crucial
-                  section. Spend extra time here.
+              <Callout type="info" icon="🚀">
+                <p className="font-bold mb-1 text-left uppercase tracking-widest text-[11px] opacity-60">
+                  The Goal
+                </p>
+                <p className="text-lg font-bold mb-3 text-left">
+                  Able to solve resonable interview questions ASAP.
+                </p>
+                <p className="font-bold mb-1 text-xs opacity-80 uppercase tracking-wider text-left text-gray-500 dark:text-gray-400">
+                  Time Commitment
+                </p>
+                <p className="text-left font-medium">
+                  4-6 weeks (1-2 hours daily)
                 </p>
               </Callout>
-              <div className="mt-3 space-y-2 text-sm text-left text-gray-600 dark:text-gray-400">
-                <p>
-                  <strong>Phase 1</strong>: Traversal vs Decomposition thinking
-                  models
-                </p>
-                <p>
-                  <strong>Phase 2</strong>: Binary tree construction and
-                  serialization
-                </p>
-                <p>
-                  <strong>Phase 3</strong>: Lowest common ancestor & tree
-                  diameter patterns
-                </p>
-              </div>
-            </TopicCard>
+            </div>
 
-            <TopicCard
-              title="Graph Patterns"
-              badge="Intermediate"
-              badgeVariant="intermediate"
-              time="4 days"
-            >
-              <ul className="list-disc pl-5 space-y-1 text-sm text-left text-gray-600 dark:text-gray-400">
-                <li>Topological Sort & Cycle Detection (Critical)</li>
-                <li>Union-Find (Kruskal's, Bipartite checks)</li>
-                <li>Dijkstra's Shortest Path Framework</li>
-              </ul>
-            </TopicCard>
+            <SectionHeading icon="🎯">Who is this for?</SectionHeading>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+              <TipCard emoji="⏰" title="Fast-Track Prep">
+                You need to be interview-ready in weeks, not months, and can't
+                afford to waste time on low-impact problems.
+              </TipCard>
+              <TipCard emoji="🧘" title="Zero Frustration">
+                Learn from patterns and answers directly. Skip the hours of
+                pain—once you master the core patterns, solutions follow
+                naturally.
+              </TipCard>
+              <TipCard emoji="💎" title="Anti-Grind Method">
+                Master the underlying logic once. Stop the endless cycle of
+                solving and memorizing thousands of individual LeetCode
+                problems.
+              </TipCard>
+            </div>
+          </div>
+        ),
+      },
+      {
+        title: "Data Structures Basics",
+        icon: "🧱",
+        content: (
+          <div className="animate-in fade-in duration-500">
+            <SectionHeading subtitle="Weeks 1-2" icon="🧱">
+              Part 1: Data Structures Basics
+            </SectionHeading>
 
-            <TopicCard
-              title="Backtracking & DFS"
-              badge="Advanced"
-              badgeVariant="advanced"
-              time="5-7 days"
-            >
-              <p className="mb-3 text-sm italic opacity-70 font-medium text-left">
-                "The fallback solution for any difficult problem."
+            <div className="space-y-2">
+              <TopicCard
+                title="Arrays & Linked Lists"
+                badge="Beginner"
+                badgeVariant="default"
+                time="2 days"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>Array basics and circular array technique</li>
+                  <li>Linked list principles & Two-pointer technique</li>
+                  <li>Sequential vs linked storage analysis</li>
+                  <li>O(1) insertion/deletion optimizations</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Hash Tables"
+                badge="Beginner"
+                badgeVariant="default"
+                time="1-2 days"
+              >
+                <p className="mb-2 text-left text-gray-600 dark:text-gray-400">
+                  <strong>Core Focus:</strong> Hash table principles and usage
+                  patterns like LinkedHashMap and ArrayHashMap.
+                </p>
+                <p className="text-sm opacity-60 italic text-left">
+                  Note: You can skip detailed collision resolution
+                  implementations.
+                </p>
+              </TopicCard>
+
+              <TopicCard
+                title="Binary Trees"
+                badge="Critical Foundation"
+                badgeVariant="critical"
+                time="2-3 days"
+              >
+                <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-md mb-3 text-sm text-red-800 dark:text-red-300 border border-red-100 dark:border-red-900/30 text-left">
+                  <strong>Crucial</strong>: All recursive algorithms are
+                  essentially tree traversals. Mastery here unlocks DFS,
+                  Backtracking, and DP.
+                </div>
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>Recursive & level-order traversal frameworks</li>
+                  <li>N-ary trees & binary tree properties</li>
+                  <li>DFS vs BFS decision matrix</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Heaps & BSTs"
+                badge="Essential"
+                badgeVariant="intermediate"
+                time="1.5 days"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>
+                    <strong>BST</strong>: "Left smaller, right larger" search
+                    properties
+                  </li>
+                  <li>
+                    <strong>Heap</strong>: Priority queues and O(log N)
+                    operations
+                  </li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Graphs Basics"
+                badge="Beginner"
+                badgeVariant="default"
+                time="1 day"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>Adjacency list vs matrix representations</li>
+                  <li>Standard DFS/BFS traversal templates</li>
+                </ul>
+              </TopicCard>
+            </div>
+          </div>
+        ),
+      },
+      {
+        title: "Algorithm Patterns",
+        icon: "🧠",
+        content: (
+          <div className="animate-in fade-in duration-500">
+            <SectionHeading subtitle="Weeks 2-5" icon="🧠">
+              Part 2: Algorithm Patterns
+            </SectionHeading>
+
+            <Callout type="info" icon="⭐">
+              <p className="text-left">
+                <strong>Mandatory Reading</strong>: Before diving into patterns,
+                read the <em>Framework Thinking for Learning DSA</em>. It
+                reveals the essence shared by all algorithms.
               </p>
-              <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
-                <li>Standard Backtracking Template (Permutations, Subsets)</li>
-                <li>State management and "Choose-Explore-Unchoose" pattern</li>
-                <li>Grid DFS (Island problems)</li>
-              </ul>
-            </TopicCard>
+            </Callout>
 
-            <TopicCard
-              title="Dynamic Programming"
-              badge="Advanced"
-              badgeVariant="advanced"
-              time="7-10 days"
-            >
-              <div className="mt-2 space-y-4">
-                <div>
-                  <span className="text-xs uppercase font-bold tracking-widest text-[#37352f]/40 dark:text-gray-500 block mb-1 text-left">
-                    Foundations
-                  </span>
-                  <p className="text-sm text-left text-gray-600 dark:text-gray-400">
-                    Memoization, State transition equations, Base cases
+            <div className="mt-8 space-y-2">
+              <TopicCard
+                title="Linked List Techniques"
+                badge="Intermediate"
+                badgeVariant="intermediate"
+                time="2 days"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-sm text-left text-gray-600 dark:text-gray-400">
+                  <li>Two-pointer technique framework (1 day)</li>
+                  <li>Classic list problems & recursive operations (1 day)</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Advanced Array Patterns"
+                badge="Intermediate"
+                badgeVariant="intermediate"
+                time="4-5 days"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-2 mb-2">
+                  <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
+                    <span className="font-bold block mb-1">Key Techniques</span>
+                    Binary search, Sliding window, Two-pointers
+                  </div>
+                  <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
+                    <span className="font-bold block mb-1">Specialized</span>
+                    Prefix sums, Difference arrays, 2D traversal
+                  </div>
+                </div>
+              </TopicCard>
+
+              <TopicCard
+                title="Stacks & Queues"
+                badge="Intermediate"
+                badgeVariant="intermediate"
+                time="3 days"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>
+                    Monotonic stack/queue frameworks (Critical for "Next Greater
+                    Element" types)
+                  </li>
+                  <li>Basic implementations and classic interview problems</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Binary Tree Deep Dive"
+                badge="High Frequency"
+                badgeVariant="critical"
+                time="5-7 days"
+              >
+                <Callout type="critical" icon="⚠️">
+                  <p className="text-left">
+                    <strong>Interview Success</strong>: This is the most crucial
+                    section. Spend extra time here.
+                  </p>
+                </Callout>
+                <div className="mt-3 space-y-2 text-sm text-left text-gray-600 dark:text-gray-400">
+                  <p>
+                    <strong>Phase 1</strong>: Traversal vs Decomposition
+                    thinking models
+                  </p>
+                  <p>
+                    <strong>Phase 2</strong>: Binary tree construction and
+                    serialization
+                  </p>
+                  <p>
+                    <strong>Phase 3</strong>: Lowest common ancestor & tree
+                    diameter patterns
                   </p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                  <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                    <span className="font-bold block mb-1 text-[#d9730d]/80">
-                      Sequence DP
+              </TopicCard>
+
+              <TopicCard
+                title="Graph Patterns"
+                badge="Intermediate"
+                badgeVariant="intermediate"
+                time="4 days"
+              >
+                <ul className="list-disc pl-5 space-y-1 text-sm text-left text-gray-600 dark:text-gray-400">
+                  <li>Topological Sort & Cycle Detection (Critical)</li>
+                  <li>Union-Find (Kruskal's, Bipartite checks)</li>
+                  <li>Dijkstra's Shortest Path Framework</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Backtracking & DFS"
+                badge="Advanced"
+                badgeVariant="advanced"
+                time="5-7 days"
+              >
+                <p className="mb-3 text-sm italic opacity-70 font-medium text-left">
+                  "The fallback solution for any difficult problem."
+                </p>
+                <ul className="list-disc pl-5 space-y-1 text-left text-gray-600 dark:text-gray-400">
+                  <li>
+                    Standard Backtracking Template (Permutations, Subsets)
+                  </li>
+                  <li>
+                    State management and "Choose-Explore-Unchoose" pattern
+                  </li>
+                  <li>Grid DFS (Island problems)</li>
+                </ul>
+              </TopicCard>
+
+              <TopicCard
+                title="Dynamic Programming"
+                badge="Advanced"
+                badgeVariant="advanced"
+                time="7-10 days"
+              >
+                <div className="mt-2 space-y-4">
+                  <div>
+                    <span className="text-xs uppercase font-bold tracking-widest text-[#37352f]/40 dark:text-gray-500 block mb-1 text-left">
+                      Foundations
                     </span>
-                    <span className="text-gray-600 dark:text-gray-400">
-                      LIS, LCS, Edit Distance
-                    </span>
+                    <p className="text-sm text-left text-gray-600 dark:text-gray-400">
+                      Memoization, State transition equations, Base cases
+                    </p>
                   </div>
-                  <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
-                    <span className="font-bold block mb-1 text-[#d9730d]/80">
-                      Knapsack & Others
-                    </span>
-                    <span className="text-gray-600 dark:text-gray-400">
-                      0/1, Complete, Game Theory
-                    </span>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                    <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
+                      <span className="font-bold block mb-1 text-[#d9730d]/80">
+                        Sequence DP
+                      </span>
+                      <span className="text-gray-600 dark:text-gray-400">
+                        LIS, LCS, Edit Distance
+                      </span>
+                    </div>
+                    <div className="p-3 bg-gray-50 dark:bg-gray-800/50 rounded border border-gray-100 dark:border-gray-700 text-left">
+                      <span className="font-bold block mb-1 text-[#d9730d]/80">
+                        Knapsack & Others
+                      </span>
+                      <span className="text-gray-600 dark:text-gray-400">
+                        0/1, Complete, Game Theory
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </TopicCard>
+              </TopicCard>
+            </div>
           </div>
-        </div>
-      ),
-    },
-  ];
+        ),
+      },
+    ],
+    mastery: [
+      {
+        title: "Mastery Introduction",
+        icon: "🏆",
+        content: (
+          <div className="animate-in fade-in duration-500">
+            <header className="mb-6 text-left">
+              <h1 className="text-3xl lg:text-5xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight leading-tight mb-4">
+                Mastery Plan
+              </h1>
+              <p className="text-xl lg:text-2xl text-[#37352f]/60 dark:text-gray-400 font-medium mb-0">
+                The comprehensive path to technical expertise.
+              </p>
+            </header>
+            <p className="text-xl text-[#37352f]/80 dark:text-gray-300 leading-relaxed mb-8 text-left">
+              Content for the Mastery Plan is coming soon. This plan will cover
+              deep-dive theoretical concepts, low-level implementations, and
+              advanced mathematical analysis of algorithms.
+            </p>
+          </div>
+        ),
+      },
+    ],
+  };
+
+  const currentSteps = PLANS[activePlan];
 
   return (
     <div className="bg-white dark:bg-[#191919] min-h-screen text-[#37352f] dark:text-gray-200">
       <div className="max-w-[900px] mx-auto pt-6 lg:pt-10 px-6 lg:px-10 pb-32">
+        {/* Plan Switcher */}
+        <div className="flex justify-start mb-12">
+          <div className="inline-flex items-center p-1 bg-[#f1f1ef] dark:bg-gray-800 rounded-lg shadow-sm">
+            <button
+              onClick={() => setActivePlan("fast-track")}
+              className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                activePlan === "fast-track"
+                  ? "bg-white dark:bg-[#191919] text-[#37352f] dark:text-gray-100 shadow-sm"
+                  : "text-[#37352f]/40 dark:text-gray-500 hover:text-[#37352f]/60"
+              }`}
+            >
+              Fast Track
+            </button>
+            <button
+              onClick={() => setActivePlan("mastery")}
+              className={`px-4 py-1.5 rounded-md text-sm font-bold transition-all ${
+                activePlan === "mastery"
+                  ? "bg-white dark:bg-[#191919] text-[#37352f] dark:text-gray-100 shadow-sm"
+                  : "text-[#37352f]/40 dark:text-gray-500 hover:text-[#37352f]/60"
+              }`}
+            >
+              Mastery Plan
+            </button>
+          </div>
+        </div>
+
+        {/* Roadmap */}
         <div className="flex flex-col">
-          {steps.map((s, idx) => (
+          {currentSteps.map((s, idx) => (
             <PhaseContainer
-              key={idx}
+              key={`${activePlan}-${idx}`}
               phase={idx === 0 ? "Preface" : `Part ${idx}`}
               isFirst={idx === 0}
-              isLast={idx === steps.length - 1}
+              isLast={idx === currentSteps.length - 1}
             >
               {s.content}
             </PhaseContainer>

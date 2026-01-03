@@ -10,6 +10,7 @@ import { AudibleModeProvider } from "@/contexts/AudibleModeContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
 import { SearchProvider } from "@/contexts/SearchContext";
+import { PlanProvider } from "@/contexts/PlanContext";
 import SearchModal from "@/components/search/SearchModal";
 import ComingSoon from "@/components/tutor/ComingSoon";
 import AudioPlayer from "@/components/audio/AudioPlayer";
@@ -28,26 +29,28 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider>
-          <FocusModeProvider>
-            <TutorModeProvider>
-              <AudibleModeProvider>
-                <MobileMenuProvider>
-                  <SearchProvider>
-                    <div className="flex">
-                      <Sidebar />
-                      <MainContent>
-                        <Header />
-                        <MainLayout>{children}</MainLayout>
-                      </MainContent>
-                    </div>
-                    <SearchModal />
-                    <ComingSoon />
-                    <AudioPlayer />
-                  </SearchProvider>
-                </MobileMenuProvider>
-              </AudibleModeProvider>
-            </TutorModeProvider>
-          </FocusModeProvider>
+          <PlanProvider>
+            <FocusModeProvider>
+              <TutorModeProvider>
+                <AudibleModeProvider>
+                  <MobileMenuProvider>
+                    <SearchProvider>
+                      <div className="flex">
+                        <Sidebar />
+                        <MainContent>
+                          <Header />
+                          <MainLayout>{children}</MainLayout>
+                        </MainContent>
+                      </div>
+                      <SearchModal />
+                      <ComingSoon />
+                      <AudioPlayer />
+                    </SearchProvider>
+                  </MobileMenuProvider>
+                </AudibleModeProvider>
+              </TutorModeProvider>
+            </FocusModeProvider>
+          </PlanProvider>
         </ThemeProvider>
       </body>
     </html>
