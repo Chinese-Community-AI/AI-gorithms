@@ -60,9 +60,9 @@ export default async function BasicsPage({ params }: BasicsPageProps) {
   const title =
     frontmatter.title ||
     slug[slug.length - 1]
-      .split(/[-_]/)
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+    .split(/[-_]/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return (
     <MDXArticleContent title={title}>

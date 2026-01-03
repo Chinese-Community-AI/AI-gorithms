@@ -166,39 +166,6 @@ const LearningPathCard = ({
   );
 };
 
-const LearnCard = ({
-  icon,
-  title,
-  description,
-  href,
-  readTime,
-}: {
-  icon: string;
-  title: string;
-  description: string;
-  href: string;
-  readTime: string;
-}) => (
-  <Link
-    href={href}
-    className="min-w-[260px] flex flex-col p-5 bg-white dark:bg-[#191919] border border-[#37352f]/10 dark:border-gray-800 rounded-lg hover:bg-[#37352f]/[0.02] dark:hover:bg-gray-800/30 transition-all duration-200 no-underline group"
-  >
-    <div className="text-3xl mb-4 group-hover:scale-110 transition-transform duration-200 origin-left">
-      {icon}
-    </div>
-    <h3 className="font-bold text-[#37352f] dark:text-gray-100 text-base mb-2">
-      {title}
-    </h3>
-    <p className="text-sm text-[#37352f]/60 dark:text-gray-400 leading-relaxed mb-4 line-clamp-2">
-      {description}
-    </p>
-    <div className="flex items-center gap-2 mt-auto text-[12px] font-medium text-[#37352f]/40 dark:text-gray-500">
-      <span>📖</span>
-      {readTime}
-    </div>
-  </Link>
-);
-
 // --- Main Page Component ---
 
 export default function Home() {
@@ -234,37 +201,6 @@ export default function Home() {
       title: "Graph Algorithms",
       href: "/basics/graph-structure-algorithm-overview.md",
       date: "2 weeks ago",
-    },
-  ];
-
-  const learnCards = [
-    {
-      icon: "🚀",
-      title: "Getting Started with Fast Track",
-      description: "Master algorithms in 1-3 months",
-      href: "/fast-track",
-      readTime: "5m read",
-    },
-    {
-      icon: "📖",
-      title: "Understanding Data Structures",
-      description: "Learn the fundamentals",
-      href: "/basics/quick-introduction",
-      readTime: "8m read",
-    },
-    {
-      icon: "🎯",
-      title: "Algorithm Patterns",
-      description: "Master core problem-solving patterns",
-      href: "/basics",
-      readTime: "12m read",
-    },
-    {
-      icon: "💡",
-      title: "AI-Powered Learning",
-      description: "Leverage AI to accelerate your journey",
-      href: "/",
-      readTime: "3m read",
     },
   ];
 
@@ -310,16 +246,6 @@ export default function Home() {
           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
             {recentlyVisited.map((item, index) => (
               <RecentlyVisitedCard key={index} {...item} />
-            ))}
-          </div>
-        </section>
-
-        {/* Learn Section */}
-        <section className="mb-16">
-          <SectionHeader icon="📖" title="Learning Modules" />
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
-            {learnCards.map((card, index) => (
-              <LearnCard key={index} {...card} />
             ))}
           </div>
         </section>

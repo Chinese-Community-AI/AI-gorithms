@@ -168,10 +168,10 @@ export default function PricingPage() {
         <header className="mb-8 text-center">
           <h1 className="text-3xl lg:text-4xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight mb-3">
             Pricing
-          </h1>
+        </h1>
           <p className="text-base lg:text-lg text-[#37352f]/60 dark:text-gray-400 font-medium">
             Select the plan that best fits your learning journey.
-          </p>
+        </p>
         </header>
 
         {/* Plans Grid */}
@@ -179,7 +179,7 @@ export default function PricingPage() {
           {plans.map((plan) => (
             <PlanCard key={plan.name} {...plan} />
           ))}
-        </div>
+      </div>
 
         {/* Bottom Callout */}
         <div className="border-t border-[#37352f]/10 dark:border-gray-800 pt-8">
@@ -199,7 +199,7 @@ export default function PricingPage() {
               >
                 Contact education support
               </Link>
-            </div>
+              </div>
 
             <div className="bg-[#fbf3db]/30 dark:bg-yellow-900/5 p-6 rounded-lg border border-[#37352f]/10 dark:border-gray-800">
               <h3 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-2">
@@ -214,14 +214,14 @@ export default function PricingPage() {
               </button>
             </div>
           </div>
-        </div>
+      </div>
 
         {/* Simple Footer */}
         <footer className="mt-12 text-center border-t border-[#37352f]/5 dark:border-gray-800 pt-6">
           <p className="text-[12px] text-[#37352f]/40 dark:text-gray-500">
             © {new Date().getFullYear()} AI-gorithms. All plans include a 7-day
             free trial.
-          </p>
+        </p>
         </footer>
       </div>
     </div>
