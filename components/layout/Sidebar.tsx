@@ -260,8 +260,11 @@ export default function Sidebar() {
               </span>
             </div>
 
-            {filteredNavigation.map((item) => (
-              <NavItemComponent key={item.href} item={item} />
+            {filteredNavigation.map((item, index) => (
+              <NavItemComponent
+                key={`${item.href}-${item.title}-${index}`}
+                item={item}
+              />
             ))}
           </nav>
         </div>
