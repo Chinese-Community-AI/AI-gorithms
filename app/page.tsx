@@ -197,20 +197,10 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Recently Visited */}
-        <section className="mb-16">
-          <SectionHeader icon="🕐" title="Recently visited" />
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
-            {recentlyVisited.map((item, index) => (
-              <RecentlyVisitedCard key={index} {...item} />
-            ))}
-          </div>
-        </section>
-
         {/* Quick Access Grid */}
         <section className="mb-16">
           <SectionHeader icon="⚡" title="Quick access" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <QuickAccessCard
               icon="🚀"
               title="Fast Track"
@@ -225,13 +215,16 @@ export default function Home() {
               href="/basics"
               color="green"
             />
-            <QuickAccessCard
-              icon="💎"
-              title="Pricing"
-              description="View plans and features"
-              href="/pricing"
-              color="yellow"
-            />
+          </div>
+        </section>
+
+        {/* Recently Visited */}
+        <section className="mb-16">
+          <SectionHeader icon="🕐" title="Recently visited" />
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-1 px-1">
+            {recentlyVisited.map((item, index) => (
+              <RecentlyVisitedCard key={index} {...item} />
+            ))}
           </div>
         </section>
 
