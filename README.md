@@ -1,6 +1,7 @@
 # AI-gorithms (WIP)
 Helping ppl learn data structures and algorithms with AI
-<img width="2130" height="1188" alt="Screenshot 2025-12-29 at 4 23 29 PM" src="https://github.com/user-attachments/assets/cd1c77f6-3bec-417a-93c8-9f668af16228" />
+<img width="1627" height="835" alt="Screenshot 2026-01-05 at 11 11 33 AM" src="https://github.com/user-attachments/assets/807bc91d-c6b7-422f-92a7-e877cd38282a" />
+
 
 
 
