@@ -16,7 +16,7 @@ export const navigation: NavItem[] = [
     href: "/basics",
     children: [
       {
-        title: "Arrays",
+        title: "Arrays & Linked Lists",
         href: "/basics/01-arrays",
         children: [
           {
@@ -28,18 +28,8 @@ export const navigation: NavItem[] = [
             href: "/basics/01-arrays/static-array",
           },
           {
-            title: "Dynamic Array",
-            href: "/basics/01-arrays/dynamic-array",
-          },
-        ],
-      },
-      {
-        title: "Linked Lists",
-        href: "/basics/02-linked-lists",
-        children: [
-          {
-            title: "Introduction to Linked Lists",
-            href: "/basics/02-linked-lists/intro",
+            title: "Linked Lists",
+            href: "/basics/01-arrays/linked-lists",
           },
         ],
       },

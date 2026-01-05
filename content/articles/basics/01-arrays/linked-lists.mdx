@@ -1,0 +1,1882 @@
+## What is a Linked List?
+
+Readers familiar with LeetCode will know about singly linked lists. The definition of a singly linked list node on LeetCode is as follows:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class ListNode {
+    constructor(x) {
+        this.val = x;
+        this.next = null;
+    }
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type ListNode struct {
+    Val  int
+    Next *ListNode
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};`,
+    },
+  ]}
+/>
+
+This is the simplest singly linked list node for algorithm problems. In actual programming languages, linked list nodes are slightly more complex, like this:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class Node:
+    def __init__(self, prev, element, next):
+        self.val = element
+        self.next = next
+        self.prev = prev`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class Node<E> {
+    E val;
+    Node<E> next;
+    Node<E> prev;
+    
+    Node(Node<E> prev, E element, Node<E> next) {
+        this.val = element;
+        this.next = next;
+        this.prev = prev;
+    }
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class Node {
+    constructor(prev, element, next) {
+        this.val = element;
+        this.next = next;
+        this.prev = prev;
+    }
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type Node struct {
+    Val  interface{}
+    Next *Node
+    Prev *Node
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `template<typename T>
+struct Node {
+    T val;
+    Node<T>* next;
+    Node<T>* prev;
+    
+    Node(Node<T>* prev, const T& element, Node<T>* next)
+        : val(element), next(next), prev(prev) {}
+};`,
+    },
+  ]}
+/>
+
+There are two main differences:
+
+1. Standard libraries in programming languages usually provide generics, allowing you to specify the val field to be of any type, whereas LeetCode's singly linked list node's val field is of type int only.
+
+2. Standard libraries generally use doubly linked lists instead of singly linked lists. A singly linked list node has only a next pointer pointing to the next node, while a doubly linked list node has two pointers: prev pointing to the previous node and next pointing to the next node.
+
+With the prev predecessor pointer, linked lists support bidirectional traversal. However, maintaining an additional pointer makes operations like insertion, deletion, searching, and updating slightly more complex.
+
+## Why Linked Lists are Needed
+
+Previously, we discussed arrays (sequential storage), which is essentially a contiguous block of memory. With the starting address of this memory block, you can directly calculate the address of any element using its index.
+
+Linked lists are different. A linked list does not require a contiguous block of memory to store elements. The elements of the linked list can be scattered throughout memory, linked together using the next and prev pointers in each node to form a chain structure.
+
+The advantage is clear: it improves memory utilization efficiency. Linked list nodes do not need to be adjacent, and you can create a new node whenever there is available memory. The operating system finds this approach flexible.
+
+Another advantage is that nodes can be added or removed as needed, without concerns about resizing or data relocation. Theoretically, linked lists have no capacity limits (unless all memory is used up, which is unlikely).
+
+Of course, there are limitations as well. The biggest advantage of arrays is the ability to quickly access elements using an index, which is not possible with linked lists.
+
+This is easy to understand since the elements are not contiguous. If you want to access the 3rd element of a linked list, you must start from the head node and follow the next pointer until you reach the 3rd node.
+
+## Basic Operations of Singly Linked List
+
+First, let's write a utility function to create a singly linked list, which will make the following explanations easier:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+# input an array and convert it to a singly linked list
+
+def createLinkedList(arr):
+if arr is None or len(arr) == 0:
+return None
+
+    head = ListNode(arr[0])
+    cur = head
+    for i in range(1, len(arr)):
+        cur.next = ListNode(arr[i])
+        cur = cur.next
+
+    return head`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+
+}
+
+// input an array and convert it to a singly linked list
+public static ListNode createLinkedList(int[] arr) {
+if (arr == null || arr.length == 0) {
+return null;
+}
+
+    ListNode head = new ListNode(arr[0]);
+    ListNode cur = head;
+    for (int i = 1; i < arr.length; i++) {
+        cur.next = new ListNode(arr[i]);
+        cur = cur.next;
+    }
+
+    return head;
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class ListNode {
+constructor(x) {
+this.val = x;
+this.next = null;
+}
+}
+
+// input an array and convert it to a singly linked list
+function createLinkedList(arr) {
+if (!arr || arr.length === 0) {
+return null;
+}
+
+    let head = new ListNode(arr[0]);
+    let cur = head;
+    for (let i = 1; i < arr.length; i++) {
+        cur.next = new ListNode(arr[i]);
+        cur = cur.next;
+    }
+
+    return head;
+
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`type ListNode struct {
+Val int
+Next \*ListNode
+}
+
+// input an array and convert it to a singly linked list
+func createLinkedList(arr []int) \*ListNode {
+if len(arr) == 0 {
+return nil
+}
+
+    head := &ListNode{Val: arr[0]}
+    cur := head
+    for i := 1; i < len(arr); i++ {
+        cur.Next = &ListNode{Val: arr[i]}
+        cur = cur.Next
+    }
+
+    return head
+
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`struct ListNode {
+int val;
+ListNode \*next;
+ListNode(int x) : val(x), next(nullptr) {}
+};
+
+// input an array and convert it to a singly linked list
+ListNode\* createLinkedList(vector<int>& arr) {
+if (arr.empty()) {
+return nullptr;
+}
+
+    ListNode* head = new ListNode(arr[0]);
+    ListNode* cur = head;
+    for (int i = 1; i < arr.size(); i++) {
+        cur->next = new ListNode(arr[i]);
+        cur = cur->next;
+    }
+
+    return head;
+
+}`
+},
+]}
+/>
+
+### Access / Modify
+
+For example, if I want to visit each node in a singly linked list and print its value:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# traverse the singly linked list
+
+p = head
+while p is not None:
+print(p.val)
+p = p.next`    },
+    {
+      label: "java",
+      language: "java",
+      code:`// create a singly linked list
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// traverse the singly linked list
+ListNode p = head;
+while (p != null) {
+System.out.println(p.val);
+p = p.next;
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// traverse the singly linked list
+let p = head;
+while (p !== null) {
+console.log(p.val);
+p = p.next;
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// traverse the singly linked list
+p := head
+for p != nil {
+fmt.Println(p.Val)
+p = p.Next
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// traverse the singly linked list
+ListNode\* p = head;
+while (p != nullptr) {
+cout << p->val << endl;
+p = p->next;
+}`
+},
+]}
+/>
+
+Similarly, if you want to access or modify a node at a specific index, you have to use a for loop to start from the head node and move forward until you find the node at the given index, then perform the access or modification.
+
+### Insert
+
+**Inserting at the Head**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# insert a new node with value 0 at the head
+
+newNode = ListNode(0)
+newNode.next = head
+head = newNode
+
+# now the linked list becomes 0 -> 1 -> 2 -> 3 -> 4 -> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// insert a new node with value 0 at the head
+ListNode newNode = new ListNode(0);
+newNode.next = head;
+head = newNode;
+
+// now the linked list becomes 0 -> 1 -> 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// insert a new node with value 0 at the head
+let newNode = new ListNode(0);
+newNode.next = head;
+head = newNode;
+
+// now the linked list becomes 0 -> 1 -> 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// insert a new node with value 0 at the head
+newNode := &ListNode{Val: 0, Next: head}
+head = newNode
+
+// now the linked list becomes 0 -> 1 -> 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// insert a new node with value 0 at the head
+ListNode\* newNode = new ListNode(0);
+newNode->next = head;
+head = newNode;
+
+// now the linked list becomes 0 -> 1 -> 2 -> 3 -> 4 -> 5`
+},
+]}
+/>
+
+**Inserting at the Tail**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# insert a new node 6 at the end
+
+p = head
+
+# first, go to the last node
+
+while p.next is not None:
+p = p.next
+
+# now p is the last node
+
+# insert a new node after p
+
+p.next = ListNode(6)
+
+# now the linked list becomes 1 -> 2 -> 3 -> 4 -> 5 -> 6`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// insert a new node 6 at the end
+ListNode p = head;
+// first, go to the last node
+while (p.next != null) {
+p = p.next;
+}
+// now p is the last node
+// insert a new node after p
+p.next = new ListNode(6);
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4 -> 5 -> 6`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// insert a new node 6 at the end
+let p = head;
+// first, go to the last node
+while (p.next !== null) {
+p = p.next;
+}
+// now p is the last node
+// insert a new node after p
+p.next = new ListNode(6);
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4 -> 5 -> 6`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// insert a new node 6 at the end
+p := head
+// first, go to the last node
+for p.Next != nil {
+p = p.Next
+}
+// now p is the last node
+// insert a new node after p
+p.Next = &ListNode{Val: 6}
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4 -> 5 -> 6`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// insert a new node 6 at the end
+ListNode\* p = head;
+// first, go to the last node
+while (p->next != nullptr) {
+p = p->next;
+}
+// now p is the last node
+// insert a new node after p
+p->next = new ListNode(6);
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4 -> 5 -> 6`
+},
+]}
+/>
+
+**Inserting in the Middle**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# insert a new node 66 after the 3rd node
+
+# first find the predecessor node, which is the 3rd node
+
+p = head
+for \_ in range(2):
+p = p.next
+
+# at this point, p points to the 3rd node
+
+# assemble the successor pointer of the new node
+
+new_node = ListNode(66)
+new_node.next = p.next
+
+# insert the new node
+
+p.next = new_node
+
+# now the linked list becomes 1 -> 2 -> 3 -> 66 -> 4 -> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// insert a new node 66 after the 3rd node
+// first find the predecessor node, which is the 3rd node
+ListNode p = head;
+for (int i = 0; i < 2; i++) {
+p = p.next;
+}
+// at this point, p points to the 3rd node
+// assemble the successor pointer of the new node
+ListNode new_node = new ListNode(66);
+new_node.next = p.next;
+
+// insert the new node
+p.next = new_node;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 66 -> 4 -> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// insert a new node 66 after the 3rd node
+// first find the predecessor node, which is the 3rd node
+let p = head;
+for (let i = 0; i < 2; i++) {
+p = p.next;
+}
+// at this point, p points to the 3rd node
+// assemble the successor pointer of the new node
+let new_node = new ListNode(66);
+new_node.next = p.next;
+
+// insert the new node
+p.next = new_node;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 66 -> 4 -> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// insert a new node 66 after the 3rd node
+// first find the predecessor node, which is the 3rd node
+p := head
+for i := 0; i < 2; i++ {
+p = p.Next
+}
+// at this point, p points to the 3rd node
+// assemble the successor pointer of the new node
+new_node := &ListNode{Val: 66}
+new_node.Next = p.Next
+
+// insert the new node
+p.Next = new_node
+
+// now the linked list becomes 1 -> 2 -> 3 -> 66 -> 4 -> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// insert a new node 66 after the 3rd node
+// first find the predecessor node, which is the 3rd node
+ListNode* p = head;
+for (int i = 0; i < 2; i++) {
+p = p->next;
+}
+// at this point, p points to the 3rd node
+// assemble the successor pointer of the new node
+ListNode* new_node = new ListNode(66);
+new_node->next = p->next;
+
+// insert the new node
+p->next = new_node;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 66 -> 4 -> 5`
+},
+]}
+/>
+
+### Delete
+
+**Deleting a Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# to delete the 4th node, we need to operate on the predecessor node
+
+p = head
+for i in range(2):
+p = p.next
+
+# at this point, p points to the 3rd node, which is the predecessor
+
+# remove the 4th node from the linked list
+
+p.next = p.next.next
+
+# now the linked list becomes 1 -> 2 -> 3 -> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// to delete the 4th node, we need to operate on the predecessor node
+ListNode p = head;
+for (int i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// at this point, p points to the 3rd node, which is the predecessor
+// remove the 4th node from the linked list
+p.next = p.next.next;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// to delete the 4th node, we need to operate on the predecessor node
+let p = head;
+for (let i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// at this point, p points to the 3rd node, which is the predecessor
+// remove the 4th node from the linked list
+p.next = p.next.next;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// to delete the 4th node, we need to operate on the predecessor node
+p := head
+for i := 0; i < 2; i++ {
+p = p.Next
+}
+
+// at this point, p points to the 3rd node, which is the predecessor
+// remove the 4th node from the linked list
+p.Next = p.Next.Next
+
+// now the linked list becomes 1 -> 2 -> 3 -> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// to delete the 4th node, we need to operate on the predecessor node
+ListNode\* p = head;
+for (int i = 0; i < 2; i++) {
+p = p->next;
+}
+
+// at this point, p points to the 3rd node, which is the predecessor
+// remove the 4th node from the linked list
+p->next = p->next->next;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 5`
+},
+]}
+/>
+
+**Deleting the Head Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# delete the head node
+
+head = head.next
+
+# now the linked list becomes 2 -> 3 -> 4 -> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// delete the head node
+head = head.next;
+
+// now the linked list becomes 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// delete the head node
+head = head.next;
+
+// now the linked list becomes 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// delete the head node
+head = head.Next
+
+// now the linked list becomes 2 -> 3 -> 4 -> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// delete the head node
+ListNode\* toDelete = head;
+head = head->next;
+delete toDelete;
+
+// now the linked list becomes 2 -> 3 -> 4 -> 5`
+},
+]}
+/>
+
+**Deleting the Tail Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a singly linked list
+head = createLinkedList([1, 2, 3, 4, 5])
+
+# delete the tail node
+
+p = head
+
+# find the second to last node
+
+while p.next.next is not None:
+p = p.next
+
+# now p points to the second to last node
+
+# detach the tail node from the linked list
+
+p.next = None
+
+# now the linked list becomes 1 -> 2 -> 3 -> 4`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a singly linked list
+
+ListNode head = createLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// delete the tail node
+ListNode p = head;
+// find the second to last node
+while (p.next.next != null) {
+p = p.next;
+}
+
+// now p points to the second to last node
+// detach the tail node from the linked list
+p.next = null;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a singly linked list
+let head = createLinkedList([1, 2, 3, 4, 5]);
+
+// delete the tail node
+let p = head;
+// find the second to last node
+while (p.next.next !== null) {
+p = p.next;
+}
+
+// now p points to the second to last node
+// detach the tail node from the linked list
+p.next = null;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a singly linked list
+head := createLinkedList([]int{1, 2, 3, 4, 5})
+
+// delete the tail node
+p := head
+// find the second to last node
+for p.Next.Next != nil {
+p = p.Next
+}
+
+// now p points to the second to last node
+// detach the tail node from the linked list
+p.Next = nil
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a singly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+ListNode\* head = createLinkedList(arr);
+
+// delete the tail node
+ListNode\* p = head;
+// find the second to last node
+while (p->next->next != nullptr) {
+p = p->next;
+}
+
+// now p points to the second to last node
+// detach the tail node from the linked list
+ListNode\* toDelete = p->next;
+p->next = nullptr;
+delete toDelete;
+
+// now the linked list becomes 1 -> 2 -> 3 -> 4`
+},
+]}
+/>
+
+## Basic Operations of Doubly Linked List
+
+First, let's write a utility function to create a doubly linked list:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class DoublyListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+        self.prev = None
+
+def createDoublyLinkedList(arr):
+if not arr:
+return None
+
+    head = DoublyListNode(arr[0])
+    cur = head
+
+    # use for loop to iteratively create the doubly linked list
+    for val in arr[1:]:
+        new_node = DoublyListNode(val)
+        cur.next = new_node
+        new_node.prev = cur
+        cur = cur.next
+
+    return head`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class DoublyListNode {
+    int val;
+    DoublyListNode next;
+    DoublyListNode prev;
+
+    DoublyListNode(int x) { val = x; }
+
+}
+
+public static DoublyListNode createDoublyLinkedList(int[] arr) {
+if (arr == null || arr.length == 0) {
+return null;
+}
+
+    DoublyListNode head = new DoublyListNode(arr[0]);
+    DoublyListNode cur = head;
+
+    // use for loop to iteratively create the doubly linked list
+    for (int i = 1; i < arr.length; i++) {
+        DoublyListNode new_node = new DoublyListNode(arr[i]);
+        cur.next = new_node;
+        new_node.prev = cur;
+        cur = cur.next;
+    }
+
+    return head;
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class DoublyListNode {
+constructor(x) {
+this.val = x;
+this.next = null;
+this.prev = null;
+}
+}
+
+function createDoublyLinkedList(arr) {
+if (!arr || arr.length === 0) {
+return null;
+}
+
+    let head = new DoublyListNode(arr[0]);
+    let cur = head;
+
+    // use for loop to iteratively create the doubly linked list
+    for (let i = 1; i < arr.length; i++) {
+        let new_node = new DoublyListNode(arr[i]);
+        cur.next = new_node;
+        new_node.prev = cur;
+        cur = cur.next;
+    }
+
+    return head;
+
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`type DoublyListNode struct {
+Val int
+Next *DoublyListNode
+Prev *DoublyListNode
+}
+
+func createDoublyLinkedList(arr []int) \*DoublyListNode {
+if len(arr) == 0 {
+return nil
+}
+
+    head := &DoublyListNode{Val: arr[0]}
+    cur := head
+
+    // use for loop to iteratively create the doubly linked list
+    for i := 1; i < len(arr); i++ {
+        new_node := &DoublyListNode{Val: arr[i]}
+        cur.Next = new_node
+        new_node.Prev = cur
+        cur = cur.Next
+    }
+
+    return head
+
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`struct DoublyListNode {
+int val;
+DoublyListNode* next;
+DoublyListNode* prev;
+
+    DoublyListNode(int x) : val(x), next(nullptr), prev(nullptr) {}
+
+};
+
+DoublyListNode\* createDoublyLinkedList(vector<int>& arr) {
+if (arr.empty()) {
+return nullptr;
+}
+
+    DoublyListNode* head = new DoublyListNode(arr[0]);
+    DoublyListNode* cur = head;
+
+    // use for loop to iteratively create the doubly linked list
+    for (int i = 1; i < arr.size(); i++) {
+        DoublyListNode* new_node = new DoublyListNode(arr[i]);
+        cur->next = new_node;
+        new_node->prev = cur;
+        cur = cur->next;
+    }
+
+    return head;
+
+}`
+},
+]}
+/>
+
+### Search / Update
+
+For traversing and searching a doubly linked list, you can start from either the head or the tail, and move forward or backward as needed:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+tail = None
+
+# traverse the doubly linked list from the head node to the end
+
+p = head
+while p:
+print(p.val)
+tail = p
+p = p.next
+
+# traverse the doubly linked list from the tail node to the start
+
+p = tail
+while p:
+print(p.val)
+p = p.prev`    },
+    {
+      label: "java",
+      language: "java",
+      code:`// create a doubly linked list
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+DoublyListNode tail = null;
+
+// traverse the doubly linked list from the head node to the end
+DoublyListNode p = head;
+while (p != null) {
+System.out.println(p.val);
+tail = p;
+p = p.next;
+}
+
+// traverse the doubly linked list from the tail node to the start
+p = tail;
+while (p != null) {
+System.out.println(p.val);
+p = p.prev;
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+let tail = null;
+
+// traverse the doubly linked list from the head node to the end
+let p = head;
+while (p !== null) {
+console.log(p.val);
+tail = p;
+p = p.next;
+}
+
+// traverse the doubly linked list from the tail node to the start
+p = tail;
+while (p !== null) {
+console.log(p.val);
+p = p.prev;
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+var tail \*DoublyListNode
+
+// traverse the doubly linked list from the head node to the end
+p := head
+for p != nil {
+fmt.Println(p.Val)
+tail = p
+p = p.Next
+}
+
+// traverse the doubly linked list from the tail node to the start
+p = tail
+for p != nil {
+fmt.Println(p.Val)
+p = p.Prev
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode* head = createDoublyLinkedList(arr);
+DoublyListNode* tail = nullptr;
+
+// traverse the doubly linked list from the head node to the end
+DoublyListNode\* p = head;
+while (p != nullptr) {
+cout << p->val << endl;
+tail = p;
+p = p->next;
+}
+
+// traverse the doubly linked list from the tail node to the start
+p = tail;
+while (p != nullptr) {
+cout << p->val << endl;
+p = p->prev;
+}`
+},
+]}
+/>
+
+### Insert
+
+**Inserting at the Head**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+# insert a new node 0 at the head
+
+new_head = DoublyListNode(0)
+new_head.next = head
+head.prev = new_head
+head = new_head
+
+# now the linked list becomes 0 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// insert a new node 0 at the head
+DoublyListNode new_head = new DoublyListNode(0);
+new_head.next = head;
+head.prev = new_head;
+head = new_head;
+
+// now the linked list becomes 0 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+// insert a new node 0 at the head
+let new_head = new DoublyListNode(0);
+new_head.next = head;
+head.prev = new_head;
+head = new_head;
+
+// now the linked list becomes 0 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+// insert a new node 0 at the head
+new_head := &DoublyListNode{Val: 0}
+new_head.Next = head
+head.Prev = new_head
+head = new_head
+
+// now the linked list becomes 0 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+// insert a new node 0 at the head
+DoublyListNode\* new_head = new DoublyListNode(0);
+new_head->next = head;
+head->prev = new_head;
+head = new_head;
+
+// now the linked list becomes 0 <-> 1 <-> 2 <-> 3 <-> 4 <-> 5`
+},
+]}
+/>
+
+**Inserting at the Tail**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+tail = head
+
+# first, move to the last node of the list
+
+while tail.next is not None:
+tail = tail.next
+
+# insert a new node 6 at the tail
+
+newNode = DoublyListNode(6)
+tail.next = newNode
+newNode.prev = tail
+
+# update the tail node reference
+
+tail = newNode
+
+# now the list becomes 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 6`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+DoublyListNode tail = head;
+// first, move to the last node of the list
+while (tail.next != null) {
+tail = tail.next;
+}
+
+// insert a new node 6 at the tail
+DoublyListNode newNode = new DoublyListNode(6);
+tail.next = newNode;
+newNode.prev = tail;
+// update the tail node reference
+tail = newNode;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 6`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+let tail = head;
+// first, move to the last node of the list
+while (tail.next !== null) {
+tail = tail.next;
+}
+
+// insert a new node 6 at the tail
+let newNode = new DoublyListNode(6);
+tail.next = newNode;
+newNode.prev = tail;
+// update the tail node reference
+tail = newNode;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 6`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+tail := head
+// first, move to the last node of the list
+for tail.Next != nil {
+tail = tail.Next
+}
+
+// insert a new node 6 at the tail
+newNode := &DoublyListNode{Val: 6}
+tail.Next = newNode
+newNode.Prev = tail
+// update the tail node reference
+tail = newNode
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 6`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+DoublyListNode\* tail = head;
+// first, move to the last node of the list
+while (tail->next != nullptr) {
+tail = tail->next;
+}
+
+// insert a new node 6 at the tail
+DoublyListNode\* newNode = new DoublyListNode(6);
+tail->next = newNode;
+newNode->prev = tail;
+// update the tail node reference
+tail = newNode;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 4 <-> 5 <-> 6`
+},
+]}
+/>
+
+**Inserting in the Middle**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+# if we want to insert at index 3 (4th node)
+
+# we need to operate the node at index 2
+
+p = head
+for \_ in range(2):
+p = p.next
+
+# assemble the new node
+
+newNode = DoublyListNode(66)
+newNode.next = p.next
+newNode.prev = p
+
+# insert the new node
+
+p.next.prev = newNode
+p.next = newNode
+
+# now the linked list becomes 1 <-> 2 <-> 3 <-> 66 <-> 4 <-> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// if we want to insert at index 3 (4th node)
+// we need to operate the node at index 2
+DoublyListNode p = head;
+for (int i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// assemble the new node
+DoublyListNode newNode = new DoublyListNode(66);
+newNode.next = p.next;
+newNode.prev = p;
+
+// insert the new node
+p.next.prev = newNode;
+p.next = newNode;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 66 <-> 4 <-> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+// if we want to insert at index 3 (4th node)
+// we need to operate the node at index 2
+let p = head;
+for (let i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// assemble the new node
+let newNode = new DoublyListNode(66);
+newNode.next = p.next;
+newNode.prev = p;
+
+// insert the new node
+p.next.prev = newNode;
+p.next = newNode;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 66 <-> 4 <-> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+// if we want to insert at index 3 (4th node)
+// we need to operate the node at index 2
+p := head
+for i := 0; i < 2; i++ {
+p = p.Next
+}
+
+// assemble the new node
+newNode := &DoublyListNode{Val: 66}
+newNode.Next = p.Next
+newNode.Prev = p
+
+// insert the new node
+p.Next.Prev = newNode
+p.Next = newNode
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 66 <-> 4 <-> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+// if we want to insert at index 3 (4th node)
+// we need to operate the node at index 2
+DoublyListNode\* p = head;
+for (int i = 0; i < 2; i++) {
+p = p->next;
+}
+
+// assemble the new node
+DoublyListNode\* newNode = new DoublyListNode(66);
+newNode->next = p->next;
+newNode->prev = p;
+
+// insert the new node
+p->next->prev = newNode;
+p->next = newNode;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 66 <-> 4 <-> 5`
+},
+]}
+/>
+
+### Delete
+
+**Deleting a Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+# delete the 4th node
+
+# first find the 3rd node
+
+p = head
+for i in range(2):
+p = p.next
+
+# now p points to the 3rd node, we will remove the node following it
+
+toDelete = p.next
+
+# remove toDelete from the list
+
+p.next = toDelete.next
+toDelete.next.prev = p
+
+# it is a good practice to set toDelete's next and prev pointers to None (optional)
+
+toDelete.next = None
+toDelete.prev = None
+
+# now the list becomes 1 <-> 2 <-> 3 <-> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// delete the 4th node
+// first find the 3rd node
+DoublyListNode p = head;
+for (int i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// now p points to the 3rd node, we will remove the node following it
+DoublyListNode toDelete = p.next;
+
+// remove toDelete from the list
+p.next = toDelete.next;
+toDelete.next.prev = p;
+
+// it is a good practice to set toDelete's next and prev pointers to null (optional)
+toDelete.next = null;
+toDelete.prev = null;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+// delete the 4th node
+// first find the 3rd node
+let p = head;
+for (let i = 0; i < 2; i++) {
+p = p.next;
+}
+
+// now p points to the 3rd node, we will remove the node following it
+let toDelete = p.next;
+
+// remove toDelete from the list
+p.next = toDelete.next;
+toDelete.next.prev = p;
+
+// it is a good practice to set toDelete's next and prev pointers to null (optional)
+toDelete.next = null;
+toDelete.prev = null;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+// delete the 4th node
+// first find the 3rd node
+p := head
+for i := 0; i < 2; i++ {
+p = p.Next
+}
+
+// now p points to the 3rd node, we will remove the node following it
+toDelete := p.Next
+
+// remove toDelete from the list
+p.Next = toDelete.Next
+toDelete.Next.Prev = p
+
+// it is a good practice to set toDelete's next and prev pointers to nil (optional)
+toDelete.Next = nil
+toDelete.Prev = nil
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+// delete the 4th node
+// first find the 3rd node
+DoublyListNode\* p = head;
+for (int i = 0; i < 2; i++) {
+p = p->next;
+}
+
+// now p points to the 3rd node, we will remove the node following it
+DoublyListNode\* toDelete = p->next;
+
+// remove toDelete from the list
+p->next = toDelete->next;
+toDelete->next->prev = p;
+
+// it is a good practice to set toDelete's next and prev pointers to nullptr (optional)
+toDelete->next = nullptr;
+toDelete->prev = nullptr;
+delete toDelete;
+
+// now the list becomes 1 <-> 2 <-> 3 <-> 5`
+},
+]}
+/>
+
+**Deleting the Head Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+# delete the head node
+
+toDelete = head
+head = head.next
+head.prev = None
+
+# clear the pointers of the deleted node
+
+toDelete.next = None
+
+# now the linked list becomes 2 <-> 3 <-> 4 <-> 5`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// delete the head node
+DoublyListNode toDelete = head;
+head = head.next;
+head.prev = null;
+
+// clear the pointers of the deleted node
+toDelete.next = null;
+
+// now the linked list becomes 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+// delete the head node
+let toDelete = head;
+head = head.next;
+head.prev = null;
+
+// clear the pointers of the deleted node
+toDelete.next = null;
+
+// now the linked list becomes 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+// delete the head node
+toDelete := head
+head = head.Next
+head.Prev = nil
+
+// clear the pointers of the deleted node
+toDelete.Next = nil
+
+// now the linked list becomes 2 <-> 3 <-> 4 <-> 5`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+// delete the head node
+DoublyListNode\* toDelete = head;
+head = head->next;
+head->prev = nullptr;
+
+// clear the pointers of the deleted node
+toDelete->next = nullptr;
+toDelete->prev = nullptr;
+delete toDelete;
+
+// now the linked list becomes 2 <-> 3 <-> 4 <-> 5`
+},
+]}
+/>
+
+**Deleting the Tail Node**
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# create a doubly linked list
+head = createDoublyLinkedList([1, 2, 3, 4, 5])
+
+# delete the tail node
+
+p = head
+
+# find the tail node
+
+while p.next is not None:
+p = p.next
+
+# now p is pointing to the tail node
+
+# remove the tail node from the linked list
+
+p.prev.next = None
+
+# it's a good practice to break all pointers of the deleted node (optional)
+
+p.prev = None
+
+# now the linked list becomes 1 <-> 2 <-> 3 <-> 4`
+
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// create a doubly linked list
+
+DoublyListNode head = createDoublyLinkedList(new int[]{1, 2, 3, 4, 5});
+
+// delete the tail node
+DoublyListNode p = head;
+// find the tail node
+while (p.next != null) {
+p = p.next;
+}
+
+// now p is pointing to the tail node
+// remove the tail node from the linked list
+p.prev.next = null;
+
+// it's a good practice to break all pointers of the deleted node (optional)
+p.prev = null;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 4`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// create a doubly linked list
+let head = createDoublyLinkedList([1, 2, 3, 4, 5]);
+
+// delete the tail node
+let p = head;
+// find the tail node
+while (p.next !== null) {
+p = p.next;
+}
+
+// now p is pointing to the tail node
+// remove the tail node from the linked list
+p.prev.next = null;
+
+// it's a good practice to break all pointers of the deleted node (optional)
+p.prev = null;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 4`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// create a doubly linked list
+head := createDoublyLinkedList([]int{1, 2, 3, 4, 5})
+
+// delete the tail node
+p := head
+// find the tail node
+for p.Next != nil {
+p = p.Next
+}
+
+// now p is pointing to the tail node
+// remove the tail node from the linked list
+p.Prev.Next = nil
+
+// it's a good practice to break all pointers of the deleted node (optional)
+p.Prev = nil
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 4`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// create a doubly linked list
+vector<int> arr = {1, 2, 3, 4, 5};
+DoublyListNode\* head = createDoublyLinkedList(arr);
+
+// delete the tail node
+DoublyListNode\* p = head;
+// find the tail node
+while (p->next != nullptr) {
+p = p->next;
+}
+
+// now p is pointing to the tail node
+// remove the tail node from the linked list
+p->prev->next = nullptr;
+
+// it's a good practice to break all pointers of the deleted node (optional)
+p->prev = nullptr;
+delete p;
+
+// now the linked list becomes 1 <-> 2 <-> 3 <-> 4`
+},
+]}
+/>
+
+## Summary
+
+Linked list operations such as insertion, deletion, searching, and updating are more complex than arrays. This is because the nodes in a linked list are not stored contiguously, so to insert or delete a node, you must first find its previous and next nodes, then adjust the pointers accordingly.
+
+The code above shows the simplest examples. You may have noticed that the code for inserting or deleting elements at the head, tail, and middle is different. To implement a fully functional linked list, you also need to handle many edge cases, such as when the list is empty or when the previous or next nodes are null.
+
+In the next article, we will use both singly and doubly linked lists to implement a MyLinkedList that supports basic operations such as insert, delete, search, and update. We will also use the "dummy head node" technique to simplify code logic and avoid dealing with edge cases where head or tail pointers are null.
