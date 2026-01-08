@@ -1,0 +1,304 @@
+First, we need to clarify a common conceptual mistake: **Are hash tables the same as Maps? No.**
+
+In languages like Java, `Map` is an interface that only defines methods. Data structures like `HashMap`, `TreeMap`, and `LinkedHashMap` implement this interface in different ways. While a `HashMap` offers `O(1)` complexity, a `TreeMap` uses a tree structure and has `O(log N)` complexity.
+
+Understanding this distinction is vital because key-value operations don't automatically mean `O(1)` performance; it depends entirely on the underlying data structure.
+
+## Basic Principles of Hash Tables
+
+A hash table is essentially an enhanced array. While an array uses non-negative integers as indices to achieve `O(1)` access, a hash table allows you to use various types (like strings or objects) as keys to achieve that same `O(1)` speed.
+
+The logic is simple: use a **hash function** to convert a key into an array index, then store the value at that index in an underlying array (often called a `table`).
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class MyHashMap:
+    def __init__(self):
+        self.table = [None] * 1000
+
+    # Insert/Update, complexity O(1)
+    def put(self, key, value):
+        index = self._hash(key)
+        self.table[index] = value
+
+    # Search, complexity O(1)
+    def get(self, key):
+        index = self._hash(key)
+        return self.table[index]
+
+    # Delete, complexity O(1)
+    def remove(self, key):
+        index = self._hash(key)
+        self.table[index] = None
+
+    # Hash function: converts key to valid index
+    def _hash(self, key):
+        # Implementation details for O(1) mapping
+        return hash(key) % len(self.table)`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `public class MyHashMap<K, V> {
+    private V[] table = (V[]) new Object[1000];
+
+    // Insert/Update, complexity O(1)
+    public void put(K key, V value) {
+        int index = hash(key);
+        table[index] = value;
+    }
+
+    // Search, complexity O(1)
+    public V get(K key) {
+        int index = hash(key);
+        return table[index];
+    }
+
+    // Delete, complexity O(1)
+    public void remove(K key) {
+        int index = hash(key);
+        table[index] = null;
+    }
+
+    private int hash(K key) {
+        // Implementation details for O(1) mapping
+        return (key.hashCode() & 0x7fffffff) % table.length;
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class MyHashMap {
+constructor() {
+this.table = new Array(1000).fill(null);
+}
+
+    // Insert/Update, complexity O(1)
+    put(key, value) {
+        const index = this._hash(key);
+        this.table[index] = value;
+    }
+
+    // Search, complexity O(1)
+    get(key) {
+        const index = this._hash(key);
+        return this.table[index];
+    }
+
+    // Delete, complexity O(1)
+    remove(key) {
+        const index = this._hash(key);
+        this.table[index] = null;
+    }
+
+    _hash(key) {
+        // Basic example of a hash function
+        let hash = 0;
+        const s = String(key);
+        for (let i = 0; i < s.length; i++) {
+            hash = (hash << 5) - hash + s.charCodeAt(i);
+            hash |= 0;
+        }
+        return Math.abs(hash) % this.table.length;
+    }
+
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`type MyHashMap struct {
+table []interface{}
+}
+
+func NewMyHashMap() \*MyHashMap {
+return &MyHashMap{table: make([]interface{}, 1000)}
+}
+
+// Insert/Update, complexity O(1)
+func (m \*MyHashMap) Put(key interface{}, value interface{}) {
+index := m.hash(key)
+m.table[index] = value
+}
+
+// Search, complexity O(1)
+func (m \*MyHashMap) Get(key interface{}) interface{} {
+index := m.hash(key)
+return m.table[index]
+}
+
+// Delete, complexity O(1)
+func (m \*MyHashMap) Remove(key interface{}) {
+index := m.hash(key)
+m.table[index] = nil
+}
+
+func (m _MyHashMap) hash(key interface{}) int {
+// Pseudocode for O(1) mapping
+return 0 // logic to map key to index
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`template<typename K, typename V>
+class MyHashMap {
+private:
+vector<V_> table;
+
+public:
+MyHashMap() : table(1000, nullptr) {}
+
+    // Insert/Update, complexity O(1)
+    void put(K key, V value) {
+        int index = hash(key);
+        table[index] = new V(value);
+    }
+
+    // Search, complexity O(1)
+    V* get(K key) {
+        int index = hash(key);
+        return table[index];
+    }
+
+    // Delete, complexity O(1)
+    void remove(K key) {
+        int index = hash(key);
+        table[index] = nullptr;
+    }
+
+private:
+int hash(K key) {
+// logic to convert key to valid index
+return std::hash<K>{}(key) % table.size();
+}
+};`
+}
+]}
+/>
+
+## Key Concepts and Principles
+
+### Key is Unique, Value can be Duplicate
+
+Just like an array index, a hash table key must be unique. You cannot have two identical keys, but multiple keys can map to the same value.
+
+### The Hash Function
+
+The hash function converts an input of any length (the key) into a fixed-length output (the index). For optimal performance, the hash function must be `O(1)`. If it's `O(N)`, the entire hash table slows down.
+
+#### 1. Converting Key to Integer
+
+Most languages provide a built-in way to get a unique integer for any object (e.g., `hashCode()` in Java). This usually relates to the object's memory address.
+
+#### 2. Ensuring Valid Indexing
+
+Hash codes can be negative or very large. To map them to a valid array index:
+
+1.  **Clear the sign bit**: Use bitwise AND `h & 0x7fffffff` to ensure the number is non-negative.
+2.  **Modulo operation**: Use `% table.length` to keep the index within the array's bounds.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `def _hash(key):
+    # Python's built-in hash() returns an integer
+    h = hash(key)
+    # Python hash can be negative, so we use abs() or bitwise AND
+    h = h & 0x7fffffff  # Ensure non-negative
+    return h % len(table)  # Map to valid index`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `int hash(K key) {
+    int h = key.hashCode();
+    h = h & 0x7fffffff; // Ensure non-negative
+    return h % table.length; // Map to valid index
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function hash(key) {
+    let h = key.hashCode ? key.hashCode() : getHashCode(key);
+    h = h & 0x7fffffff; // Ensure non-negative
+    return h % table.length; // Map to valid index
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `func hash(key interface{}) int {
+    h := hashCode(key)
+    h = h & 0x7fffffff // Ensure non-negative
+    return h % len(table) // Map to valid index
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `int hash(K key) {
+    int h = std::hash<K>{}(key);
+    h = h & 0x7fffffff; // Ensure non-negative
+    return h % table.size(); // Map to valid index
+}`,
+    },
+  ]}
+/>
+
+## Hash Collisions
+
+When two different keys produce the same index, a **hash collision** occurs. Collisions are inevitable because we are mapping an infinite number of possible keys to a finite number of array slots.
+
+There are two primary ways to resolve them:
+
+1.  **Chaining (Vertical)**: The array stores a linked list at each index. All items that collide at that index are added to the list.
+2.  **Linear Probing (Horizontal)**: If a slot is occupied, the hash table looks at the next available slot (`index + 1`) until it finds an empty one.
+
+## Capacity and Load Factor
+
+The **load factor** measures how full a hash table is: `size / table.length`.
+
+- A higher load factor increases the chance of collisions, which degrades performance from `O(1)` toward `O(K)`.
+- Most implementations (like Java's `HashMap`) default to a load factor of **0.75**. When reached, the table "expands" by creating a larger array and re-hashing all existing keys.
+
+## Important Constraints
+
+### Why Traversal Order is Unreliable
+
+In a hash table, keys are distributed randomly by the hash function. Furthermore, when the table resizes, keys are re-hashed into a new array with a different length, often changing their positions. Never rely on the order of elements in a hash table.
+
+### Key Immutability
+
+**Keys must be immutable.** If a key changes after being put into the table, its hash code will change. When you try to look it up later, the hash function will point to the wrong index, and your data will be "lost" or "haunted."
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// INCORRECT: Using a mutable list as a key
+Map<ArrayList<Integer>, Integer> map = new HashMap<>();
+ArrayList<Integer> list = new ArrayList<>();
+list.add(1);
+
+map.put(list, 999);
+System.out.println(map.get(list)); // 999
+
+list.add(2); // List modified!
+System.out.println(map.get(list)); // null (Lost because hash changed!)`
+}
+]}
+/>
+
+## Summary: Interview Checklist
+
+1.  **Why is it `O(1)`?** Because it maps keys directly to array indices via a hash function.
+2.  **Why does order change?** Because resizing moves elements to new indices.
+3.  **Is it always `O(1)`?** No. Poor hash functions or mutable keys can degrade performance to `O(N)`.
+4.  **Why use immutable keys?** To ensure the hash code never changes, preventing data loss and memory leaks.

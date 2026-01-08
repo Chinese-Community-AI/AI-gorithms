@@ -38,6 +38,60 @@ export const navigation: NavItem[] = [
         ],
       },
       {
+        title: "Hash Tables",
+        href: "/basics/03-hash-tables",
+        children: [
+          {
+            title: "1 Minute Introduction",
+            href: "/basics/03-hash-tables/1-minute-introduction",
+          },
+          {
+            title: "HashMap Basics",
+            href: "/basics/03-hash-tables/hashmap-basics",
+          },
+          {
+            title: "Hash Table Variations",
+            href: "/basics/hash-table-variations",
+            children: [
+              {
+                title: "Bloom Filteder Implementation",
+                href: "/basics/hash-table-variations/bloom-filteder-implementation",
+              },
+              {
+                title: "Use Array To Enhance Hash Table Arrayhashmap",
+                href: "/basics/hash-table-variations/use-array-to-enhance-hash-table-arrayhashmap",
+              },
+              {
+                title: "Use Linked List To Enhance Hash Table Linkedhashmap",
+                href: "/basics/hash-table-variations/use-linked-list-to-enhance-hash-table-linkedhashmap",
+              },
+            ],
+          },
+          {
+            title: "Implement Hashmap",
+            href: "/basics/implement-hashmap",
+            children: [
+              {
+                title: "Hash Set Basic And Implementation",
+                href: "/basics/implement-hashmap/hash-set-basic-and-implementation",
+              },
+              {
+                title: "Key Points To Implement Linear Probing",
+                href: "/basics/implement-hashmap/key-points-to-implement-linear-probing",
+              },
+              {
+                title: "Separate Chaining",
+                href: "/basics/implement-hashmap/separate-chaining",
+              },
+              {
+                title: "Two Implementations Of Linear Probing",
+                href: "/basics/implement-hashmap/two-implementations-of-linear-probing",
+              },
+            ],
+          },
+        ],
+      },
+      {
         title: "10 Sorting Algorithms",
         href: "/basics/10-sorting-algorithms",
         children: [
@@ -142,46 +196,6 @@ export const navigation: NavItem[] = [
           {
             title: "Union Find Basics",
             href: "/basics/graph-structure-algorithm-overview.md/union-find-basics",
-          },
-        ],
-      },
-      {
-        title: "Hash Table Variations",
-        href: "/basics/hash-table-variations",
-        children: [
-          {
-            title: "Bloom Filteder Implementation",
-            href: "/basics/hash-table-variations/bloom-filteder-implementation",
-          },
-          {
-            title: "Use Array To Enhance Hash Table Arrayhashmap",
-            href: "/basics/hash-table-variations/use-array-to-enhance-hash-table-arrayhashmap",
-          },
-          {
-            title: "Use Linked List To Enhance Hash Table Linkedhashmap",
-            href: "/basics/hash-table-variations/use-linked-list-to-enhance-hash-table-linkedhashmap",
-          },
-        ],
-      },
-      {
-        title: "Implement Hashmap",
-        href: "/basics/implement-hashmap",
-        children: [
-          {
-            title: "Hash Set Basic And Implementation",
-            href: "/basics/implement-hashmap/hash-set-basic-and-implementation",
-          },
-          {
-            title: "Key Points To Implement Linear Probing",
-            href: "/basics/implement-hashmap/key-points-to-implement-linear-probing",
-          },
-          {
-            title: "Separate Chaining",
-            href: "/basics/implement-hashmap/separate-chaining",
-          },
-          {
-            title: "Two Implementations Of Linear Probing",
-            href: "/basics/implement-hashmap/two-implementations-of-linear-probing",
           },
         ],
       },
