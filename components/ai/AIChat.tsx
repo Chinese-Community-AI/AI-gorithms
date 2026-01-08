@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useFocusMode } from "@/contexts/FocusModeContext";
+import { useAIChat } from "@/contexts/AIChatContext";
 
 interface Message {
   id: string;
@@ -12,6 +13,7 @@ interface Message {
 
 export default function AIChat() {
   const { isFocusMode } = useFocusMode();
+  const { pendingMessage, clearPendingMessage } = useAIChat();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -33,6 +35,41 @@ export default function AIChat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Handle pending message from text selection
+  useEffect(() => {
+    if (pendingMessage && isFocusMode) {
+      // Clear input first
+      setInput("");
+      // Auto-send the message
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        role: "user",
+        content: pendingMessage.trim(),
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setIsLoading(true);
+      clearPendingMessage();
+
+      // TODO: Replace with actual AI API call
+      // For now, simulate a response
+      setTimeout(() => {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content:
+            "I understand you're asking about: " +
+            userMessage.content +
+            "\n\nThis is a placeholder response. In the future, this will connect to an AI API to provide real-time assistance with the content you're reading.",
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, assistantMessage]);
+        setIsLoading(false);
+      }, 1000);
+    }
+  }, [pendingMessage, isFocusMode, clearPendingMessage]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;

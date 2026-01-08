@@ -12,9 +12,11 @@ import { MobileMenuProvider } from "@/contexts/MobileMenuContext";
 import { SearchProvider } from "@/contexts/SearchContext";
 import { PlanProvider } from "@/contexts/PlanContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AIChatProvider } from "@/contexts/AIChatContext";
 import SearchModal from "@/components/search/SearchModal";
 import ComingSoon from "@/components/tutor/ComingSoon";
 import AudioPlayer from "@/components/audio/AudioPlayer";
+import TextSelectionHandler from "@/components/ai/TextSelectionHandler";
 
 export const metadata: Metadata = {
   title: "AI-gorithms - Learn Algorithms with AI",
@@ -33,24 +35,27 @@ export default function RootLayout({
           <AuthProvider>
             <PlanProvider>
               <FocusModeProvider>
-                <TutorModeProvider>
-                  <AudibleModeProvider>
-                    <MobileMenuProvider>
-                      <SearchProvider>
-                        <div className="flex">
-                          <Sidebar />
-                          <MainContent>
-                            <Header />
-                            <MainLayout>{children}</MainLayout>
-                          </MainContent>
-                        </div>
-                        <SearchModal />
-                        <ComingSoon />
-                        <AudioPlayer />
-                      </SearchProvider>
-                    </MobileMenuProvider>
-                  </AudibleModeProvider>
-                </TutorModeProvider>
+                <AIChatProvider>
+                  <TutorModeProvider>
+                    <AudibleModeProvider>
+                      <MobileMenuProvider>
+                        <SearchProvider>
+                          <div className="flex">
+                            <Sidebar />
+                            <MainContent>
+                              <Header />
+                              <MainLayout>{children}</MainLayout>
+                            </MainContent>
+                          </div>
+                          <SearchModal />
+                          <ComingSoon />
+                          <AudioPlayer />
+                          <TextSelectionHandler />
+                        </SearchProvider>
+                      </MobileMenuProvider>
+                    </AudibleModeProvider>
+                  </TutorModeProvider>
+                </AIChatProvider>
               </FocusModeProvider>
             </PlanProvider>
           </AuthProvider>
