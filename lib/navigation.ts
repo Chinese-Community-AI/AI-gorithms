@@ -31,6 +31,10 @@ export const navigation: NavItem[] = [
             title: "Linked Lists",
             href: "/basics/01-arrays/linked-lists",
           },
+          {
+            title: "Circular Array Technique and Implementation",
+            href: "/basics/01-arrays/circular-array",
+          },
         ],
       },
       {

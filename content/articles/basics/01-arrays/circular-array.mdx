@@ -1,0 +1,675 @@
+## Summary in One Sentence
+
+The circular array technique uses modulo (remainder) operations to transform a regular array into a logical circular array, allowing us to add or remove elements at the head of the array in O(1) time.
+
+## Principle of Circular Arrays
+
+Can an array be circular? Not really. An array is a linear contiguous block of memory, so how can it have the concept of a circle?
+
+However, we can "logically" turn an array into a circular one, as demonstrated in the following code:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# array with length 5
+arr = [1, 2, 3, 4, 5]
+i = 0
+# simulate a circular array, this loop will never end
+while i < len(arr):
+    print(arr[i])
+    i = (i + 1) % len(arr)`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// array with length 5
+int[] arr = {1, 2, 3, 4, 5};
+int i = 0;
+// simulate a circular array, this loop will never end
+while (i < arr.length) {
+    System.out.println(arr[i]);
+    i = (i + 1) % arr.length;
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// array with length 5
+let arr = [1, 2, 3, 4, 5];
+let i = 0;
+// simulate a circular array, this loop will never end
+while (i < arr.length) {
+    console.log(arr[i]);
+    i = (i + 1) % arr.length;
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// array with length 5
+arr := []int{1, 2, 3, 4, 5}
+i := 0
+// simulate a circular array, this loop will never end
+for i < len(arr) {
+    fmt.Println(arr[i])
+    i = (i + 1) % len(arr)
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// array with length 5
+vector<int> arr = {1, 2, 3, 4, 5};
+int i = 0;
+// simulate a circular array, this loop will never end
+while (i < arr.size()) {
+    cout << arr[i] << endl;
+    i = (i + 1) % arr.size();
+}`,
+    },
+  ]}
+/>
+
+The key to this code is the modulo operation %, which calculates the remainder. When i reaches the last element of the array, i + 1 modulo arr.length becomes 0, effectively bringing us back to the start of the array, thus forming a logical circular array that never ends.
+
+This is the circular array technique. How does this technique help us add or remove elements at the head of the array in O(1) time?
+
+Here's how: Suppose we have an array of length 6, currently holding 3 elements, as follows (positions without elements are marked with `_`):
+
+<div className="bg-[#f8f9fa] dark:bg-[#1e1e1e] p-4 rounded-lg border border-[rgba(55,53,47,0.09)] font-mono text-center my-6 text-[var(--foreground)]">
+  [1, 2, 3, _, _, _]
+</div>
+
+Now, if we want to remove element 1 from the head of the array, we can transform the array like this:
+
+<div className="bg-[#f8f9fa] dark:bg-[#1e1e1e] p-4 rounded-lg border border-[rgba(55,53,47,0.09)] font-mono text-center my-6 text-[var(--foreground)]">
+  [_, 2, 3, _, _, _]
+</div>
+
+That is, we simply mark the position of element 1 as empty without moving any data.
+
+If we then want to add elements 4 and 5 to the head of the array, we can transform the array like this:
+
+<div className="bg-[#f8f9fa] dark:bg-[#1e1e1e] p-4 rounded-lg border border-[rgba(55,53,47,0.09)] font-mono text-center my-6 text-[var(--foreground)]">
+  [4, 2, 3, _, _, 5]
+</div>
+
+You can see that when there is no space at the head to add a new element, it loops around and adds the new element to the tail.
+
+## Core Principle
+
+The above is just to give you an intuitive understanding of a circular array. The key to a circular array is that it maintains two pointers, start and end. start points to the index of the first valid element, and end points to the index of the next position after the last valid element.
+
+This way, when we add or remove elements at the head of the array, we only need to move the start index. Similarly, when we add or remove elements at the tail, we only need to move the end index.
+
+When start or end moves beyond the array boundaries (< 0 or >= arr.length), we can use the modulo operation % to loop them back to the head or tail of the array, achieving the effect of a circular array.
+
+## Code Implementation
+
+### Key Points, Pay Attention to Open and Closed Intervals
+
+In my code, the interval of the circular array is defined as left-closed and right-open, meaning the interval [start, end) includes the array elements. Therefore, other methods are implemented based on this left-closed, right-open interval.
+
+Some readers might ask, why left-closed and right-open? Can't I use both ends open or both ends closed?
+
+Similar questions arise when defining the boundaries of a sliding window in the Sliding Window Algorithm Framework. Here, I will explain.
+
+Theoretically, you can design the interval as you like, but a left-closed, right-open interval is generally the most convenient to handle.
+
+This is because when you initialize start = end = 0, the interval [0, 0) contains no elements. However, as soon as you move end to the right (expanding it) by one position, the interval [0, 1) includes the element 0.
+
+If you set the interval as both ends open, moving end to the right by one position would still leave the open interval (0, 1) with no elements. If you set the interval as both ends closed, the initial interval [0, 0] already includes one element. Both scenarios introduce unnecessary complications in boundary handling. If you insist on using them, you will need to add special handling in your code.
+
+### Full Implementation
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class CycleArray:
+    def __init__(self, size=None):
+        if size is None:
+            size = 1
+        self.arr = [None] * size
+        self.start = 0
+        self.end = 0
+        self.count = 0
+
+    def _resize(self, new_size):
+        # create a new array and copy elements
+        new_arr = [None] * new_size
+        for i in range(self.count):
+            new_arr[i] = self.arr[(self.start + i) % len(self.arr)]
+        self.arr = new_arr
+        # reset the start and end pointers
+        self.start = 0
+        self.end = self.count
+
+    def add_first(self, val):
+        # if the array is full, double its size
+        if self.is_full():
+            self._resize(len(self.arr) * 2)
+        # since start is a closed interval, move left first, then assign
+        self.start = (self.start - 1 + len(self.arr)) % len(self.arr)
+        self.arr[self.start] = val
+        self.count += 1
+
+    def remove_first(self):
+        if self.is_empty():
+            raise Exception("Array is empty")
+        # since start is a closed interval, assign first, then move right
+        self.arr[self.start] = None
+        self.start = (self.start + 1) % len(self.arr)
+        self.count -= 1
+        # if the number of elements decreases to a quarter
+        # of the original size, halve the size of the array
+        if self.count > 0 and self.count == len(self.arr) // 4:
+            self._resize(len(self.arr) // 2)
+
+    def add_last(self, val):
+        if self.is_full():
+            self._resize(len(self.arr) * 2)
+        # since end is an open interval, assign first, then move right
+        self.arr[self.end] = val
+        self.end = (self.end + 1) % len(self.arr)
+        self.count += 1
+
+    def remove_last(self):
+        if self.is_empty():
+            raise Exception("Array is empty")
+        # since end is an open interval, move left first, then assign
+        self.end = (self.end - 1 + len(self.arr)) % len(self.arr)
+        self.arr[self.end] = None
+        self.count -= 1
+        # reduce the size
+        if self.count > 0 and self.count == len(self.arr) // 4:
+            self._resize(len(self.arr) // 2)
+
+    def get_first(self):
+        if self.is_empty():
+            raise Exception("Array is empty")
+        return self.arr[self.start]
+
+    def get_last(self):
+        if self.is_empty():
+            raise Exception("Array is empty")
+        # end is an open interval, pointing to the next element's position, so subtract 1
+        return self.arr[(self.end - 1 + len(self.arr)) % len(self.arr)]
+
+    def is_full(self):
+        return self.count == len(self.arr)
+
+    def size(self):
+        return self.count
+
+    def is_empty(self):
+        return self.count == 0`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class CycleArray<T> {
+    private T[] arr;
+    private int start;
+    private int end;
+    private int count;
+
+    @SuppressWarnings("unchecked")
+    public CycleArray() {
+        this(1);
+    }
+
+    @SuppressWarnings("unchecked")
+    public CycleArray(int size) {
+        arr = (T[]) new Object[size];
+        start = 0;
+        end = 0;
+        count = 0;
+    }
+
+    private void resize(int newSize) {
+        // create a new array and copy elements
+        T[] newArr = (T[]) new Object[newSize];
+        for (int i = 0; i < count; i++) {
+            newArr[i] = arr[(start + i) % arr.length];
+        }
+        arr = newArr;
+        // reset the start and end pointers
+        start = 0;
+        end = count;
+    }
+
+    public void addFirst(T val) {
+        // if the array is full, double its size
+        if (isFull()) {
+            resize(arr.length * 2);
+        }
+        // since start is a closed interval, move left first, then assign
+        start = (start - 1 + arr.length) % arr.length;
+        arr[start] = val;
+        count++;
+    }
+
+    public void removeFirst() {
+        if (isEmpty()) {
+            throw new RuntimeException("Array is empty");
+        }
+        // since start is a closed interval, assign first, then move right
+        arr[start] = null;
+        start = (start + 1) % arr.length;
+        count--;
+        // if the number of elements decreases to a quarter
+        // of the original size, halve the size of the array
+        if (count > 0 && count == arr.length / 4) {
+            resize(arr.length / 2);
+        }
+    }
+
+    public void addLast(T val) {
+        if (isFull()) {
+            resize(arr.length * 2);
+        }
+        // since end is an open interval, assign first, then move right
+        arr[end] = val;
+        end = (end + 1) % arr.length;
+        count++;
+    }
+
+    public void removeLast() {
+        if (isEmpty()) {
+            throw new RuntimeException("Array is empty");
+        }
+        // since end is an open interval, move left first, then assign
+        end = (end - 1 + arr.length) % arr.length;
+        arr[end] = null;
+        count--;
+        // reduce the size
+        if (count > 0 && count == arr.length / 4) {
+            resize(arr.length / 2);
+        }
+    }
+
+    public T getFirst() {
+        if (isEmpty()) {
+            throw new RuntimeException("Array is empty");
+        }
+        return arr[start];
+    }
+
+    public T getLast() {
+        if (isEmpty()) {
+            throw new RuntimeException("Array is empty");
+        }
+        // end is an open interval, pointing to the next element's position, so subtract 1
+        return arr[(end - 1 + arr.length) % arr.length];
+    }
+
+    public boolean isFull() {
+        return count == arr.length;
+    }
+
+    public int size() {
+        return count;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class CycleArray {
+    constructor(size = 1) {
+        this.arr = new Array(size).fill(null);
+        this.start = 0;
+        this.end = 0;
+        this.count = 0;
+    }
+
+    _resize(newSize) {
+        // create a new array and copy elements
+        const newArr = new Array(newSize).fill(null);
+        for (let i = 0; i < this.count; i++) {
+            newArr[i] = this.arr[(this.start + i) % this.arr.length];
+        }
+        this.arr = newArr;
+        // reset the start and end pointers
+        this.start = 0;
+        this.end = this.count;
+    }
+
+    addFirst(val) {
+        // if the array is full, double its size
+        if (this.isFull()) {
+            this._resize(this.arr.length * 2);
+        }
+        // since start is a closed interval, move left first, then assign
+        this.start = (this.start - 1 + this.arr.length) % this.arr.length;
+        this.arr[this.start] = val;
+        this.count++;
+    }
+
+    removeFirst() {
+        if (this.isEmpty()) {
+            throw new Error("Array is empty");
+        }
+        // since start is a closed interval, assign first, then move right
+        this.arr[this.start] = null;
+        this.start = (this.start + 1) % this.arr.length;
+        this.count--;
+        // if the number of elements decreases to a quarter
+        // of the original size, halve the size of the array
+        if (this.count > 0 && this.count === Math.floor(this.arr.length / 4)) {
+            this._resize(Math.floor(this.arr.length / 2));
+        }
+    }
+
+    addLast(val) {
+        if (this.isFull()) {
+            this._resize(this.arr.length * 2);
+        }
+        // since end is an open interval, assign first, then move right
+        this.arr[this.end] = val;
+        this.end = (this.end + 1) % this.arr.length;
+        this.count++;
+    }
+
+    removeLast() {
+        if (this.isEmpty()) {
+            throw new Error("Array is empty");
+        }
+        // since end is an open interval, move left first, then assign
+        this.end = (this.end - 1 + this.arr.length) % this.arr.length;
+        this.arr[this.end] = null;
+        this.count--;
+        // reduce the size
+        if (this.count > 0 && this.count === Math.floor(this.arr.length / 4)) {
+            this._resize(Math.floor(this.arr.length / 2));
+        }
+    }
+
+    getFirst() {
+        if (this.isEmpty()) {
+            throw new Error("Array is empty");
+        }
+        return this.arr[this.start];
+    }
+
+    getLast() {
+        if (this.isEmpty()) {
+            throw new Error("Array is empty");
+        }
+        // end is an open interval, pointing to the next element's position, so subtract 1
+        return this.arr[(this.end - 1 + this.arr.length) % this.arr.length];
+    }
+
+    isFull() {
+        return this.count === this.arr.length;
+    }
+
+    size() {
+        return this.count;
+    }
+
+    isEmpty() {
+        return this.count === 0;
+    }
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type CycleArray struct {
+    arr   []interface{}
+    start int
+    end   int
+    count int
+}
+
+func NewCycleArray(size int) *CycleArray {
+    if size <= 0 {
+        size = 1
+    }
+    return &CycleArray{
+        arr:   make([]interface{}, size),
+        start: 0,
+        end:   0,
+        count: 0,
+    }
+}
+
+func (ca *CycleArray) resize(newSize int) {
+    // create a new array and copy elements
+    newArr := make([]interface{}, newSize)
+    for i := 0; i < ca.count; i++ {
+        newArr[i] = ca.arr[(ca.start+i)%len(ca.arr)]
+    }
+    ca.arr = newArr
+    // reset the start and end pointers
+    ca.start = 0
+    ca.end = ca.count
+}
+
+func (ca *CycleArray) AddFirst(val interface{}) {
+    // if the array is full, double its size
+    if ca.IsFull() {
+        ca.resize(len(ca.arr) * 2)
+    }
+    // since start is a closed interval, move left first, then assign
+    ca.start = (ca.start - 1 + len(ca.arr)) % len(ca.arr)
+    ca.arr[ca.start] = val
+    ca.count++
+}
+
+func (ca *CycleArray) RemoveFirst() error {
+    if ca.IsEmpty() {
+        return fmt.Errorf("Array is empty")
+    }
+    // since start is a closed interval, assign first, then move right
+    ca.arr[ca.start] = nil
+    ca.start = (ca.start + 1) % len(ca.arr)
+    ca.count--
+    // if the number of elements decreases to a quarter
+    // of the original size, halve the size of the array
+    if ca.count > 0 && ca.count == len(ca.arr)/4 {
+        ca.resize(len(ca.arr) / 2)
+    }
+    return nil
+}
+
+func (ca *CycleArray) AddLast(val interface{}) {
+    if ca.IsFull() {
+        ca.resize(len(ca.arr) * 2)
+    }
+    // since end is an open interval, assign first, then move right
+    ca.arr[ca.end] = val
+    ca.end = (ca.end + 1) % len(ca.arr)
+    ca.count++
+}
+
+func (ca *CycleArray) RemoveLast() error {
+    if ca.IsEmpty() {
+        return fmt.Errorf("Array is empty")
+    }
+    // since end is an open interval, move left first, then assign
+    ca.end = (ca.end - 1 + len(ca.arr)) % len(ca.arr)
+    ca.arr[ca.end] = nil
+    ca.count--
+    // reduce the size
+    if ca.count > 0 && ca.count == len(ca.arr)/4 {
+        ca.resize(len(ca.arr) / 2)
+    }
+    return nil
+}
+
+func (ca *CycleArray) GetFirst() (interface{}, error) {
+    if ca.IsEmpty() {
+        return nil, fmt.Errorf("Array is empty")
+    }
+    return ca.arr[ca.start], nil
+}
+
+func (ca *CycleArray) GetLast() (interface{}, error) {
+    if ca.IsEmpty() {
+        return nil, fmt.Errorf("Array is empty")
+    }
+    // end is an open interval, pointing to the next element's position, so subtract 1
+    return ca.arr[(ca.end-1+len(ca.arr))%len(ca.arr)], nil
+}
+
+func (ca *CycleArray) IsFull() bool {
+    return ca.count == len(ca.arr)
+}
+
+func (ca *CycleArray) Size() int {
+    return ca.count
+}
+
+func (ca *CycleArray) IsEmpty() bool {
+    return ca.count == 0
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `#include <iostream>
+#include <stdexcept>
+#include <vector>
+
+template<typename T>
+class CycleArray {
+    std::vector<T> arr;
+    int start;
+    int end;
+    int count;
+
+    // helper function for automatic resizing
+    void resize(int newSize) {
+        // create a new array and copy elements
+        std::vector<T> newArr(newSize);
+        for (int i = 0; i < count; ++i) {
+            newArr[i] = arr[(start + i) % arr.size()];
+        }
+        arr = std::move(newArr);
+        // reset the start and end pointers
+        start = 0;
+        end = count;
+    }
+
+public:
+    CycleArray() : CycleArray(1) {}
+
+    explicit CycleArray(int size)
+        : arr(size), start(0), end(0), count(0) {}
+
+    // add an element to the front of the array, time complexity O(1)
+    void addFirst(const T &val) {
+        // if the array is full, double its size
+        if (isFull()) {
+            resize(arr.size() * 2);
+        }
+        // since start is a closed interval, move left first, then assign
+        start = (start - 1 + arr.size()) % arr.size();
+        arr[start] = val;
+        count++;
+    }
+
+    // remove an element from the front of the array, time complexity O(1)
+    void removeFirst() {
+        if (isEmpty()) {
+            throw std::runtime_error("Array is empty");
+        }
+        // since start is a closed interval, assign first, then move right
+        arr[start] = T();
+        start = (start + 1) % arr.size();
+        count--;
+        // if the number of elements in the array decreases to a quarter
+        // of the original size, halve the size of the array
+        if (count > 0 && count == arr.size() / 4) {
+            resize(arr.size() / 2);
+        }
+    }
+
+    // add an element to the end of the array, time complexity O(1)
+    void addLast(const T &val) {
+        if (isFull()) {
+            resize(arr.size() * 2);
+        }
+        // since end is an open interval, assign first, then move right
+        arr[end] = val;
+        end = (end + 1) % arr.size();
+        count++;
+    }
+
+    // remove an element from the end of the array, time complexity O(1)
+    void removeLast() {
+        if (isEmpty()) {
+            throw std::runtime_error("Array is empty");
+        }
+        // since end is an open interval, move left first, then assign
+        end = (end - 1 + arr.size()) % arr.size();
+        arr[end] = T();
+        count--;
+        // reduce the size
+        if (count > 0 && count == arr.size() / 4) {
+            resize(arr.size() / 2);
+        }
+    }
+
+    // get the first element of the array, time complexity O(1)
+    T getFirst() const {
+        if (isEmpty()) {
+            throw std::runtime_error("Array is empty");
+        }
+        return arr[start];
+    }
+
+    // get the last element of the array, time complexity O(1)
+    T getLast() const {
+        if (isEmpty()) {
+            throw std::runtime_error("Array is empty");
+        }
+        // end is an open interval, pointing to the next element's position, so subtract 1
+        return arr[(end - 1 + arr.size()) % arr.size()];
+    }
+
+    bool isFull() const {
+        return count == arr.size();
+    }
+
+    int size() const {
+        return count;
+    }
+
+    bool isEmpty() const {
+        return count == 0;
+    }
+};`
+    },
+]}
+/>
+
+## Thought Exercise
+
+Is the efficiency of adding or removing elements from the head of an array really limited to O(N)?
+
+It is often said that the time complexity for adding or removing elements from the head of an array is O(N) due to the need to shift elements. However, by using a circular array, it is actually possible to achieve these operations in O(1) time complexity.
+
+Of course, the circular array implementation mentioned above only provides methods like addFirst, removeFirst, addLast, and removeLast. It does not offer certain methods found in the dynamic array we implemented earlier, such as deleting an element at a specified index, accessing an element at a specified index, or inserting an element at a specified index.
+
+But consider this: is it really impossible for a circular array to implement these methods? If a circular array can implement these methods, is there any degradation in time complexity compared to a regular array?
+
+It seems there isn't:
+
+- A circular array can also delete an element at a specified index, which requires shifting data just like a regular array, resulting in a complexity of O(N);
+
+- A circular array can access an element at a specified index (random access), though instead of directly accessing the corresponding index, it calculates the real index using start, but the computation and access time complexity remains O(1);
+
+- A circular array can also insert an element at a specified index, which also requires shifting data like a regular array, with a complexity of O(N).
+
+Consider whether this is the case. If so, why do the dynamic array containers provided by the standard libraries of programming languages not utilize the circular array technique under the hood?
