@@ -1,0 +1,906 @@
+In the previous chapter Enhancing Hash Tables with Linked Lists, we used doubly linked lists to enhance hash tables, implementing a data structure like LinkedHashMap that maintains the insertion order of keys in a hash table.
+
+Linked lists can enhance hash tables, and arrays, being good siblings to linked lists, can also enhance hash tables.
+
+## Adding randomKey() API
+
+Now, here's a challenge for you: based on the standard hash table API, add a new `randomKey()` API that can return a random key in `O(1)` time complexity:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `interface Map<K, V> {
+    // Get the value corresponding to the key, time complexity O(1)
+    V get(K key);
+
+    // Add/modify key-value pair, time complexity O(1)
+    void put(K key, V value);
+
+    // Remove key-value pair, time complexity O(1)
+    void remove(K key);
+
+    // Check if the key is contained, time complexity O(1)
+    boolean containsKey(K key);
+
+    // Return all keys, time complexity O(N)
+    List<K> keys();
+
+    // New API: Randomly return a key, required time complexity O(1)
+    K randomKey();
+
+}`
+}
+]}
+/>
+
+### Uniform Random
+
+Note that when we talk about "random", we usually mean uniform random, which means every element has the same chance to be picked. For example, if you have n elements, your random algorithm should make sure each element is picked with probability 1/n. Only then it is called uniform random.
+
+So, can you solve this? Don't underestimate this simple requirement. The way to do it is actually clever.
+
+From what you learned before, you know that a hash table is basically a table array. Now, if you want to randomly return a key from a hash table, it's easy to think of picking a random element from the array.
+
+For a normal array, picking a random element is simple. Just use a random number generator to get a random index in [0, size), and you get a random element:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `import random
+
+def random_element(arr): # generate a random index in the range [0, len(arr))
+return arr[random.randint(0, len(arr) - 1)]`    },
+    {
+      label: "java",
+      language: "java",
+      code:`import java.util.Random;
+
+int randomElement(int[] arr) {
+Random r = new Random();
+// generate a random index in the range [0, arr.length)
+return arr[r.nextInt(arr.length)];
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`function randomElement(arr) {
+// generate a random index in the range [0, arr.length)
+const randomIndex = Math.floor(Math.random() \* arr.length);
+return arr[randomIndex];
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`import (
+"math/rand"
+"time"
+)
+
+func randomElement(arr []int) int {
+rand.Seed(time.Now().UnixNano())
+// generate a random index in the range [0, len(arr))
+return arr[rand.Intn(len(arr))]
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`#include <random>
+#include <vector>
+
+int randomElement(vector<int>& arr) {
+// generate a random index in the range [0, arr.size())
+random_device rd;
+mt19937 gen(rd());
+uniform_int_distribution<> dis(0, arr.size() - 1);
+return arr[dis(gen)];
+}`
+}
+]}
+/>
+
+This algorithm is correct. Its time complexity is `O(1)`, and each element is picked with probability 1/n, where n is the length of the arr array.
+
+But notice, this function assumes that the array is compact, with no empty spots. For example, `arr = [1, 2, 3, 4]`. This way, every random index points to a valid element.
+
+If the array has empty spots, things get tricky. For example, `arr = [1, 2, null, 4]`, where `arr[2] = null` means there's no element in spot 2. If your random number happens to be 2, what should you do?
+
+Maybe you would say, just search left or right to find the next non-empty element and return it, like this:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// return a non-null random element (pseudo code)
+int randomElement(Integer[] arr) {
+    Random r = new Random();
+    // generate a random index in the range [0, arr.length)
+    int i = r.nextInt(arr.length);
+    while (arr[i] == null) {
+        // the randomly generated index i happens to be null
+        // use the circular array technique to probe to the right
+        // until a non-null element is found
+        i = (i + 1) % arr.length;
+    }
+    return arr[i];
+}`,
+    },
+  ]}
+/>
+
+This approach is not feasible, as the algorithm has two issues:
+
+1. There is a loop, causing the worst-case time complexity to rise to `O(N)`, which does not meet the `O(1)` requirement.
+2. The algorithm is not uniformly random, because your search direction is fixed, making the elements on the right side of the gap more likely to be selected. For example, for `arr = [1, 2, null, 4]`, the probabilities of selecting elements 1, 2, 4 are 1/4, 1/4, 2/4, respectively.
+
+There might be another way: if you have bad luck once, try randomizing several times until finding a non-null element:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// return a non-empty random element (pseudo code)
+int randomElement(Integer[] arr) {
+    Random r = new Random();
+    // generate a random index in the range [0, arr.length)
+    int i = r.nextInt(arr.length);
+    while (arr[i] == null) {
+        // the randomly generated index i happens to be null
+        // regenerate a random index
+        i = r.nextInt(arr.length);
+    }
+    return arr[i];
+}`,
+    },
+  ]}
+/>
+
+Currently, this algorithm is uniformly random, but the issue is apparent: its time complexity unexpectedly depends on random numbers! It is definitely not `O(1)`, which doesn't meet the requirements.
+
+Have you been stumped by the problem of randomly returning an element from an array with gaps?
+
+Don't forget, our goal now is to randomly return a key from a hash table. The table array underlying the hash table not only contains gaps but is even more complex.
+
+If your hash table uses open addressing to resolve hash collisions, then you're dealing with the scenario of an array with gaps.
+
+If your hash table uses chaining, it's more complicated. Each element in the array is a linked list, so randomly selecting an index is not enough; you also need to randomly choose a node from the linked list.
+
+Also, consider the probabilities. With chaining, even if you randomly choose an array index uniformly and then a node uniformly from the linked list at that index, is the key you get uniformly random?
+
+Actually, it's not. In the image above, the probability of selecting k1, k2, k3 is 1/2 _ 1/3 = 1/6, while the probability of selecting k4, k5 is 1/2 _ 1/2 = 1/4, which is not uniformly random.
+
+### About Probabilistic Algorithms
+
+Probabilistic algorithms are a very interesting class of problems. Both in algorithm problems and real-world applications, some classic random algorithms are used. I will discuss these in more detail in Random Algorithms in Games and Weighted Random Selection, but for now, you don't need to master them.
+
+The only solution is to traverse the entire table array using the keys method, store all the keys in an array, and then randomly return one key. However, this results in a complexity of `O(N)`, which still doesn't meet the requirements.
+
+Feeling stuck? This is why accumulating experience in designing classic data structures is essential. If you encounter similar issues during interviews or exams, it might be difficult to come up with a solution on the spot. Next, I will introduce how to enhance a hash table with arrays to easily implement the `randomKey()` API.
+
+## Implementation Idea
+
+Earlier I talked about the chaining method to mislead you on purpose. Just like Linked List Hash Table, if you get stuck in the details, it will seem very complicated.
+
+So, do not get stuck in the details. Chaining and linear probing are just to help you understand how a hash table works and why its complexity is what it is.
+
+Now, and in the future when solving problems, just remember: a hash table is a data structure that supports key-value operations. Treat it as a black box and do not worry about its low-level implementation.
+
+An array can pick a random element easily. Now, if we want to pick a random key from a hash table, the simplest way is:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# pseudocode idea
+class MyArrayHashMap:
+    def __init__(self):
+        # arr array stores all keys in the hash table
+        self.arr = []
+        self.map = {}
+
+    # add/modify key-value pair, time complexity O(1)
+    def put(self, key, value):
+        if key not in self.map:
+            # new key is added to the arr array
+            self.arr.append(key)
+        self.map[key] = value
+
+    # get the value corresponding to the key, time complexity O(1)
+    def get(self, key):
+        return self.map.get(key)
+
+    # new API: randomly return a key, requires time complexity O(1)
+    def random_key(self):
+        import random
+        # generate a random index in the range [0, len(arr))
+        return self.arr[random.randint(0, len(self.arr) - 1)]
+
+    # delete key-value pair, time complexity O(1)
+    def remove(self, key):
+        ...`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// pseudocode idea
+
+class MyArrayHashMap {
+// arr array stores all keys in the hash table
+List<Integer> arr;
+Map<Integer, Integer> map;
+
+    // add/modify key-value pair, time complexity O(1)
+    void put(int key, int value) {
+        if (!map.containsKey(key)) {
+            // new key is added to the arr array
+            arr.add(key);
+        }
+        map.put(key, value);
+    }
+
+    // get the value corresponding to the key, time complexity O(1)
+    int get(int key) {
+        return map.get(key);
+    }
+
+    // new API: randomly return a key, requires time complexity O(1)
+    int randomKey() {
+        Random r = new Random();
+        // generate a random index in the range [0, arr.size())
+        return arr.get(r.nextInt(arr.size()));
+    }
+
+    // delete key-value pair, time complexity O(1)
+    void remove(int key) {
+        ...
+    }
+
+};`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`// pseudocode idea
+class MyArrayHashMap {
+constructor() {
+// arr array stores all keys in the hash table
+this.arr = [];
+this.map = new Map();
+}
+
+    // add/modify key-value pair, time complexity O(1)
+    put(key, value) {
+        if (!this.map.has(key)) {
+            // new key is added to the arr array
+            this.arr.push(key);
+        }
+        this.map.set(key, value);
+    }
+
+    // get the value corresponding to the key, time complexity O(1)
+    get(key) {
+        return this.map.get(key);
+    }
+
+    // new API: randomly return a key, requires time complexity O(1)
+    randomKey() {
+        // generate a random index in the range [0, arr.length)
+        const randomIndex = Math.floor(Math.random() * this.arr.length);
+        return this.arr[randomIndex];
+    }
+
+    // delete key-value pair, time complexity O(1)
+    remove(key) {
+        ...
+    }
+
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`// pseudocode idea
+type MyArrayHashMap struct {
+// arr array stores all keys in the hash table
+arr []int
+map\_ map[int]int
+}
+
+// add/modify key-value pair, time complexity O(1)
+func (m \*MyArrayHashMap) Put(key, value int) {
+if _, ok := m.map_[key]; !ok {
+// new key is added to the arr array
+m.arr = append(m.arr, key)
+}
+m.map\_[key] = value
+}
+
+// get the value corresponding to the key, time complexity O(1)
+func (m \*MyArrayHashMap) Get(key int) int {
+return m.map\_[key]
+}
+
+// new API: randomly return a key, requires time complexity O(1)
+func (m \*MyArrayHashMap) RandomKey() int {
+// generate a random index in the range [0, len(arr))
+rand.Seed(time.Now().UnixNano())
+return m.arr[rand.Intn(len(m.arr))]
+}
+
+// delete key-value pair, time complexity O(1)
+func (m \*MyArrayHashMap) Remove(key int) {
+...
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`// pseudocode idea
+class MyArrayHashMap {
+// arr array stores all keys in the hash table
+vector<int> arr;
+unordered_map<int, int> map;
+
+    // add/modify key-value pair, time complexity O(1)
+    void put(int key, int value) {
+        if (!map.count(key)) {
+            // new key is added to the arr array
+            arr.push_back(key);
+        }
+        map[key] = value;
+    }
+
+    // get the value corresponding to the key, time complexity O(1)
+    int get(int key) {
+        return map[key];
+    }
+
+    // new API: randomly return a key, requires time complexity O(1)
+    int randomKey() {
+        // generate a random index in the range [0, arr.size())
+        random_device rd;
+        mt19937 gen(rd());
+        uniform_int_distribution<> dis(0, arr.size() - 1);
+        return arr[dis(gen)];
+    }
+
+    // delete key-value pair, time complexity O(1)
+    void remove(int key) {
+        ...
+    }
+
+};`
+}
+]}
+/>
+
+The idea is simple. Use an array `arr` to store all the keys from the hash table. Then, pick a key by random index. This makes sure the selection is random, and the time complexity is `O(1)`.
+
+But notice, I have not implemented the remove method for the hash table. Because, to remove a key, you need to delete it from both the hash map `map` and the array `arr`. Removing an element from an array takes `O(N)` time since you need to shift elements to keep them continuous.
+
+Is there a way to remove an element from `arr` in `O(1)` time without breaking the array's continuity?
+
+### `O(1)` time to remove any element from an array
+
+Yes, you can do it: swap the element you want to remove with the last element, then delete the last element. Removing the last element from an array takes `O(1)` time.
+
+Of course, this will mess up the order of elements in the array. But in our case, the order does not matter, so it is fine.
+
+For example, `arr = [1, 2, 3, 4, 5]`. If you want to remove 2, swap 2 with the last element: `arr = [1, 5, 3, 4, 2]`. Then, remove the last element 2 in `O(1)` time. The continuity of the array is not broken.
+
+Does this idea make sense now?
+
+But there is another problem. In the example above, to swap 2 to the end, you need to know its index is 1. How do you find the index of an element in the array? Normally, you have to search the array, which takes `O(N)` time.
+
+But we have a hash table! What are key-value mappings for? They help you avoid searching.
+
+So, you can use a hash map to store the mapping from the array element to its index. This way, you can find the index in `O(1)` time.
+
+Now, the whole idea is clear. Let's look at the code.
+
+## Code Implementation
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `import random
+
+class Node:
+def **init**(self, key, val):
+self.key = key
+self.val = val
+
+class MyArrayHashMap:
+def **init**(self): # store the key and the index of the key in the array
+self.map = {} # the array that actually stores the key-value pairs
+self.arr = []
+
+    def get(self, key):
+        if key not in self.map:
+            return None
+        index = self.map[key]
+        return self.arr[index].val
+
+    def put(self, key, val):
+        if self.contains_key(key):
+            # modify
+            i = self.map[key]
+            self.arr[i].val = val
+            return
+
+        # add new
+        self.arr.append(Node(key, val))
+        self.map[key] = len(self.arr) - 1
+
+    def remove(self, key):
+        if key not in self.map:
+            return
+        index = self.map[key]
+        node = self.arr[index]
+
+        # 1. swap the last element e with the element at index
+        e = self.arr[-1]
+        self.arr[index], self.arr[-1] = self.arr[-1], self.arr[index]
+
+        # 2. update the index of e.key in the map
+        self.map[e.key] = index
+
+        # 3. remove the last element in the array
+        self.arr.pop()
+
+        # 4. remove node.key from the map
+        del self.map[node.key]
+
+    # randomly pop a key
+    def random_key(self):
+        n = len(self.arr)
+        random_index = random.randint(0, n - 1)
+        return self.arr[random_index].key
+
+    def contains_key(self, key):
+        return key in self.map
+
+    def size(self):
+        return len(self.map)
+
+# Example usage
+
+if **name** == "**main**":
+map* = MyArrayHashMap()
+map*.put(1, 1)
+map*.put(2, 2)
+map*.put(3, 3)
+map*.put(4, 4)
+map*.put(5, 5)
+
+    print(map_.get(1))  # 1
+    print(map_.random_key())
+
+    map_.remove(4)
+    print(map_.random_key())
+    print(map_.random_key())`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `import java.util.*;
+
+class Node<K, V> {
+K key;
+V val;
+
+    Node(K key, V val) {
+        this.key = key;
+        this.val = val;
+    }
+
+}
+
+class MyArrayHashMap<K, V> {
+// store the key and the index of the key in the array
+Map<K, Integer> map;
+// the array that actually stores the key-value pairs
+List<Node<K, V>> arr;
+// random number generator
+Random random;
+
+    public MyArrayHashMap() {
+        map = new HashMap<>();
+        arr = new ArrayList<>();
+        random = new Random();
+    }
+
+    public V get(K key) {
+        if (!map.containsKey(key)) {
+            return null;
+        }
+        int index = map.get(key);
+        return arr.get(index).val;
+    }
+
+    public void put(K key, V val) {
+        if (containsKey(key)) {
+            // modify
+            int i = map.get(key);
+            arr.get(i).val = val;
+            return;
+        }
+
+        // add new
+        arr.add(new Node<>(key, val));
+        map.put(key, arr.size() - 1);
+    }
+
+    public void remove(K key) {
+        if (!map.containsKey(key)) {
+            return;
+        }
+        int index = map.get(key);
+        Node<K, V> node = arr.get(index);
+
+        // 1. swap the last element e with the element at index
+        Node<K, V> e = arr.get(arr.size() - 1);
+        Collections.swap(arr, index, arr.size() - 1);
+
+        // 2. update the index of e.key in the map
+        map.put(e.key, index);
+
+        // 3. remove the last element in the array
+        arr.remove(arr.size() - 1);
+
+        // 4. remove node.key from the map
+        map.remove(node.key);
+    }
+
+    // randomly pop a key
+    public K randomKey() {
+        int n = arr.size();
+        int randomIndex = random.nextInt(n);
+        return arr.get(randomIndex).key;
+    }
+
+    public boolean containsKey(K key) {
+        return map.containsKey(key);
+    }
+
+    public int size() {
+        return map.size();
+    }
+
+    public static void main(String[] args) {
+        MyArrayHashMap<Integer, Integer> map = new MyArrayHashMap<>();
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+        map.put(4, 4);
+        map.put(5, 5);
+
+        System.out.println(map.get(1)); // 1
+        System.out.println(map.randomKey());
+
+        map.remove(4);
+        System.out.println(map.randomKey());
+        System.out.println(map.randomKey());
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class Node {
+constructor(key, val) {
+this.key = key;
+this.val = val;
+}
+}
+
+class MyArrayHashMap {
+constructor() {
+// store the key and the index of the key in the array
+this.map = new Map();
+// the array that actually stores the key-value pairs
+this.arr = [];
+}
+
+    get(key) {
+        if (!this.map.has(key)) {
+            return null;
+        }
+        const index = this.map.get(key);
+        return this.arr[index].val;
+    }
+
+    put(key, val) {
+        if (this.containsKey(key)) {
+            // modify
+            const i = this.map.get(key);
+            this.arr[i].val = val;
+            return;
+        }
+
+        // add new
+        this.arr.push(new Node(key, val));
+        this.map.set(key, this.arr.length - 1);
+    }
+
+    remove(key) {
+        if (!this.map.has(key)) {
+            return;
+        }
+        const index = this.map.get(key);
+        const node = this.arr[index];
+
+        // 1. swap the last element e with the element at index
+        const e = this.arr[this.arr.length - 1];
+        [this.arr[index], this.arr[this.arr.length - 1]] = [this.arr[this.arr.length - 1], this.arr[index]];
+
+        // 2. update the index of e.key in the map
+        this.map.set(e.key, index);
+
+        // 3. remove the last element in the array
+        this.arr.pop();
+
+        // 4. remove node.key from the map
+        this.map.delete(node.key);
+    }
+
+    // randomly pop a key
+    randomKey() {
+        const n = this.arr.length;
+        const randomIndex = Math.floor(Math.random() * n);
+        return this.arr[randomIndex].key;
+    }
+
+    containsKey(key) {
+        return this.map.has(key);
+    }
+
+    size() {
+        return this.map.size;
+    }
+
+}
+
+// Example usage
+const map = new MyArrayHashMap();
+map.put(1, 1);
+map.put(2, 2);
+map.put(3, 3);
+map.put(4, 4);
+map.put(5, 5);
+
+console.log(map.get(1)); // 1
+console.log(map.randomKey());
+
+map.remove(4);
+console.log(map.randomKey());
+console.log(map.randomKey());`    },
+    {
+      label: "go",
+      language: "go",
+      code:`package main
+
+import (
+	"fmt"
+	"math/rand"
+	"time"
+)
+
+type Node struct {
+key interface{}
+val interface{}
+}
+
+type MyArrayHashMap struct {
+// store the key and the index of the key in the array
+map\_ map[interface{}]int
+// the array that actually stores the key-value pairs
+arr []\*Node
+}
+
+func NewMyArrayHashMap() *MyArrayHashMap {
+return &MyArrayHashMap{
+map\_: make(map[interface{}]int),
+arr: make([]*Node, 0),
+}
+}
+
+func (m \*MyArrayHashMap) Get(key interface{}) interface{} {
+if index, ok := m.map\_[key]; ok {
+return m.arr[index].val
+}
+return nil
+}
+
+func (m \*MyArrayHashMap) Put(key, val interface{}) {
+if m.ContainsKey(key) {
+// modify
+i := m.map\_[key]
+m.arr[i].val = val
+return
+}
+
+    // add new
+    m.arr = append(m.arr, &Node{key: key, val: val})
+    m.map_[key] = len(m.arr) - 1
+
+}
+
+func (m \*MyArrayHashMap) Remove(key interface{}) {
+if _, ok := m.map_[key]; !ok {
+return
+}
+index := m.map\_[key]
+node := m.arr[index]
+
+    // 1. swap the last element e with the element at index
+    e := m.arr[len(m.arr)-1]
+    m.arr[index], m.arr[len(m.arr)-1] = m.arr[len(m.arr)-1], m.arr[index]
+
+    // 2. update the index of e.key in the map
+    m.map_[e.key] = index
+
+    // 3. remove the last element in the array
+    m.arr = m.arr[:len(m.arr)-1]
+
+    // 4. remove node.key from the map
+    delete(m.map_, node.key)
+
+}
+
+// randomly pop a key
+func (m \*MyArrayHashMap) RandomKey() interface{} {
+n := len(m.arr)
+rand.Seed(time.Now().UnixNano())
+randomIndex := rand.Intn(n)
+return m.arr[randomIndex].key
+}
+
+func (m \*MyArrayHashMap) ContainsKey(key interface{}) bool {
+_, ok := m.map_[key]
+return ok
+}
+
+func (m \*MyArrayHashMap) Size() int {
+return len(m.map\_)
+}
+
+func main() {
+map* := NewMyArrayHashMap()
+map*.Put(1, 1)
+map*.Put(2, 2)
+map*.Put(3, 3)
+map*.Put(4, 4)
+map*.Put(5, 5)
+
+    fmt.Println(map_.Get(1)) // 1
+    fmt.Println(map_.RandomKey())
+
+    map_.Remove(4)
+    fmt.Println(map_.RandomKey())
+    fmt.Println(map_.RandomKey())
+
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`#include <iostream>
+#include <random>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+template<typename K, typename V>
+class MyArrayHashMap {
+struct Node {
+K key;
+V val;
+
+        Node(K key, V val) : key(key), val(val) {
+        }
+    };
+
+    // store the key and the index of the key in the array
+    unordered_map<K, int> map;
+
+    // the array that actually stores the key-value pairs
+    vector<Node> arr;
+
+    // random number generator
+    default_random_engine e;
+
+public:
+
+    MyArrayHashMap() {
+        e.seed(random_device()());
+    }
+
+    V get(K key) {
+        if (!map.count(key)) {
+            return NULL;
+        }
+        int index = map[key];
+        return arr[index].val;
+    }
+
+    void put(K key, V val) {
+        if (containsKey(key)) {
+            // modify
+            int i = map[key];
+            arr[i].val = val;
+            return;
+        }
+
+        // add new
+        arr.push_back(Node(key, val));
+        map[key] = arr.size() - 1;
+    }
+
+    void remove(K key) {
+        if (!map.count(key)) {
+            return;
+        }
+        int index = map[key];
+        Node node = arr[index];
+
+        // 1. swap the last element e with the element at index
+        Node e = arr.back();
+        swap(arr[index], arr.back());
+
+        // 2. update the index of e.key in the map
+        map[e.key] = index;
+
+        // 3. remove the last element in the array
+        arr.pop_back();
+
+        // 4. remove node.key from the map
+        map.erase(node.key);
+    }
+
+    // randomly pop a key
+    K randomKey() {
+        int n = arr.size();
+        uniform_int_distribution<int> u(0, n - 1);
+        int randomIndex = u(e);
+        return arr[randomIndex].key;
+    }
+
+    bool containsKey(K key) {
+        return map.count(key);
+    }
+
+    int size() {
+        return map.size();
+    }
+
+};
+
+int main() {
+MyArrayHashMap<int, int> map;
+map.put(1, 1);
+map.put(2, 2);
+map.put(3, 3);
+map.put(4, 4);
+map.put(5, 5);
+
+    cout << map.get(1) << endl; // 1
+    cout << map.randomKey() << endl;
+
+    map.remove(4);
+    cout << map.randomKey() << endl;
+    cout << map.randomKey() << endl;
+
+    return 0;
+
+}`
+}
+]}
+/>
+
+With this, the ArrayHashMap structure is done. If you want to build an ArrayHashSet, just wrap ArrayHashMap. I will not show the code here.

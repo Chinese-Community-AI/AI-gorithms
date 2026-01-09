@@ -1,0 +1,847 @@
+We discussed that you cannot rely on the order of keys when looping through a hash table. The keys in a hash table are unordered.
+
+But based on your programming experience, you may have some questions.
+
+For example, if you use Python, you might know that since Python 3.7, the standard hash table `dict` guarantees that the keys will be returned in the order you inserted them. For example, look at this code:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `d = dict()
+
+d['a'] = 1
+d['b'] = 2
+d['c'] = 3
+print(list(d.keys()))  # ['a', 'b', 'c']
+
+d['y'] = 4
+print(list(d.keys()))  # ['a', 'b', 'c', 'y']
+
+d['d'] = 5
+print(list(d.keys()))  # ['a', 'b', 'c', 'y', 'd']`
+    }
+  ]}
+/>
+
+No matter how many keys you insert, the `keys` method returns them in the same order you added them. It feels like adding elements to the end of an array. How is this possible?
+
+If you use Golang, you might see something even more interesting. Look at this test code:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "go",
+      language: "go",
+      code: `package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// initialize the map
+	myMap := map[string]int{
+		"1":  1,
+		"2": 2,
+		"3":  3,
+		"4": 4,
+		"5":  5,
+	}
+
+	// define a function to iterate through the map
+	printMapKeys := func(m map[string]int) {
+		for key := range m {
+			fmt.Print(key, " ")
+		}
+		fmt.Println()
+	}
+
+	// iterate through the map multiple times to observe the order of keys
+	printMapKeys(myMap)
+	printMapKeys(myMap)
+	printMapKeys(myMap)
+	printMapKeys(myMap)
+}
+
+// my output is as follows:
+// 1 2 3 4 5
+// 5 1 2 3 4
+// 2 3 4 5 1
+// 1 2 3 4 5`
+    }
+  ]}
+/>
+
+In other words, the order of traversal is random each time. But as mentioned before in How Hash Tables Work, even though the keys in a hash table are unordered, if you don't change the table, the traversal order should stay the same. So why does Golang's map give a different order every time? Isn't this strange?
+
+You can think about the reason first. Below is the answer.
+
+## How to Implement a Hash Linked List (LinkedHashMap)
+
+Let's first make the problem clear.
+
+In a standard hash table, the keys are stored unordered in the underlying table array. From this image, you can't tell in what order the keys were inserted. Once resizing happens, the positions of the keys will change again.
+
+Now we want to be able to access all the keys in the order they were inserted, and not be affected by resizing, while keeping the time complexity for add, delete, search, and update the same as a normal hash table.
+
+A direct idea is to link all key-value pairs together using a structure like linked list nodes. We keep references to both the head and tail nodes (`head`, `tail`). Every time we insert a new key into the table array, we also insert this key at the end of the linked list.
+
+With this, as long as we start from the head node and go through the linked list, we can visit all keys in the order they were inserted.
+
+Here, we can clearly see the insertion order of the keys: k2, k4, k5, k3, k1.
+
+### Focus on the concept, not the details
+
+Some readers may get confused: Didn't we already use a linked list to resolve hash collisions in the chaining method? Now are we adding another linked list on top of that? How does this even work?
+
+That's why I always say you need to think abstractly. All data structures are built on arrays and linked lists. If you add more layers, it may look confusing.
+
+If you have these questions, it's probably because your mind is stuck on the low-level details of chaining, linear probing, and so on from previous chapters, and you can't get out of the details.
+
+Try to look at it in an abstract way: A hash table is basically a key-value mapping; a linked list is just a container that stores elements in order. Now, I want the keys in the hash table to be ordered by their insertion order. How can we combine the hash table and linked list?
+
+Here is the answer:
+
+Suppose both the key and value are strings. A standard hash table looks like this:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `HashMap<String, String> map = new HashMap<>();
+
+// Insert key-value pair
+String key = "k1";
+String value = "v1";
+
+map.put(key, value);`
+    }
+  ]}
+/>
+
+Now, we add a doubly linked list structure to the value type of the hash table:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Doubly linked list node
+class Node {
+    String key;
+    String value;
+    Node prev;
+    Node next;
+
+    Node(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+HashMap<String, Node> map = new HashMap<>();
+
+// Insert key-value pair
+String key = "k1";
+String value = "v1";
+
+map.put(key, new Node(key, value));
+
+// This is a simplified version. In reality, you also need to add the new node to the linked list.`
+    }
+  ]}
+/>
+
+In this way, we have built a hash linked list structure:
+
+- We can still find the corresponding doubly linked list node by key in `O(1)` time, and then get the value.
+- We can insert a new key-value pair in `O(1)` time. This is because both hash table insertion and doubly linked list head/tail insertion are `O(1)`.
+- We can delete a specified key-value pair in `O(1)` time. Hash table deletion is `O(1)`, and deleting a given doubly linked list node is also `O(1)`.
+- Since the order of the linked list nodes is the same as the insertion order, we can visit all keys in insertion order by traversing the linked list from the head.
+
+In other words, we can visit all the keys in insertion order without changing the basic time complexity of a standard hash table.
+
+### Is deleting a linked list node really O(1)?
+
+Some readers might remember that in Linked List Basics, we said that deleting a linked list node has time complexity `O(n)`. Why is it `O(1)` here?
+
+Actually, what I said here is very precise. I mean deleting a given doubly linked list node is `O(1)`.
+
+Before, when we implemented a linked list, we deleted a node by its index, which is `O(n)` because we first need to find the node by traversing the list.
+
+But here, there is no traversal. We get the node directly from the hash table using the key, so it is `O(1)`.
+
+And in a doubly linked list, we only need to do some simple pointer changes to delete a node, which is also `O(1)`:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "java",
+      language: "java",
+      code: `// Delete a given doubly linked list node
+Node target;
+
+// Remove target from the doubly linked list
+target.prev.next = target.next;
+target.next.prev = target.prev;
+target.prev = null;
+target.next = null;`
+    }
+  ]}
+/>
+
+So deleting a node in a hash linked list is still `O(1)`.
+
+Note that the doubly linked list node has both a previous and a next pointer, which makes `O(1)` deletion possible. A singly linked list node only has a next pointer, not a previous pointer, so it cannot do `O(1)` deletion. So, when implementing a hash linked list, we must use a doubly linked list.
+
+## Code Implementation
+
+Now that we understand the principle of hash linked lists, let's look at the code. It is quite simple:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.next = None
+        self.prev = None
+
+
+class MyLinkedHashMap:
+    def __init__(self):
+        self.head = Node(None, None)
+        self.tail = Node(None, None)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        self.map = {}
+
+    def get(self, key):
+        if key not in self.map:
+            return None
+        return self.map[key].val
+
+    def put(self, key, val):
+        # If it is a newly inserted node, insert it into both the linked list and the map
+        if key not in self.map:
+            # Insert a new Node
+            node = Node(key, val)
+            self._add_last_node(node)
+            self.map[key] = node
+            return
+        # If it exists, replace the previous val
+        self.map[key].val = val
+
+    def remove(self, key):
+        # If the key does not exist, return directly
+        if key not in self.map:
+            return
+        # If the key exists, it needs to be deleted in both the hash table and the linked list
+        node = self.map[key]
+        del self.map[key]
+        self._remove_node(node)
+
+    def contains_key(self, key):
+        return key in self.map
+
+    def keys(self):
+        key_list = []
+        p = self.head.next
+        while p != self.tail:
+            key_list.append(p.key)
+            p = p.next
+        return key_list
+
+    def size(self):
+        return len(self.map)
+
+    def is_empty(self):
+        return len(self.map) == 0
+
+    def _add_last_node(self, x):
+        temp = self.tail.prev
+        # temp <-> tail
+        x.next = self.tail
+        x.prev = temp
+
+        temp.next = x
+        self.tail.prev = x
+
+    def _remove_node(self, x):
+        prev = x.prev
+        next_node = x.next
+        # prev <-> x <-> next_node
+
+        prev.next = next_node
+        next_node.prev = prev
+
+        x.next = None
+        x.prev = None
+
+
+# Example usage
+if __name__ == "__main__":
+    map = MyLinkedHashMap()
+    map.put("a", 1)
+    map.put("b", 2)
+    map.put("c", 3)
+    map.put("d", 4)
+    map.put("e", 5)
+
+    # output: a b c d e
+    for key in map.keys():
+        print(key, end=" ")
+    print()
+
+    map.remove("c")
+    print(map.contains_key("c"))
+
+    # output: a b d e
+    for key in map.keys():
+        print(key, end=" ")
+    print()`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `import java.util.*;
+
+class Node<K, V> {
+    K key;
+    V val;
+    Node<K, V> next;
+    Node<K, V> prev;
+
+    Node(K key, V val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
+class MyLinkedHashMap<K, V> {
+    private Node<K, V> head;
+    private Node<K, V> tail;
+    private Map<K, Node<K, V>> map;
+
+    public MyLinkedHashMap() {
+        head = new Node<>(null, null);
+        tail = new Node<>(null, null);
+        head.next = tail;
+        tail.prev = head;
+        map = new HashMap<>();
+    }
+
+    public V get(K key) {
+        if (!map.containsKey(key)) {
+            return null;
+        }
+        return map.get(key).val;
+    }
+
+    public void put(K key, V val) {
+        // If it is a newly inserted node, insert it into both the linked list and the map
+        if (!map.containsKey(key)) {
+            // Insert a new Node
+            Node<K, V> node = new Node<>(key, val);
+            addLastNode(node);
+            map.put(key, node);
+            return;
+        }
+        // If it exists, replace the previous val
+        map.get(key).val = val;
+    }
+
+    public void remove(K key) {
+        // If the key does not exist, return directly
+        if (!map.containsKey(key)) {
+            return;
+        }
+        // If the key exists, it needs to be deleted in both the hash table and the linked list
+        Node<K, V> node = map.get(key);
+        map.remove(key);
+        removeNode(node);
+    }
+
+    public boolean containsKey(K key) {
+        return map.containsKey(key);
+    }
+
+    public List<K> keys() {
+        List<K> keyList = new ArrayList<>();
+        for (Node<K, V> p = head.next; p != tail; p = p.next) {
+            keyList.add(p.key);
+        }
+        return keyList;
+    }
+
+    public int size() {
+        return map.size();
+    }
+
+    public boolean isEmpty() {
+        return map.isEmpty();
+    }
+
+    private void addLastNode(Node<K, V> x) {
+        Node<K, V> temp = tail.prev;
+        // temp <-> tail
+        x.next = tail;
+        x.prev = temp;
+
+        temp.next = x;
+        tail.prev = x;
+    }
+
+    private void removeNode(Node<K, V> x) {
+        Node<K, V> prev = x.prev;
+        Node<K, V> next = x.next;
+        // prev <-> x <-> next
+
+        prev.next = next;
+        next.prev = prev;
+
+        x.next = null;
+        x.prev = null;
+    }
+
+    public static void main(String[] args) {
+        MyLinkedHashMap<String, Integer> map = new MyLinkedHashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+        map.put("c", 3);
+        map.put("d", 4);
+        map.put("e", 5);
+
+        // output: a b c d e
+        for (String key : map.keys()) {
+            System.out.print(key + " ");
+        }
+        System.out.println();
+
+        map.remove("c");
+        System.out.println(map.containsKey("c"));
+
+        // output: a b d e
+        for (String key : map.keys()) {
+            System.out.print(key + " ");
+        }
+        System.out.println();
+    }
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class Node {
+    constructor(key, val) {
+        this.key = key;
+        this.val = val;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+class MyLinkedHashMap {
+    constructor() {
+        this.head = new Node(null, null);
+        this.tail = new Node(null, null);
+        this.head.next = this.tail;
+        this.tail.prev = this.head;
+        this.map = new Map();
+    }
+
+    get(key) {
+        if (!this.map.has(key)) {
+            return null;
+        }
+        return this.map.get(key).val;
+    }
+
+    put(key, val) {
+        // If it is a newly inserted node, insert it into both the linked list and the map
+        if (!this.map.has(key)) {
+            // Insert a new Node
+            const node = new Node(key, val);
+            this.addLastNode(node);
+            this.map.set(key, node);
+            return;
+        }
+        // If it exists, replace the previous val
+        this.map.get(key).val = val;
+    }
+
+    remove(key) {
+        // If the key does not exist, return directly
+        if (!this.map.has(key)) {
+            return;
+        }
+        // If the key exists, it needs to be deleted in both the hash table and the linked list
+        const node = this.map.get(key);
+        this.map.delete(key);
+        this.removeNode(node);
+    }
+
+    containsKey(key) {
+        return this.map.has(key);
+    }
+
+    keys() {
+        const keyList = [];
+        for (let p = this.head.next; p !== this.tail; p = p.next) {
+            keyList.push(p.key);
+        }
+        return keyList;
+    }
+
+    size() {
+        return this.map.size;
+    }
+
+    isEmpty() {
+        return this.map.size === 0;
+    }
+
+    addLastNode(x) {
+        const temp = this.tail.prev;
+        // temp <-> tail
+        x.next = this.tail;
+        x.prev = temp;
+
+        temp.next = x;
+        this.tail.prev = x;
+    }
+
+    removeNode(x) {
+        const prev = x.prev;
+        const next = x.next;
+        // prev <-> x <-> next
+
+        prev.next = next;
+        next.prev = prev;
+
+        x.next = null;
+        x.prev = null;
+    }
+}
+
+// Example usage
+const map = new MyLinkedHashMap();
+map.put("a", 1);
+map.put("b", 2);
+map.put("c", 3);
+map.put("d", 4);
+map.put("e", 5);
+
+// output: a b c d e
+console.log(map.keys().join(" "));
+
+map.remove("c");
+console.log(map.containsKey("c"));
+
+// output: a b d e
+console.log(map.keys().join(" "));`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `package main
+
+import (
+	"fmt"
+)
+
+type Node struct {
+	key  interface{}
+	val  interface{}
+	next *Node
+	prev *Node
+}
+
+type MyLinkedHashMap struct {
+	head *Node
+	tail *Node
+	map_ map[interface{}]*Node
+}
+
+func NewMyLinkedHashMap() *MyLinkedHashMap {
+	head := &Node{key: nil, val: nil}
+	tail := &Node{key: nil, val: nil}
+	head.next = tail
+	tail.prev = head
+	return &MyLinkedHashMap{
+		head: head,
+		tail: tail,
+		map_: make(map[interface{}]*Node),
+	}
+}
+
+func (m *MyLinkedHashMap) Get(key interface{}) interface{} {
+	if node, ok := m.map_[key]; ok {
+		return node.val
+	}
+	return nil
+}
+
+func (m *MyLinkedHashMap) Put(key, val interface{}) {
+	// If it is a newly inserted node, insert it into both the linked list and the map
+	if _, ok := m.map_[key]; !ok {
+		// Insert a new Node
+		node := &Node{key: key, val: val}
+		m.addLastNode(node)
+		m.map_[key] = node
+		return
+	}
+	// If it exists, replace the previous val
+	m.map_[key].val = val
+}
+
+func (m *MyLinkedHashMap) Remove(key interface{}) {
+	// If the key does not exist, return directly
+	node, ok := m.map_[key]
+	if !ok {
+		return
+	}
+	// If the key exists, it needs to be deleted in both the hash table and the linked list
+	delete(m.map_, key)
+	m.removeNode(node)
+}
+
+func (m *MyLinkedHashMap) ContainsKey(key interface{}) bool {
+	_, ok := m.map_[key]
+	return ok
+}
+
+func (m *MyLinkedHashMap) Keys() []interface{} {
+	keyList := []interface{}{}
+	for p := m.head.next; p != m.tail; p = p.next {
+		keyList = append(keyList, p.key)
+	}
+	return keyList
+}
+
+func (m *MyLinkedHashMap) Size() int {
+	return len(m.map_)
+}
+
+func (m *MyLinkedHashMap) IsEmpty() bool {
+	return len(m.map_) == 0
+}
+
+func (m *MyLinkedHashMap) addLastNode(x *Node) {
+	temp := m.tail.prev
+	// temp <-> tail
+	x.next = m.tail
+	x.prev = temp
+
+	temp.next = x
+	m.tail.prev = x
+}
+
+func (m *MyLinkedHashMap) removeNode(x *Node) {
+	prev := x.prev
+	next := x.next
+	// prev <-> x <-> next
+
+	prev.next = next
+	next.prev = prev
+
+	x.next = nil
+	x.prev = nil
+}
+
+func main() {
+	map_ := NewMyLinkedHashMap()
+	map_.Put("a", 1)
+	map_.Put("b", 2)
+	map_.Put("c", 3)
+	map_.Put("d", 4)
+	map_.Put("e", 5)
+
+	// output: a b c d e
+	for _, key := range map_.Keys() {
+		fmt.Print(key, " ")
+	}
+	fmt.Println()
+
+	map_.Remove("c")
+	fmt.Println(map_.ContainsKey("c"))
+
+	// output: a b d e
+	for _, key := range map_.Keys() {
+		fmt.Print(key, " ")
+	}
+	fmt.Println()
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `#include <iostream>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+template <typename K, typename V>
+struct Node {
+    K key;
+    V val;
+    Node* next;
+    Node* prev;
+
+    Node(K key, V val) : key(key), val(val), next(nullptr), prev(nullptr) {}
+};
+
+template <typename K, typename V>
+class MyLinkedHashMap {
+public:
+    MyLinkedHashMap() {
+        head = new Node<K, V>(K(), V());
+        tail = new Node<K, V>(K(), V());
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    // Destructor to free all node memory
+    ~MyLinkedHashMap() {
+        // Free all data nodes
+        Node<K, V>* current = head->next;
+        while (current != tail) {
+            Node<K, V>* next = current->next;
+            delete current;
+            current = next;
+        }
+        // Free head and tail nodes
+        delete head;
+        delete tail;
+    }
+
+    // Disable copy constructor and assignment to avoid shallow copy issues
+    MyLinkedHashMap(const MyLinkedHashMap&) = delete;
+    MyLinkedHashMap& operator=(const MyLinkedHashMap&) = delete;
+
+    V get(K key) {
+        if (map.find(key) == map.end()) {
+            return V();
+        }
+        return map[key]->val;
+    }
+
+    void put(K key, V val) {
+        // If it is a newly inserted node, insert it into both the linked list and the map
+        if (map.find(key) == map.end()) {
+            // Insert a new Node
+            Node<K, V>* node = new Node<K, V>(key, val);
+            addLastNode(node);
+            map[key] = node;
+            return;
+        }
+        // If it exists, replace the previous val
+        map[key]->val = val;
+    }
+
+    void remove(K key) {
+        // If the key does not exist, return directly
+        if (map.find(key) == map.end()) {
+            return;
+        }
+        // If the key exists, it needs to be deleted in both the hash table and the linked list
+        Node<K, V>* node = map[key];
+        map.erase(key);
+        removeNode(node);
+        // Free node memory
+        delete node;
+    }
+
+    bool containsKey(K key) {
+        return map.find(key) != map.end();
+    }
+
+    vector<K> keys() {
+        vector<K> keyList;
+        for (Node<K, V>* p = head->next; p != tail; p = p->next) {
+            keyList.push_back(p->key);
+        }
+        return keyList;
+    }
+
+    // Get element count
+    size_t size() {
+        return map.size();
+    }
+
+    // Check if empty
+    bool empty() {
+        return map.empty();
+    }
+
+private:
+    Node<K, V>* head;
+    Node<K, V>* tail;
+    unordered_map<K, Node<K, V>*> map;
+
+    void addLastNode(Node<K, V>* x) {
+        Node<K, V>* temp = tail->prev;
+        // temp <-> tail
+        x->next = tail;
+        x->prev = temp;
+
+        temp->next = x;
+        tail->prev = x;
+    }
+
+    void removeNode(Node<K, V>* x) {
+        Node<K, V>* prev = x->prev;
+        Node<K, V>* next = x->next;
+        // prev <-> x <-> next
+
+        prev->next = next;
+        next->prev = prev;
+
+        x->next = nullptr;
+        x->prev = nullptr;
+    }
+};
+
+int main() {
+    MyLinkedHashMap<string, int> map;
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+    map.put("d", 4);
+    map.put("e", 5);
+
+    // output: a b c d e
+    for (const auto& key : map.keys()) {
+        cout << key << " ";
+    }
+    cout << endl;
+
+    map.remove("c");
+    cout << map.containsKey("c") << endl;
+
+    // output: a b d e
+    for (const auto& key : map.keys()) {
+        cout << key << " ";
+    }
+    cout << endl;
+
+    return 0;
+}`
+    }
+  ]}
+/>
+
+## How LinkedHashSet is Implemented
+
+LinkedHashSet is a hash set that keeps the insertion order.
+
+In How Hash Set Works, we said that a hash set is basically a wrapper of a hash map.
+
+So here, LinkedHashSet can be built by simply wrapping MyLinkedHashMap. It's very simple, so I won't write the code here.
