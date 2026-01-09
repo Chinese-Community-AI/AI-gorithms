@@ -67,6 +67,22 @@ export const navigation: NavItem[] = [
             title: "Binary Tree Basics",
             href: "/basics/04-binary-tree/basics",
           },
+          {
+            title: "Recursive/Level Order Traversal",
+            href: "/basics/04-binary-tree/traversal",
+          },
+          {
+            title: "N-ary Tree",
+            href: "/basics/04-binary-tree/n-ary-tree",
+          },
+          {
+            title: "Shortest Path vs All Paths",
+            href: "/basics/04-binary-tree/shortest-path-vs-all-paths",
+          },
+          {
+            title: "Binary Search Tree",
+            href: "/basics/04-binary-tree/binary-search-tree",
+          },
         ],
       },
       {

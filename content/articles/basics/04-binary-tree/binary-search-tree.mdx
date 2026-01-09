@@ -1,0 +1,196 @@
+# Binary Search Tree
+
+In the previous article [Common Types of Binary Trees](/basics/04-binary-tree/basics), we introduced binary search trees. Next, I will show you how to implement a structure like Java's `TreeMap` and `TreeSet`. This will help you understand both the theory and practice.
+
+However, since this article is still in the basics section, I will only explain the idea behind `TreeMap`/`TreeSet` for now. The hands-on implementation is in **TreeMap Implementation**, which is at the end of **Binary Tree Practice Problems**.
+
+Unlike hash tables and queues, tree-related data structures need more understanding of recursion and are harder. If your recursion skills are not strong, it will be tough to follow along. In the binary tree practice section, we will use over 100 real algorithm problems to help you build your recursion skills. After that, you will be able to solve all binary tree problems easily.
+
+## Advantages of Binary Search Trees
+
+The main feature of a binary search tree (BST) is: **the left child is smaller, the right child is bigger.** For every node in the tree, all nodes in its left subtree have smaller values, and all nodes in its right subtree have larger values.
+
+Example of a BST:
+
+```text
+      7
+     / \
+    4   9
+   / \   \
+  1   5   10
+```
+
+This "left smaller, right bigger" feature helps us quickly find a node or all nodes in a certain range.
+
+- **Search**: Thanks to the BST property, we can quickly locate a target node. The time complexity is the height of the tree, `O(log N)` for a balanced tree. In a normal binary tree, you would need `O(N)` time.
+- **Add/Delete/Update**: These operations also first require finding the target node, then changing pointers. Thus, their complexity is also `O(log N)`.
+
+---
+
+## How TreeMap/TreeSet Work
+
+`TreeMap` stores key-value pairs in the nodes of a binary search tree. `TreeSet` is essentially a wrapper around `TreeMap`.
+
+### Node Structure
+
+If we modify the classic `TreeNode` structure slightly, we can use it for `TreeMap`:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class TreeNode:
+    def __init__(self, key: K, value: V):
+        self.key = key
+        self.value = value
+        self.left = None
+        self.right = None`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class TreeNode<K, V> {
+    K key;
+    V value;
+    TreeNode<K, V> left, right;
+
+    TreeNode(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class TreeNode {
+constructor(key, value) {
+this.key = key;
+this.value = value;
+this.left = null;
+this.right = null;
+}
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`type TreeNode struct {
+Key interface{}
+Value interface{}
+Left *TreeNode
+Right *TreeNode
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`template <typename K, typename V>
+struct TreeNode {
+K key;
+V value;
+TreeNode *left, *right;
+TreeNode(K k, V v) : key(k), value(v), left(nullptr), right(nullptr) {}
+};`
+}
+]}
+/>
+
+### MyTreeMap API
+
+A typical `TreeMap` implementation offers a rich set of APIs:
+
+```java
+// Main interface of TreeMap
+class MyTreeMap<K, V> {
+    // Add/Update, complexity O(log N)
+    public void put(K key, V value) {}
+
+    // Get, complexity O(log N)
+    public V get(K key) {}
+
+    // Remove, complexity O(log N)
+    public void remove(K key) {}
+
+    // Additional methods based on key order:
+    public K firstKey() {}        // Smallest key
+    public K lastKey() {}         // Largest key
+    public K floorKey(K key) {}   // Max key <= target
+    public K ceilingKey(K key) {} // Min key >= target
+    public K selectKey(int k) {}  // Key with rank k
+    public int rank(K key) {}     // Rank of a given key
+}
+```
+
+Hash tables are practical, but they can't effectively handle the size relationships between keys. `TreeMap` arranges keys by "size order."
+
+---
+
+## Operations Overview
+
+### Basic Operations
+
+- **Find/Get**: Compare target key with current node key, decide to go left or right. Time complexity: `O(log N)`.
+- **Add/Delete**: Locate the target position using the search logic, then perform pointer changes. Time complexity: `O(log N)`.
+- **Floor/Ceiling**: Similar to search, but return the closest match if the exact key isn't found.
+
+### firstKey and lastKey
+
+- **Smallest (firstKey)**: Keep going left until you can't go further.
+- **Largest (lastKey)**: Keep going right until you can't go further.
+
+Example (1 is smallest, 12 is largest):
+
+```text
+      7
+     / \
+    4   9
+   / \   \
+  1   5   12
+ /       /
+2       11
+```
+
+### keys Method
+
+The `keys` method returns all keys in order. This leverages the BST property that an **in-order traversal** results in a sorted sequence.
+
+---
+
+## selectKey and rank (The size Field)
+
+Finding a key by rank (e.g., "find the 3rd smallest key") is tricky. A simple in-order traversal takes `O(k)` time. To achieve `O(log N)`, we add a `size` field to each node to store the total number of nodes in its subtree.
+
+```java
+class TreeNode<K, V> {
+    K key;
+    V value;
+    int size; // Total nodes in subtree
+    TreeNode<K, V> left, right;
+}
+```
+
+By checking the `size` of the left subtree, the root node can immediately know its own rank and decide whether to search the left or right subtree, reducing complexity to `O(log N)`.
+
+---
+
+## Performance Issues
+
+The performance of a BST depends on its **height**.
+
+- **Balanced BST**: Height is `O(log N)`. Operations are fast.
+- **Unbalanced BST**: In extreme cases (e.g., nodes inserted in sorted order), the tree becomes a linked list with height `O(N)`. Performance drops significantly.
+
+```text
+Balanced (O(log N)):       Unbalanced (O(N)):
+      7                          1
+     / \                          \
+    4   9                          2
+   / \   \                          \
+  1   5   10                         3
+                                      \
+                                       4
+```
+
+To prevent this, real-world implementations like Java's `TreeMap` use self-balancing trees like **Red-Black Trees**. They use "rotations" during insertion and deletion to keep the tree balanced.
+
+We will explore **Red-Black Tree Principles** in the next chapter. For now, focus on mastering the basics of BST and recursive thinking through our practice problems.

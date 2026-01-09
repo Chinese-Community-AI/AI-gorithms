@@ -1,0 +1,561 @@
+# N-ary Tree
+
+A multi-way tree (N-ary tree) is an extension of the binary tree. A binary tree is a special type of multi-way tree. Traversal of a multi-way tree is an extension of binary tree traversal.
+
+<div className="bg-[var(--sidebar-bg)] p-6 rounded-xl border border-[rgba(55,53,47,0.09)] my-8">
+  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <span>In One Sentence</span>
+  </h3>
+  <ul className="list-disc ml-5 space-y-2 text-[15px] opacity-90">
+    <li>A multi-way tree is an extension of the binary tree.</li>
+    <li>
+      Traversal of a multi-way tree is an extension of binary tree traversal.
+    </li>
+    <li>A forest is a collection of multiple multi-way trees.</li>
+  </ul>
+</div>
+
+## Binary Tree vs. N-ary Tree Node
+
+A node in a binary tree has at most two children:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `public class TreeNode {
+    int val;
+    TreeNode left, right;
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function TreeNode(val, left, right) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type TreeNode struct {
+    Val   int
+    Left  *TreeNode
+    Right *TreeNode
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+};`,
+    },
+  ]}
+/>
+
+A node in a multi-way tree (N-ary tree) can have any number of children:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class Node:
+    def __init__(self, val: int):
+        self.val = val
+        self.children = [] # List of child nodes`,
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `public class Node {
+    int val;
+    List<Node> children;
+}`,
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function Node(val, children) {
+    this.val = val;
+    this.children = children || [];
+}`,
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type Node struct {
+    Val      int
+    Children []*Node
+}`,
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `struct Node {
+    int val;
+    vector<Node*> children;
+};`,
+    },
+  ]}
+/>
+
+## Forest
+
+A forest is a collection of multiple multi-way trees (even a single tree is a special kind of forest). In code, it is just a list of the root nodes of several multi-way trees:
+
+```java
+List<Node> forest;
+```
+
+You just need to run DFS or BFS on each root node, and you will visit all the nodes in the forest. In the **Union Find** algorithm, we often keep the root nodes of several multi-way trees. These roots together form a forest.
+
+## Recursive Traversal (DFS)
+
+Let's compare the frameworks for traversing binary trees and multi-way trees:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# traversal framework for binary trees
+def traverse_binary_tree(root):
+    if root is None:
+        return
+    # pre-order position
+    traverse_binary_tree(root.left)
+    # in-order position
+    traverse_binary_tree(root.right)
+    # post-order position
+
+# traversal framework for N-ary trees
+
+def traverse_n_ary_tree(root):
+if root is None:
+return # pre-order position
+for child in root.children:
+traverse_n_ary_tree(child) # post-order position`    },
+    {
+      label: "java",
+      language: "java",
+      code:`void traverseBinaryTree(TreeNode root) {
+if (root == null) return;
+// pre-order
+traverseBinaryTree(root.left);
+// in-order
+traverseBinaryTree(root.right);
+// post-order
+}
+
+void traverseNaryTree(Node root) {
+if (root == null) return;
+// pre-order
+for (Node child : root.children) {
+traverseNaryTree(child);
+}
+// post-order
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`function traverseNaryTree(root) {
+if (root === null) return;
+// pre-order
+for (let child of root.children) {
+traverseNaryTree(child);
+}
+// post-order
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`func traverseNaryTree(root _Node) {
+if root == nil {
+return
+}
+// pre-order
+for \_, child := range root.Children {
+traverseNaryTree(child)
+}
+// post-order
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`void traverseNaryTree(Node_ root) {
+if (root == nullptr) return;
+// pre-order
+for (Node\* child : root->children) {
+traverseNaryTree(child);
+}
+// post-order
+}`
+}
+]}
+/>
+
+The only difference is that an N-ary tree does not have an **in-order** position, as there can be multiple nodes, making the concept of in-order position meaningless.
+
+## Level Order Traversal (BFS)
+
+The level order traversal of an N-ary tree is similar to binary tree level order traversal, using a queue. The difference is replacing the `left` and `right` child nodes of a binary tree with all the `children` of an N-ary tree node.
+
+### Method 1: Basic BFS
+
+The first method of level order traversal does not record node depth:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `from collections import deque
+
+def level_order_traverse(root):
+if root is None:
+return
+
+    q = deque()
+    q.append(root)
+
+    while q:
+        cur = q.popleft()
+        # visit the cur node
+        print(cur.val)
+
+        # add all child nodes of cur to the queue
+        for child in cur.children:
+            q.append(child)`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `void levelOrderTraverse(Node root) {
+    if (root == null) return;
+    Queue<Node> q = new LinkedList<>();
+    q.offer(root);
+    while (!q.isEmpty()) {
+        Node cur = q.poll();
+        System.out.println(cur.val);
+        for (Node child : cur.children) {
+            q.offer(child);
+        }
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`function levelOrderTraverse(root) {
+if (root === null) return;
+let q = [root];
+while (q.length > 0) {
+let cur = q.shift();
+console.log(cur.val);
+for (let child of cur.children) {
+q.push(child);
+}
+}
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`func levelOrderTraverse(root *Node) {
+if root == nil {
+return
+}
+q := []*Node{root}
+for len(q) > 0 {
+cur := q[0]
+q = q[1:]
+fmt.Println(cur.Val)
+for \_, child := range cur.Children {
+q = append(q, child)
+}
+}
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`void levelOrderTraverse(Node* root) {
+if (root == nullptr) return;
+queue<Node*> q;
+q.push(root);
+while (!q.empty()) {
+Node* cur = q.front();
+q.pop();
+cout << cur->val << endl;
+for (Node* child : cur->children) {
+q.push(child);
+}
+}
+}`
+}
+]}
+/>
+
+### Method 2: Level-by-Level BFS (with Depth)
+
+The second method of level order traversal records the depth of each level:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `from collections import deque
+
+def levelOrderTraverse(root):
+if root is None:
+return
+q = deque()
+q.append(root) # record the current level being traversed
+depth = 1
+
+    while q:
+        sz = len(q)
+        for i in range(sz):
+            cur = q.popleft()
+            # visit the cur node and know its level
+            print(f"depth = {depth}, val = {cur.val}")
+
+            for child in cur.children:
+                q.append(child)
+        depth += 1`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `void levelOrderTraverse(Node root) {
+    if (root == null) return;
+    Queue<Node> q = new LinkedList<>();
+    q.offer(root);
+    int depth = 1;
+    while (!q.isEmpty()) {
+        int sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            Node cur = q.poll();
+            System.out.println("depth = " + depth + ", val = " + cur.val);
+            for (Node child : cur.children) {
+                q.offer(child);
+            }
+        }
+        depth++;
+    }
+
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`function levelOrderTraverse(root) {
+if (root === null) return;
+let q = [root];
+let depth = 1;
+while (q.length > 0) {
+let sz = q.length;
+for (let i = 0; i < sz; i++) {
+let cur = q.shift();
+console.log(\`depth = \${depth}, val = \${cur.val}\`);
+for (let child of cur.children) {
+q.push(child);
+}
+}
+depth++;
+}
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`func levelOrderTraverse(root *Node) {
+if root == nil {
+return
+}
+q := []*Node{root}
+depth := 1
+for len(q) > 0 {
+sz := len(q)
+for i := 0; i < sz; i++ {
+cur := q[0]
+q = q[1:]
+fmt.Printf("depth = %d, val = %d\\n", depth, cur.Val)
+for \_, child := range cur.Children {
+q = append(q, child)
+}
+}
+depth++
+}
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`void levelOrderTraverse(Node* root) {
+if (root == nullptr) return;
+queue<Node*> q;
+q.push(root);
+int depth = 1;
+while (!q.empty()) {
+int sz = q.size();
+for (int i = 0; i < sz; i++) {
+Node* cur = q.front();
+q.pop();
+cout << "depth = " << depth << ", val = " << cur->val << endl;
+for (Node* child : cur->children) {
+q.push(child);
+}
+}
+depth++;
+}
+}`
+}
+]}
+/>
+
+### Method 3: State-based BFS (Most Flexible)
+
+The third method uses a `State` class to record information for each node independently:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class State:
+    def __init__(self, node, depth):
+        self.node = node
+        self.depth = depth
+
+def levelOrderTraverse(root):
+if root is None:
+return
+q = deque() # root node is considered as level 1
+q.append(State(root, 1))
+
+    while q:
+        state = q.popleft()
+        cur = state.node
+        depth = state.depth
+        # Visit the cur node while knowing its level
+        print(f"depth = {depth}, val = {cur.val}")
+
+        for child in cur.children:
+            q.append(State(child, depth + 1))`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class State {
+    Node node;
+    int depth;
+    State(Node node, int depth) {
+        this.node = node;
+        this.depth = depth;
+    }
+
+}
+
+void levelOrderTraverse(Node root) {
+if (root == null) return;
+Queue<State> q = new LinkedList<>();
+q.offer(new State(root, 1));
+while (!q.isEmpty()) {
+State state = q.poll();
+Node cur = state.node;
+int depth = state.depth;
+System.out.println("depth = " + depth + ", val = " + cur.val);
+for (Node child : cur.children) {
+q.offer(new State(child, depth + 1));
+}
+}
+}`    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code:`class State {
+constructor(node, depth) {
+this.node = node;
+this.depth = depth;
+}
+}
+
+function levelOrderTraverse(root) {
+if (root === null) return;
+let q = [new State(root, 1)];
+while (q.length > 0) {
+let state = q.shift();
+let cur = state.node;
+let depth = state.depth;
+console.log(\`depth = \${depth}, val = \${cur.val}\`);
+for (let child of cur.children) {
+q.push(new State(child, depth + 1));
+}
+}
+}`    },
+    {
+      label: "go",
+      language: "go",
+      code:`type State struct {
+Node \*Node
+Depth int
+}
+
+func levelOrderTraverse(root _Node) {
+if root == nil {
+return
+}
+q := []State{{Node: root, Depth: 1}}
+for len(q) > 0 {
+state := q[0]
+q = q[1:]
+cur := state.Node
+depth := state.Depth
+fmt.Printf("depth = %d, val = %d\\n", depth, cur.Val)
+for \_, child := range cur.Children {
+q = append(q, State{Node: child, Depth: depth + 1})
+}
+}
+}`    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code:`struct State {
+Node_ node;
+int depth;
+State(Node\* n, int d) : node(n), depth(d) {}
+};
+
+void levelOrderTraverse(Node* root) {
+if (root == nullptr) return;
+queue<State> q;
+q.push(State(root, 1));
+while (!q.empty()) {
+State state = q.front();
+q.pop();
+Node* cur = state.node;
+int depth = state.depth;
+cout << "depth = " << depth << ", val = " << cur->val << endl;
+for (Node\* child : cur->children) {
+q.push(State(child, depth + 1));
+}
+}
+}`
+}
+]}
+/>
+
+There's nothing much to add; if you have any questions, you can refer to the binary tree traversal level order traversal code and visualization panels mentioned earlier.
