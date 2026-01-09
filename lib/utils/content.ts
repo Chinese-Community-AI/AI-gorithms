@@ -12,6 +12,7 @@ export interface ContentMetadata {
 /**
  * Converts a route path to a content file path
  * Routes under /basics map directly to files in content/articles/basics
+ * Routes like /algorithm-patterns map to content/articles/algorithm-patterns
  */
 function routeToContentPath(route: string): string | null {
   // Remove leading /basics and normalize
@@ -20,6 +21,16 @@ function routeToContentPath(route: string): string | null {
     if (relativePath) {
       return `basics/${relativePath}`;
     }
+  }
+  // Handle /algorithm-patterns route
+  if (route.startsWith("/algorithm-patterns")) {
+    const relativePath = route
+      .replace(/^\/algorithm-patterns/, "")
+      .replace(/^\//, "");
+    if (relativePath) {
+      return `algorithm-patterns/${relativePath}`;
+    }
+    return "algorithm-patterns";
   }
   return null;
 }

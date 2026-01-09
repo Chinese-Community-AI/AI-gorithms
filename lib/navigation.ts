@@ -59,6 +59,22 @@ export const navigation: NavItem[] = [
           },
         ],
       },
+      {
+        title: "Binary Tree",
+        href: "/basics/04-binary-tree",
+      },
+      {
+        title: "Binary Heap",
+        href: "/basics/05-binary-heap",
+      },
+      {
+        title: "Graphs",
+        href: "/basics/06-graphs",
+      },
     ],
+  },
+  {
+    title: "Part 2: Algorithm Patterns",
+    href: "/algorithm-patterns",
   },
 ];
