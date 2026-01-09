@@ -1,0 +1,232 @@
+# Binary Heap Basics
+
+A binary heap is a data structure capable of dynamically sorting, extending from the binary tree structure. It is the underlying principle behind priority queues and heap sort.
+
+<div className="bg-[var(--sidebar-bg)] p-6 rounded-xl border border-[rgba(55,53,47,0.09)] my-8">
+  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <span>Summary in One Sentence</span>
+  </h3>
+  <ul className="list-disc ml-5 space-y-2 text-[15px] opacity-90">
+    <li>A binary heap is a dynamically sorting structure extending from binary trees.</li>
+    <li>Main operations: **sink** (downward adjustment) and **swim** (upward adjustment).</li>
+    <li>Primary applications: **Priority Queue** and **Heap Sort**.</li>
+  </ul>
+</div>
+
+## Properties of Binary Heap
+
+A binary heap is a data structure that can sort data dynamically. Unlike regular sorting algorithms, a binary heap automatically adjusts as you add or remove elements, so you can always retrieve elements in a specific order.
+
+You can think of a binary heap as a special kind of binary tree:
+- **Max Heap**: For any node, its value is greater than or equal to all the values in its subtrees. The root is the maximum.
+- **Min Heap**: For any node, its value is less than or equal to all the values in its subtrees. The root is the minimum.
+
+Another key property: **The left and right subtrees of a binary heap are also binary heaps.** This recursive property is essential for efficient heap operations and optimization.
+
+---
+
+## The Most Common Use: Priority Queue
+
+The primary application of a binary heap is the **Priority Queue**. It typically provides the following core APIs:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class MyPriorityQueue:
+    # Insert an element, O(log N)
+    def push(self, x: int):
+        pass
+
+    # Return top element, O(1)
+    def peek(self) -> int:
+        pass
+
+    # Delete top element, O(log N)
+    def pop(self) -> int:
+        pass
+
+    # Return size, O(1)
+    def size(self) -> int:
+        pass`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class MyPriorityQueue {
+    // Insert an element, O(log N)
+    public void push(int x) {}
+
+    // Return top element, O(1)
+    public int peek() { return 0; }
+
+    // Delete top element, O(log N)
+    public int pop() { return 0; }
+
+    // Return size, O(1)
+    public int size() { return 0; }
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class MyPriorityQueue {
+    // Insert an element, O(log N)
+    push(x) {}
+
+    // Return top element, O(1)
+    peek() {}
+
+    // Delete top element, O(log N)
+    pop() {}
+
+    // Return size, O(1)
+    size() {}
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type MyPriorityQueue struct {
+    // internal fields
+}
+
+// Insert an element, O(log N)
+func (pq *MyPriorityQueue) Push(x int) {}
+
+// Return top element, O(1)
+func (pq *MyPriorityQueue) Peek() int { return 0 }
+
+// Delete top element, O(log N)
+func (pq *MyPriorityQueue) Pop() int { return 0 }
+
+// Return size, O(1)
+func (pq *MyPriorityQueue) Size() int { return 0 }`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `class MyPriorityQueue {
+public:
+    // Insert an element, O(log N)
+    void push(int x);
+
+    // Return top element, O(1)
+    int peek();
+
+    // Delete top element, O(log N)
+    int pop();
+
+    // Return size, O(1)
+    int size();
+};`
+    }
+  ]}
+/>
+
+### Why "Priority Queue"?
+A standard queue uses First-In-First-Out (FIFO) order. A priority queue behaves like a queue that automatically sorts itself by priority (the value of the element). While its API looks like a queue, its underlying principle is a binary tree.
+
+Adding or removing elements costs `O(log N)`, where `N` is the number of elements.
+
+---
+
+## Another Use: Heap Sort
+
+Heap sort is simple: put all elements into a priority queue, then take them out one by one.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# Heap sort pseudocode
+# Time: O(N log N), Space: O(N)
+def heapSort(arr):
+    res = []
+    pq = MyPriorityQueue()
+    for x in arr:
+        pq.push(x)
+    # The order of elements popped is sorted
+    while pq.size() > 0:
+        res.append(pq.pop())
+    return res`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// Heap sort logic
+public int[] heapSort(int[] arr) {
+    int[] res = new int[arr.length];
+    MyPriorityQueue pq = new MyPriorityQueue();
+    for (int x : arr) {
+        pq.push(x);
+    }
+    for (int i = 0; i < arr.length; i++) {
+        res[i] = pq.pop();
+    }
+    return res;
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function heapSort(arr) {
+    const res = [];
+    const pq = new MyPriorityQueue();
+    for (const x of arr) {
+        pq.push(x);
+    }
+    while (pq.size() > 0) {
+        res.push(pq.pop());
+    }
+    return res;
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `func heapSort(arr []int) []int {
+    res := make([]int, len(arr))
+    pq := MyPriorityQueue{}
+    for _, x := range arr {
+        pq.Push(x)
+    }
+    for i := 0; i < len(arr); i++ {
+        res[i] = pq.Pop()
+    }
+    return res
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `vector<int> heapSort(vector<int>& arr) {
+    vector<int> res;
+    MyPriorityQueue pq;
+    for (int x : arr) {
+        pq.push(x);
+    }
+    while (pq.size() > 0) {
+        res.push_back(pq.pop());
+    }
+    return res;
+}`
+    }
+  ]}
+/>
+
+Normally, production heap sort implementations are written to be **in-place** (space complexity `O(1)`) by building the heap directly on the original array without an extra priority queue class.
+
+---
+
+## Building a Heap on an Array?
+
+A binary tree is a logical concept. It doesn't always mean a structure built with `TreeNode` objects. An array can also represent a tree:
+- For a node at index `i`:
+  - Left child is at `2*i + 1`
+  - Right child is at `2*i + 2`
+  - Parent is at `(i-1) / 2`
+
+This allows us to maintain a binary heap directly within an array without using extra pointers or space. Once you understand this idea, all tree-based algorithms will become much more intuitive.

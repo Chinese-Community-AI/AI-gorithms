@@ -88,6 +88,12 @@ export const navigation: NavItem[] = [
       {
         title: "Binary Heap",
         href: "/basics/05-binary-heap",
+        children: [
+          {
+            title: "Binary Heap Basics",
+            href: "/basics/05-binary-heap/basics",
+          },
+        ],
       },
       {
         title: "Graphs",
