@@ -62,6 +62,12 @@ export const navigation: NavItem[] = [
       {
         title: "Binary Tree",
         href: "/basics/04-binary-tree",
+        children: [
+          {
+            title: "Binary Tree Basics",
+            href: "/basics/04-binary-tree/basics",
+          },
+        ],
       },
       {
         title: "Binary Heap",
