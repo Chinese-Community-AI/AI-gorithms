@@ -8,7 +8,7 @@ import Link from "next/link";
 const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
   <div className="flex items-center gap-2 mb-4 px-1">
     <span className="text-xl">{icon}</span>
-    <h2 className="text-[14px] font-semibold text-[#37352f]/60 dark:text-gray-400 uppercase tracking-wider">
+    <h2 className="text-[0.875rem] font-semibold text-[#37352f]/60 dark:text-gray-400 uppercase tracking-wider">
       {title}
     </h2>
   </div>
@@ -32,10 +32,10 @@ const RecentlyVisitedCard = ({
     <div className="text-2xl mb-3 group-hover:scale-110 transition-transform duration-200 origin-left">
       {icon}
     </div>
-    <div className="font-bold text-[#37352f] dark:text-gray-100 text-[15px] mb-1 truncate">
+    <div className="font-bold text-[#37352f] dark:text-gray-100 text-[0.9375rem] mb-1 truncate">
       {title}
     </div>
-    <div className="text-[12px] text-[#37352f]/40 dark:text-gray-500 mt-auto">
+    <div className="text-[0.75rem] text-[#37352f]/40 dark:text-gray-500 mt-auto">
       {date}
     </div>
   </Link>
@@ -140,7 +140,7 @@ const LearningPathCard = ({
         </div>
       </div>
       <div className="pt-4 border-t border-[#37352f]/10 dark:border-gray-700 mb-4">
-        <p className="text-[15px] text-[#37352f]/70 dark:text-gray-300 leading-relaxed">
+        <p className="text-[0.9375rem] text-[#37352f]/70 dark:text-gray-300 leading-relaxed">
           {summary}
         </p>
       </div>

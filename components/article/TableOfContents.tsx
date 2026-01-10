@@ -90,7 +90,7 @@ export default function TableOfContents({
             </svg>
           </button>
           <h3
-            className={`font-bold text-[11px] uppercase tracking-wider text-[var(--foreground)] opacity-40 ${
+            className={`font-bold text-[0.6875rem] uppercase tracking-wider text-[var(--foreground)] opacity-40 ${
               isOpen ? "block" : "hidden"
             }`}
           >
@@ -107,7 +107,7 @@ export default function TableOfContents({
                   e.preventDefault();
                   scrollToHeading(heading.id);
                 }}
-                className={`block text-[13px] py-1.5 px-3 rounded-md transition-all no-underline leading-tight ${
+                className={`block text-[0.8125rem] py-1.5 px-3 rounded-md transition-all no-underline leading-tight ${
                   activeId === heading.id
                     ? "bg-[#faebdd] text-[#d9730d] font-bold shadow-sm"
                     : "text-[var(--foreground)] opacity-60 hover:opacity-100 hover:bg-[var(--sidebar-hover)]"

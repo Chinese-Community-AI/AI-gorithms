@@ -12,7 +12,7 @@ export default function MainContent({
   return (
     <div
       className={`transition-all duration-300 bg-white dark:bg-gray-950 min-h-screen ${
-        isFocusMode ? "ml-0 flex-1" : "lg:ml-64 ml-0 flex-1"
+        isFocusMode ? "ml-0 flex-1" : "lg:ml-[15rem] ml-0 flex-1"
       }`}
     >
       {children}

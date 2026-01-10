@@ -98,11 +98,27 @@ export const navigation: NavItem[] = [
       {
         title: "Graphs",
         href: "/basics/06-graphs",
+        children: [
+          {
+            title: "Graph Basics",
+            href: "/basics/06-graphs/basics",
+          },
+          {
+            title: "Graph DFS/BFS",
+            href: "/basics/06-graphs/dfs-bfs",
+          },
+        ],
       },
     ],
   },
   {
     title: "Part 2: Algorithm Patterns",
     href: "/algorithm-patterns",
+    children: [
+      {
+        title: "First Principle for DSA",
+        href: "/algorithm-patterns/framework-thinking",
+      },
+    ],
   },
 ];

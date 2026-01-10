@@ -1,0 +1,166 @@
+# First Principle for DSA
+
+This summary is the main guideline for all content on this site. It has two parts: my understanding of the essence of data structures and algorithms, and a summary of common algorithms.
+
+There is no difficult code in this article. It is based on my experience, and it will help you avoid detours and understand algorithms better.
+
+<div className="bg-[var(--sidebar-bg)] p-8 rounded-xl border border-[rgba(55,53,47,0.09)] my-8">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {/* Left Column: Data Structures */}
+    <div>
+      <h3 className="text-[0.6875rem] font-bold mb-4 opacity-40 uppercase tracking-widest">Data Structures</h3>
+      <div className="space-y-4">
+        {/* Sequential Storage */}
+        <div className="p-4 bg-[var(--background)] rounded-lg border border-[rgba(55,53,47,0.06)] shadow-sm">
+          <p className="font-bold text-[0.875rem] mb-1">Array (Sequential Storage)</p>
+          <p className="text-[0.75rem] opacity-60">Dynamic Array, String, Hash Table (Probing)</p>
+        </div>
+        {/* Linked Storage */}
+        <div className="p-4 bg-[var(--background)] rounded-lg border border-[rgba(55,53,47,0.06)] shadow-sm">
+          <p className="font-bold text-[0.875rem] mb-1">Linked List (Linked Storage)</p>
+          <p className="text-[0.75rem] opacity-60">Single/Double Linked List, Trees, Graphs, Hash Table (Chaining)</p>
+        </div>
+        <p className="text-[0.75rem] opacity-40 italic text-center">Core: add, delete, search, update</p>
+      </div>
+    </div>
+
+    {/* Right Column: Algorithm Problems */}
+    <div>
+      <h3 className="text-[0.6875rem] font-bold mb-4 opacity-40 uppercase tracking-widest">Algorithm Problems</h3>
+      <div className="space-y-4">
+        {/* How to Brute-force */}
+        <div className="p-4 bg-[var(--background)] rounded-lg border border-[rgba(55,53,47,0.06)] shadow-sm">
+          <p className="font-bold text-[0.875rem] mb-1 text-[#d9730d]">How to Brute-force (No Missing)</p>
+          <p className="text-[0.75rem] opacity-60">Backtracking, Dynamic Programming, DFS/BFS</p>
+        </div>
+        {/* How to Brute-force Smartly */}
+        <div className="p-4 bg-[var(--background)] rounded-lg border border-[rgba(55,53,47,0.06)] shadow-sm">
+          <p className="font-bold text-[0.875rem] mb-1 text-[#d9730d]">How to Brute-force Smartly (No Redundancy)</p>
+          <p className="text-[0.75rem] opacity-60">Binary Search, Sliding Window, Greedy, Two Pointers</p>
+        </div>
+        <p className="text-[0.75rem] opacity-40 italic text-center">Core: brute-force</p>
+      </div>
+    </div>
+  </div>
+  <div className="mt-8 pt-6 border-t border-[rgba(55,53,47,0.06)] text-center">
+    <span className="px-3 py-1 bg-[#faebdd] text-[#d9730d] dark:bg-[#2c221a] rounded-full text-[0.6875rem] font-bold uppercase tracking-wider">Learning Mindset</span>
+  </div>
+</div>
+
+## Summary of All Data Structures and Algorithms
+
+All data structures are essentially transformations of **arrays** (sequential storage) and **linked lists** (linked storage).
+
+The key point of data structures is in **traversal and access**, including basic operations such as adding, deleting, searching, and updating.
+
+All algorithms are essentially **brute-force**.
+
+The key to brute-force is **no omission** and **no redundancy**. Mastering algorithm frameworks allows for no omission; making full use of information ensures no redundancy.
+
+If you truly understand the sentences above, you would not need to read the 7,000 words in this article, nor the dozens of algorithm tutorials and exercises on this site. Keep these two sentences in mind—they will greatly improve your learning efficiency.
+
+---
+
+## Ways to Store Data Structures
+
+There are only two ways to store data structures: **arrays** (sequential storage) and **linked lists** (linked storage).
+
+All other structures—hash tables, stacks, queues, heaps, trees, graphs—are built on top of these two. Most data structures are just special ways to use arrays or linked lists with different APIs.
+
+- **Arrays**: Store data in one tight, continuous piece of memory. Fast random access (`O(1)`), space-efficient. Resize and middle operations are `O(N)`.
+- **Linked Lists**: Store data as nodes connected with pointers. No resizing needed, fast insertion/deletion (`O(1)`) if neighbors are known. No fast random access, extra memory for pointers.
+
+---
+
+## Basic Operations of Data Structures
+
+For any data structure, the basic operations are **traversal and access** (insert, delete, search, update).
+
+All traversals fall into two types: **linear** (loops) and **nonlinear** (recursion).
+
+### 1. Array Traversal (Linear)
+```python
+def traverse(arr):
+    for i in range(len(arr)):
+        # iterate over arr[i]
+```
+
+### 2. Linked List Traversal
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `def traverse_iterative(head):
+    p = head
+    while p:
+        # access p.val
+        p = p.next
+
+def traverse_recursive(head):
+    if not head: return
+    # access head.val
+    traverse_recursive(head.next)`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `void traverse(ListNode head) {
+    for (ListNode p = head; p != null; p = p.next) {
+        // access p.val
+    }
+}
+
+void traverseRecursive(ListNode head) {
+    if (head == null) return;
+    // access head.val
+    traverseRecursive(head.next);
+}`
+    }
+  ]}
+/>
+
+### 3. Binary Tree Traversal (Nonlinear)
+```python
+def traverse(root):
+    if not root: return
+    traverse(root.left)
+    traverse(root.right)
+```
+
+Notice the similarity? Linked list recursion is just a tree with one branch. N-ary trees and Graphs are just extensions of this same recursive framework.
+
+---
+
+## The Essence of Algorithms
+
+The essence of algorithms is **"brute-force"**.
+
+Most coding interview problems ask you to find a maximum or minimum. The computer's way to solve this is simple: try all possible answers and pick the best one.
+
+### Two Keys to Brute-Force
+1. **How to Brute-force?** (No missing cases).
+2. **How to Brute-force Smartly?** (No redundancy).
+
+- **How to Brute-force?** Usually recursive problems like **Backtracking** (traversal mindset) or **Dynamic Programming** (decomposition mindset).
+- **How to Brute-force Smartly?** Well-known skills like **Binary Search**, **Two Pointers**, **Sliding Window**, or **Greedy** algorithms.
+
+---
+
+## Recursive Thinking Patterns
+
+There are two main ways to solve recursive (tree-based) problems:
+
+### 1. Traversal Thinking (Backtracking)
+"Go through the tree and collect/update results along the way."
+
+### 2. Decomposition Thinking (Dynamic Programming)
+"Define a subproblem and build the final answer from sub-results."
+
+---
+
+## Final Summary: One Problem to Solve Ten
+
+Don't try to memorize thousands of problems. Instead, develop a **framework mindset**.
+
+A single algorithm pattern can solve thousands of variations. When you see through the surface to the underlying structure, a thousand problems become one. Enjoy mastering algorithms, and don't be controlled by them.

@@ -69,7 +69,7 @@ function NavItemComponent({
             <Link
               href="/fast-track"
               onClick={handleLinkClick}
-              className="text-[11px] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1 mb-1.5 no-underline hover:opacity-60 transition-opacity"
+              className="text-[0.6875rem] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1 mb-1.5 no-underline hover:opacity-60 transition-opacity"
             >
               Learning Path
             </Link>
@@ -79,7 +79,7 @@ function NavItemComponent({
                   e.preventDefault();
                   setActivePlan("fast-track");
                 }}
-                className={`flex-1 px-2 py-1 text-[11px] font-bold rounded transition-all ${
+                className={`flex-1 px-2 py-1 text-[0.6875rem] font-bold rounded transition-all ${
                   activePlan === "fast-track"
                     ? "bg-white dark:bg-[#252525] text-[#d9730d] shadow-sm"
                     : "text-[var(--foreground)] opacity-40 hover:opacity-60"
@@ -92,7 +92,7 @@ function NavItemComponent({
                   e.preventDefault();
                   setActivePlan("mastery");
                 }}
-                className={`flex-1 px-2 py-1 text-[11px] font-bold rounded transition-all ${
+                className={`flex-1 px-2 py-1 text-[0.6875rem] font-bold rounded transition-all ${
                   activePlan === "mastery"
                     ? "bg-white dark:bg-[#252525] text-[#d9730d] shadow-sm"
                     : "text-[var(--foreground)] opacity-40 hover:opacity-60"
@@ -133,13 +133,13 @@ function NavItemComponent({
                   <Link
                     href={item.href}
                     onClick={handleLinkClick}
-                    className="flex-1 text-[13.5px] leading-tight truncate no-underline py-0.5"
+                    className="flex-1 text-[0.84375rem] leading-tight truncate no-underline py-0.5"
                   >
                     {displayTitle}
                   </Link>
                 </div>
               ) : (
-                <span className="flex-1 text-[13.5px] leading-tight truncate py-0.5 font-medium opacity-90">
+                <span className="flex-1 text-[0.84375rem] leading-tight truncate py-0.5 font-medium opacity-90">
                   {displayTitle}
                 </span>
               )}
@@ -192,7 +192,7 @@ export default function Sidebar() {
 
       <aside
         className={`${
-          isOpen ? "w-[240px]" : "w-0"
+          isOpen ? "w-[15rem]" : "w-0"
         } bg-[var(--sidebar-bg)] transition-all duration-300 h-screen fixed left-0 top-0 overflow-y-auto overflow-x-hidden z-40 ${
           isMobileMenuOpen
             ? "translate-x-0"
@@ -204,11 +204,11 @@ export default function Sidebar() {
           <div className="px-4 py-3 flex items-center justify-between group">
             <div className="flex items-center gap-2 overflow-hidden">
               <div className="w-5 h-5 bg-[#faebdd] border border-[#d9730d]/20 rounded flex items-center justify-center flex-shrink-0 shadow-sm">
-                <span className="text-[#d9730d] text-[10px] font-extrabold">
+                <span className="text-[#d9730d] text-[0.625rem] font-extrabold">
                   A
                 </span>
               </div>
-              <h2 className="font-bold text-[14px] text-[var(--foreground)] truncate opacity-80">
+              <h2 className="font-bold text-[0.875rem] text-[var(--foreground)] truncate opacity-80">
                 AI-gorithms
               </h2>
             </div>
@@ -232,7 +232,7 @@ export default function Sidebar() {
             <Link
               href="/"
               onClick={closeMobileMenu}
-              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
+              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[0.84375rem] font-medium transition-colors no-underline ${
                 usePathname() === "/"
                   ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
                   : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
@@ -244,7 +244,7 @@ export default function Sidebar() {
             <Link
               href="/pricing"
               onClick={closeMobileMenu}
-              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[13.5px] font-medium transition-colors no-underline ${
+              className={`flex items-center px-3 py-1.5 rounded-[4px] text-[0.84375rem] font-medium transition-colors no-underline ${
                 usePathname() === "/pricing"
                   ? "bg-[#faebdd] font-bold text-[#d9730d] shadow-sm"
                   : "text-[var(--foreground)] opacity-70 hover:opacity-100 hover:bg-[rgba(55,53,47,0.05)]"
@@ -255,7 +255,7 @@ export default function Sidebar() {
             </Link>
 
             <div className="mt-4 pt-4 border-t border-[rgba(55,53,47,0.06)] px-2 mb-2">
-              <span className="text-[11px] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1">
+              <span className="text-[0.6875rem] font-bold text-[var(--foreground)] opacity-40 uppercase tracking-wider pl-1">
                 Content
               </span>
             </div>

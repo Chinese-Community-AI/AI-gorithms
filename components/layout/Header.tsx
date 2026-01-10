@@ -56,10 +56,10 @@ export default function Header() {
   return (
     <header
       className={`bg-[var(--background)] border-b border-[rgba(55,53,47,0.09)] h-12 fixed top-0 z-10 transition-all duration-300 ${
-        isFocusMode ? "left-0 right-0" : "lg:left-64 left-0 right-0"
+        isFocusMode ? "left-0 right-0" : "lg:left-[15rem] left-0 right-0"
       }`}
       style={{
-        left: isFocusMode ? "0" : "240px",
+        left: isFocusMode ? "0" : "15rem",
       }}
     >
       <div className="h-full flex items-center justify-between px-4 lg:px-6">

@@ -44,7 +44,7 @@ export const mdxComponents: MDXComponents = {
     // Customize paragraph styles
   p: ({ children, ...props }: any) => (
       <p
-      className="mb-4 text-[15.5px] leading-relaxed text-[var(--foreground)] opacity-90"
+      className="mb-4 text-[0.96875rem] leading-relaxed text-[var(--foreground)] opacity-90"
         {...props}
       >
         {children}

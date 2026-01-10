@@ -136,7 +136,7 @@ export default function AIChat() {
             <h2 className="text-sm font-bold text-[var(--foreground)] tracking-tight">
               AI Tutor
             </h2>
-            <p className="text-[11px] text-[var(--foreground)] opacity-50 font-medium">
+            <p className="text-[0.6875rem] text-[var(--foreground)] opacity-50 font-medium">
               Ask questions about the content
             </p>
           </div>
@@ -231,7 +231,7 @@ export default function AIChat() {
             </button>
           </div>
         </div>
-        <p className="text-[10px] text-[var(--foreground)] opacity-30 mt-2 text-center font-medium">
+        <p className="text-[0.625rem] text-[var(--foreground)] opacity-30 mt-2 text-center font-medium">
           Press Enter to send • Shift+Enter for new line
         </p>
       </div>

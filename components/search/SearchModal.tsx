@@ -117,7 +117,7 @@ export default function SearchModal() {
                     <div className="font-bold text-[var(--foreground)] mb-0.5 group-hover:text-[#d9730d] transition-colors">
                       {item.title}
                     </div>
-                    <div className="text-[11px] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-tighter">
+                    <div className="text-[0.6875rem] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-tighter">
                       {item.href}
                     </div>
                   </Link>
@@ -143,7 +143,7 @@ export default function SearchModal() {
 
         <div className="p-4 border-t border-[rgba(55,53,47,0.06)] dark:border-gray-800 bg-[var(--sidebar-bg)] flex justify-between items-center">
           <div className="flex gap-4">
-            <span className="flex items-center gap-1.5 text-[10px] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-widest">
+            <span className="flex items-center gap-1.5 text-[0.625rem] font-bold text-[var(--foreground)] opacity-30 uppercase tracking-widest">
               <kbd className="px-1.5 py-0.5 bg-[var(--background)] border border-[rgba(55,53,47,0.1)] rounded shadow-sm">
                 Enter
               </kbd>{" "}
@@ -156,7 +156,7 @@ export default function SearchModal() {
               to close
             </span>
           </div>
-          <span className="text-[10px] font-bold text-[#d9730d] opacity-60 uppercase tracking-widest">
+          <span className="text-[0.625rem] font-bold text-[#d9730d] opacity-60 uppercase tracking-widest">
             AI-gorithms Search
           </span>
         </div>

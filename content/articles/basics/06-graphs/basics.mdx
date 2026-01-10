@@ -1,0 +1,302 @@
+# Graph Basics
+
+A graph is an extension of the N-ary tree structure. Logically, a graph consists of multiple nodes (**Vertices**) and **edges**. We usually use adjacency lists or adjacency matrices to store graphs.
+
+<div className="bg-[var(--sidebar-bg)] p-6 rounded-xl border border-[rgba(55,53,47,0.09)] my-8">
+  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <span>In a Nutshell</span>
+  </h3>
+  <ul className="list-disc ml-5 space-y-2 text-[15px] opacity-90">
+    <li>A graph is an extension of the N-ary tree structure.</li>
+    <li>Nodes can point to each other without restrictions, forming complex networks.</li>
+    <li>Primary storage methods: **Adjacency Lists** and **Adjacency Matrices**.</li>
+    <li>Core algorithms include Topological Sort, Shortest Path, and Minimum Spanning Tree.</li>
+  </ul>
+</div>
+
+## Logical Structure of Graph
+
+A graph is made up of nodes (Vertex) and edges (Edge). Based on the logical structure, we can think of each node being implemented similarly to an N-ary tree node:
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class Vertex:
+    def __init__(self, id: int):
+        self.id = id
+        self.neighbors = [] # List of Vertex objects`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class Vertex {
+    int id;
+    List<Vertex> neighbors;
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class Vertex {
+    constructor(id) {
+        this.id = id;
+        this.neighbors = [];
+    }
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type Vertex struct {
+    ID        int
+    Neighbors []*Vertex
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `struct Vertex {
+    int id;
+    vector<Vertex*> neighbors;
+};`
+    }
+  ]}
+/>
+
+In essence, a graph is just a more advanced N-ary tree. All DFS/BFS algorithms for trees work for graphs as well. However, in actual code, we rarely use this `Vertex` class. Instead, we use adjacency lists and adjacency matrices.
+
+---
+
+## Adjacency List and Adjacency Matrix
+
+### 1. Adjacency List
+For each node `x`, you store its neighbors in a list.
+- **Space complexity**: `O(V + E)`
+- **Pros**: Saves space for **sparse graphs** (where `E << V^2`).
+- **In code**: `List<List<Integer>> graph` or `Map<Integer, List<Integer>>`.
+
+### 2. Adjacency Matrix
+A 2D array `matrix[x][y]`. If node `x` and `y` are connected, `matrix[x][y]` is `true` or stores a weight.
+- **Space complexity**: `O(V^2)`
+- **Pros**: Fast check for edge existence (`O(1)`), powerful math properties.
+- **In code**: `boolean[][] matrix` or `int[][] matrix`.
+
+---
+
+## Different Types of Graph Structures
+
+### Weighted Graphs
+Instead of just storing the neighbor ID, you also store the weight of the edge.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# Adjacency list with weights
+class Edge:
+    def __init__(self, to: int, weight: int):
+        self.to = to
+        self.weight = weight
+
+graph = [[] for _ in range(n)] # list of list of Edges
+
+# Adjacency matrix with weights
+# matrix[x][y] stores weight, 0 means no connection
+matrix = [[0] * n for _ in range(n)]`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `// Adjacency list
+class Edge {
+    int to;
+    int weight;
+}
+List<Edge>[] graph;
+
+// Adjacency matrix
+int[][] matrix;`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `// Adjacency list
+let graph = Array.from({ length: n }, () => []);
+graph[x].push({ to: y, weight: w });
+
+// Adjacency matrix
+let matrix = Array.from({ length: n }, () => Array(n).fill(0));`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `// Adjacency list
+type Edge struct {
+    To     int
+    Weight int
+}
+graph := make([][]Edge, n)
+
+// Adjacency matrix
+matrix := make([][]int, n)
+for i := range matrix {
+    matrix[i] = make([]int, n)
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `// Adjacency list
+struct Edge {
+    int to;
+    int weight;
+};
+vector<vector<Edge>> graph;
+
+// Adjacency matrix
+vector<vector<int>> matrix;`
+    }
+  ]}
+/>
+
+### Undirected Graphs
+An undirected graph is simply a **bidirectional** directed graph. If there is an edge between `x` and `y`, you add an edge from `x` to `y` AND an edge from `y` to `x`.
+
+---
+
+## General Code Implementation (Adjacency List)
+
+Here is a simple and general implementation of a **Weighted Directed Graph** using an adjacency list.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `class WeightedDigraph:
+    class Edge:
+        def __init__(self, to: int, weight: int):
+            self.to = to
+            self.weight = weight
+
+    def __init__(self, n: int):
+        self.graph = [[] for _ in range(n)]
+
+    def addEdge(self, from_node: int, to: int, weight: int):
+        self.graph[from_node].append(self.Edge(to, weight))
+
+    def removeEdge(self, from_node: int, to: int):
+        self.graph[from_node] = [e for e in self.graph[from_node] if e.to != to]
+
+    def hasEdge(self, from_node: int, to: int) -> bool:
+        return any(e.to == to for e in self.graph[from_node])
+
+    def neighbors(self, v: int):
+        return self.graph[v]`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `class WeightedDigraph {
+    static class Edge {
+        int to, weight;
+        Edge(int to, int weight) { this.to = to; this.weight = weight; }
+    }
+
+    private List<Edge>[] graph;
+
+    public WeightedDigraph(int n) {
+        graph = new ArrayList[n];
+        for (int i = 0; i < n; i++) graph[i] = new ArrayList<>();
+    }
+
+    public void addEdge(int from, int to, int weight) {
+        graph[from].add(new Edge(to, weight));
+    }
+
+    public List<Edge> neighbors(int v) {
+        return graph[v];
+    }
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `class WeightedDigraph {
+    constructor(n) {
+        this.graph = Array.from({ length: n }, () => []);
+    }
+
+    addEdge(from, to, weight) {
+        this.graph[from].push({ to, weight });
+    }
+
+    neighbors(v) {
+        return this.graph[v];
+    }
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `type Edge struct {
+    To, Weight int
+}
+
+type WeightedDigraph struct {
+    graph [][]Edge
+}
+
+func NewWeightedDigraph(n int) *WeightedDigraph {
+    return &WeightedDigraph{graph: make([][]Edge, n)}
+}
+
+func (g *WeightedDigraph) AddEdge(from, to, weight int) {
+    g.graph[from] = append(g.graph[from], Edge{To: to, Weight: weight})
+}
+
+func (g *WeightedDigraph) Neighbors(v int) []Edge {
+    return g.graph[v]
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `class WeightedDigraph {
+    struct Edge {
+        int to, weight;
+    };
+    vector<vector<Edge>> graph;
+public:
+    WeightedDigraph(int n) : graph(n) {}
+
+    void addEdge(int from, int to, int weight) {
+        graph[from].push_back({to, weight});
+    }
+
+    const vector<Edge>& neighbors(int v) {
+        return graph[v];
+    }
+};`
+    }
+  ]}
+/>
+
+### Undirected Weighted Graph implementation
+
+Simply reuse the `WeightedDigraph` and add edges in both directions:
+
+```python
+class WeightedUndigraph:
+    def __init__(self, n):
+        self.graph = WeightedDigraph(n)
+
+    def addEdge(self, u, v, weight):
+        self.graph.addEdge(u, v, weight)
+        self.graph.addEdge(v, u, weight)
+```
+
+No matter what kind of graph you see next time, you should have some confidence. Next, we will explore advanced graph algorithms like Topological Sort and Shortest Path.

@@ -134,7 +134,7 @@ export default function ProfilePage() {
                   <label className="block text-sm font-medium text-[#37352f]/60 dark:text-gray-400 mb-1">
                     Email
                   </label>
-                  <div className="text-[15px] text-[#37352f] dark:text-gray-100">
+                  <div className="text-[0.9375rem] text-[#37352f] dark:text-gray-100">
                     {profile.email}
                   </div>
                 </div>

@@ -1,0 +1,366 @@
+# DFS and BFS in Graphs
+
+Graph traversal is an extension of N-ary tree traversal. The main methods are still **Depth-First Search (DFS)** and **Breadth-First Search (BFS)**.
+
+<div className="bg-[var(--sidebar-bg)] p-6 rounded-xl border border-[rgba(55,53,47,0.09)] my-8">
+  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <span>In One Sentence</span>
+  </h3>
+  <ul className="list-disc ml-5 space-y-2 text-[15px] opacity-90">
+    <li>The only difference between tree and graph traversal is that graphs may have **cycles**.</li>
+    <li>We must use a **visited** array to avoid infinite loops in cycles.</li>
+    <li>Three main scenarios: traversing **nodes**, **edges**, or **paths**.</li>
+  </ul>
+</div>
+
+---
+
+## Depth-First Search (DFS)
+
+In DFS, we explore as far as possible along each branch before backtracking.
+
+### 1. Traversing All Nodes (`visited` Array)
+
+To avoid visiting the same node twice in a graph with cycles (like `1 <=> 2`), we use a `visited` array.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# DFS traversal framework for graphs
+def traverse(graph, s, visited):
+    if s < 0 or s >= len(graph) or visited[s]:
+        return
+    
+    # Pre-order position: mark as visited
+    visited[s] = True
+    print(f"visit {s}")
+    
+    for e in graph.neighbors(s):
+        traverse(graph, e.to, visited)
+    
+    # Post-order position`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `void traverse(Graph graph, int s, boolean[] visited) {
+    if (s < 0 || s >= graph.size() || visited[s]) return;
+
+    visited[s] = true;
+    System.out.println("visit " + s);
+    for (Edge e : graph.neighbors(s)) {
+        traverse(graph, e.to, visited);
+    }
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function traverse(graph, s, visited) {
+    if (s < 0 || s >= graph.length || visited[s]) return;
+
+    visited[s] = true;
+    console.log("visit", s);
+    for (let e of graph.neighbors(s)) {
+        traverse(graph, e.to, visited);
+    }
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `func traverse(graph Graph, s int, visited []bool) {
+    if s < 0 || s >= graph.Size() || visited[s] {
+        return
+    }
+
+    visited[s] = true
+    fmt.Println("visit", s)
+    for _, e := range graph.Neighbors(s) {
+        traverse(graph, e.To, visited)
+    }
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `void traverse(Graph& graph, int s, vector<bool>& visited) {
+    if (s < 0 || s >= graph.size() || visited[s]) return;
+
+    visited[s] = true;
+    cout << "visit " << s << endl;
+    for (auto& e : graph.neighbors(s)) {
+        traverse(graph, e.to, visited);
+    }
+}`
+    }
+  ]}
+/>
+
+**Complexity**: `O(V + E)`, where `V` is the number of vertices and `E` is the number of edges.
+
+---
+
+### 2. Traversing All Paths (`onPath` Array)
+
+Unlike traversing nodes, traversing all **paths** requires removing the mark when leaving a node. This allows us to visit the same node again if it's part of a different path.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `# Finding all paths from src to dest
+onPath = [False] * n
+path = []
+
+def traverse(graph, src, dest):
+    if onPath[src]: return # avoid cycles
+    if src == dest:
+        print("Path found:", "->".join(map(str, path + [dest])))
+        return
+
+    # Pre-order: mark node and add to path
+    onPath[src] = True
+    path.append(src)
+    
+    for e in graph.neighbors(src):
+        traverse(graph, e.to, dest)
+    
+    # Post-order: unmark node and remove from path
+    path.pop()
+    onPath[src] = False`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `boolean[] onPath;
+List<Integer> path = new ArrayList<>();
+
+void traverse(Graph graph, int src, int dest) {
+    if (onPath[src]) return;
+    if (src == dest) {
+        // path found
+        return;
+    }
+
+    onPath[src] = true;
+    path.add(src);
+    for (Edge e : graph.neighbors(src)) {
+        traverse(graph, e.to, dest);
+    }
+    path.remove(path.size() - 1);
+    onPath[src] = false;
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `let onPath = new Array(n).fill(false);
+let path = [];
+
+function traverse(graph, src, dest) {
+    if (onPath[src]) return;
+    if (src === dest) {
+        console.log("Path:", [...path, dest].join("->"));
+        return;
+    }
+
+    onPath[src] = true;
+    path.push(src);
+    for (let e of graph.neighbors(src)) {
+        traverse(graph, e.to, dest);
+    }
+    path.pop();
+    onPath[src] = false;
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `func traverse(graph Graph, src, dest int, onPath []bool, path *[]int) {
+    if onPath[src] { return }
+    if src == dest {
+        // path found
+        return
+    }
+
+    onPath[src] = true
+    *path = append(*path, src)
+    for _, e := range graph.Neighbors(src) {
+        traverse(graph, e.To, dest, onPath, path)
+    }
+    *path = (*path)[:len(*path)-1]
+    onPath[src] = false
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `void traverse(Graph& graph, int src, int dest, vector<bool>& onPath, vector<int>& path) {
+    if (onPath[src]) return;
+    if (src == dest) {
+        // path found
+        return;
+    }
+
+    onPath[src] = true;
+    path.push_back(src);
+    for (auto& e : graph.neighbors(src)) {
+        traverse(graph, e.to, dest, onPath, path);
+    }
+    path.pop_back();
+    onPath[src] = false;
+}`
+    }
+  ]}
+/>
+
+---
+
+## Breadth-First Search (BFS)
+
+BFS explores level by level using a **queue**. It is primarily used to find the **shortest path** in unweighted graphs.
+
+### Pattern: BFS with Steps/Level
+
+This pattern allows you to record the distance from the source node.
+
+<CodeTabs
+  tabs={[
+    {
+      label: "python",
+      language: "python",
+      code: `from collections import deque
+
+def bfs(graph, s):
+    visited = [False] * len(graph)
+    q = deque([s])
+    visited[s] = True
+    step = 0
+    
+    while q:
+        sz = len(q)
+        for _ in range(sz):
+            cur = q.popleft()
+            print(f"visit {cur} at step {step}")
+            
+            for e in graph.neighbors(cur):
+                if not visited[e.to]:
+                    visited[e.to] = True
+                    q.append(e.to)
+        step += 1`
+    },
+    {
+      label: "java",
+      language: "java",
+      code: `void bfs(Graph graph, int s) {
+    boolean[] visited = new boolean[graph.size()];
+    Queue<Integer> q = new LinkedList<>();
+    q.offer(s);
+    visited[s] = true;
+    int step = 0;
+
+    while (!q.isEmpty()) {
+        int sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            int cur = q.poll();
+            for (Edge e : graph.neighbors(cur)) {
+                if (!visited[e.to]) {
+                    visited[e.to] = true;
+                    q.offer(e.to);
+                }
+            }
+        }
+        step++;
+    }
+}`
+    },
+    {
+      label: "javascript",
+      language: "javascript",
+      code: `function bfs(graph, s) {
+    let visited = new Array(graph.length).fill(false);
+    let q = [s];
+    visited[s] = true;
+    let step = 0;
+
+    while (q.length > 0) {
+        let sz = q.length;
+        for (let i = 0; i < sz; i++) {
+            let cur = q.shift();
+            for (let e of graph.neighbors(cur)) {
+                if (!visited[e.to]) {
+                    visited[e.to] = true;
+                    q.push(e.to);
+                }
+            }
+        }
+        step++;
+    }
+}`
+    },
+    {
+      label: "go",
+      language: "go",
+      code: `func bfs(graph Graph, s int) {
+    visited := make([]bool, graph.Size())
+    q := []int{s}
+    visited[s] = true
+    step := 0
+
+    for len(q) > 0 {
+        sz := len(q)
+        for i := 0; i < sz; i++ {
+            cur := q[0]; q = q[1:]
+            for _, e := range graph.Neighbors(cur) {
+                if !visited[e.To] {
+                    visited[e.To] = true
+                    q = append(q, e.To)
+                }
+            }
+        }
+        step++
+    }
+}`
+    },
+    {
+      label: "cpp",
+      language: "cpp",
+      code: `void bfs(Graph& graph, int s) {
+    vector<bool> visited(graph.size(), false);
+    queue<int> q;
+    q.push(s);
+    visited[s] = true;
+    int step = 0;
+
+    while (!q.empty()) {
+        int sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            int cur = q.front(); q.pop();
+            for (auto& e : graph.neighbors(cur)) {
+                if (!visited[e.to]) {
+                    visited[e.to] = true;
+                    q.push(e.to);
+                }
+            }
+        }
+        step++;
+    }
+}`
+    }
+  ]}
+/>
+
+### Summary Table
+
+| Search Type | Mark Usage | Main Application |
+| :--- | :--- | :--- |
+| **DFS (Nodes)** | `visited` (Never unmark) | Traversing network, connectivity |
+| **DFS (Paths)** | `onPath` (Unmark in postorder) | Enumerating all possible paths |
+| **BFS** | `visited` (Never unmark) | Shortest path (unweighted), layer order |
+
+## When marks are not needed?
+If the graph is a **Directed Acyclic Graph (DAG)**, cycles are impossible, and you can often skip the `visited` array for simple DFS/BFS traversal.

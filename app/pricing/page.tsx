@@ -55,7 +55,7 @@ const PlanCard = ({
       className={`relative flex flex-col p-5 lg:p-6 rounded-lg border ${accentColors[color]} ${bgColors[color]} transition-all duration-200 hover:shadow-sm`}
     >
       {popular && (
-        <div className="absolute -top-3 left-4 bg-[#37352f] dark:bg-gray-100 text-white dark:text-[#191919] px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider">
+        <div className="absolute -top-3 left-4 bg-[#37352f] dark:bg-gray-100 text-white dark:text-[#191919] px-2.5 py-0.5 rounded text-[0.6875rem] font-bold uppercase tracking-wider">
           Most Popular
         </div>
       )}
@@ -68,7 +68,7 @@ const PlanCard = ({
           <span className="text-3xl lg:text-4xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight">
             {price}
           </span>
-          <span className="text-[#37352f]/40 dark:text-gray-500 text-[12px] lg:text-[13px] font-medium">
+          <span className="text-[#37352f]/40 dark:text-gray-500 text-[0.75rem] lg:text-[0.8125rem] font-medium">
             /{period}
           </span>
         </div>
@@ -80,7 +80,7 @@ const PlanCard = ({
         {features.map((feature, index) => (
           <li
             key={index}
-            className="flex gap-2.5 text-[13px] lg:text-[14px] leading-relaxed text-[#37352f] dark:text-gray-300"
+            className="flex gap-2.5 text-[0.8125rem] lg:text-[0.875rem] leading-relaxed text-[#37352f] dark:text-gray-300"
           >
             <CheckIcon />
             <span>{feature}</span>
@@ -162,8 +162,8 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-[#191919] overflow-hidden">
-      <div className="w-full max-w-[1000px] max-h-[90vh] overflow-y-auto px-6 lg:px-10 py-8">
+    <div className="flex items-center justify-center min-h-full py-4 lg:py-8 bg-white dark:bg-[#191919]">
+      <div className="w-full max-w-[62.5rem] px-6 lg:px-10">
         {/* Header */}
         <header className="mb-8 text-center">
           <h1 className="text-3xl lg:text-4xl font-extrabold text-[#37352f] dark:text-gray-100 tracking-tight mb-3">
@@ -175,41 +175,41 @@ export default function PricingPage() {
         </header>
 
         {/* Plans Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
           {plans.map((plan) => (
             <PlanCard key={plan.name} {...plan} />
           ))}
       </div>
 
         {/* Bottom Callout */}
-        <div className="border-t border-[#37352f]/10 dark:border-gray-800 pt-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="border-t border-[#37352f]/10 dark:border-gray-800 pt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h2 className="text-xl font-bold text-[#37352f] dark:text-gray-100 mb-3">
+              <h2 className="text-xl font-bold text-[#37352f] dark:text-gray-100 mb-2">
                 Educational access
               </h2>
-              <p className="text-[14px] text-[#37352f]/60 dark:text-gray-400 leading-relaxed mb-4">
+              <p className="text-[0.875rem] text-[#37352f]/60 dark:text-gray-400 leading-relaxed mb-3">
                 We believe algorithm education should be accessible to everyone.
                 If you're a student or educator and can't afford the Pro plan,
                 please reach out.
               </p>
               <Link
                 href="mailto:support@ai-gorithms.com"
-                className="text-[15px] font-semibold text-[#37352f] dark:text-gray-100 underline decoration-[#37352f]/20 hover:decoration-[#37352f] transition-all"
+                className="text-[0.9375rem] font-semibold text-[#37352f] dark:text-gray-100 underline decoration-[#37352f]/20 hover:decoration-[#37352f] transition-all"
               >
                 Contact education support
               </Link>
               </div>
 
-            <div className="bg-[#fbf3db]/30 dark:bg-yellow-900/5 p-6 rounded-lg border border-[#37352f]/10 dark:border-gray-800">
-              <h3 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-2">
+            <div className="bg-[#fbf3db]/30 dark:bg-yellow-900/5 p-5 rounded-lg border border-[#37352f]/10 dark:border-gray-800">
+              <h3 className="text-base font-bold text-[#37352f] dark:text-gray-100 mb-1">
                 Enterprise & Teams
               </h3>
-              <p className="text-[13px] text-[#37352f]/60 dark:text-gray-400 mb-4">
+              <p className="text-[0.8125rem] text-[#37352f]/60 dark:text-gray-400 mb-3">
                 Looking to train your engineering team? We offer volume
                 discounts and custom learning paths.
               </p>
-              <button className="text-[14px] font-bold text-[#37352f] dark:text-gray-100 hover:opacity-70 transition-opacity">
+              <button className="text-[0.875rem] font-bold text-[#37352f] dark:text-gray-100 hover:opacity-70 transition-opacity">
                 Learn more →
               </button>
             </div>
@@ -217,8 +217,8 @@ export default function PricingPage() {
       </div>
 
         {/* Simple Footer */}
-        <footer className="mt-12 text-center border-t border-[#37352f]/5 dark:border-gray-800 pt-6">
-          <p className="text-[12px] text-[#37352f]/40 dark:text-gray-500">
+        <footer className="mt-8 text-center border-t border-[#37352f]/5 dark:border-gray-800 pt-4 pb-4">
+          <p className="text-[0.75rem] text-[#37352f]/40 dark:text-gray-500">
             © {new Date().getFullYear()} AI-gorithms. All plans include a 7-day
             free trial.
         </p>

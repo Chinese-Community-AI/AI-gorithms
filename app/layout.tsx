@@ -17,6 +17,7 @@ import SearchModal from "@/components/search/SearchModal";
 import ComingSoon from "@/components/tutor/ComingSoon";
 import AudioPlayer from "@/components/audio/AudioPlayer";
 import TextSelectionHandler from "@/components/ai/TextSelectionHandler";
+import ScaleHandler from "@/components/layout/ScaleHandler";
 
 export const metadata: Metadata = {
   title: "AI-gorithms - Learn Algorithms with AI",
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <ScaleHandler />
         <ThemeProvider>
           <AuthProvider>
             <PlanProvider>
