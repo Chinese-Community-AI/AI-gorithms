@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Chinese-Community-AI/AI-gorithms.git"
+    "url": "git+https://github.com/Chinese-Community-AI/hao-hao-xue-xi.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Chinese-Community-AI/AI-gorithms/issues"
+    "url": "https://github.com/Chinese-Community-AI/hao-hao-xue-xi/issues"
   },
-  "homepage": "https://github.com/Chinese-Community-AI/AI-gorithms#readme",
+  "homepage": "https://github.com/Chinese-Community-AI/hao-hao-xue-xi#readme",
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@mdx-js/loader": "^3.1.1",
