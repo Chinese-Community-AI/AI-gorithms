@@ -6,7 +6,6 @@ export async function middleware(request: NextRequest) {
   const publicPaths = [
     "/login",
     "/api/auth",
-    "/api/stripe/webhook",
     "/",
     "/pricing",
   ];

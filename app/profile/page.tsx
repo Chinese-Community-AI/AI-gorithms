@@ -79,21 +79,22 @@ export default function ProfilePage() {
     }
   }, [user, authLoading, router, fetchProfile, fetchSubscriptionStatus]);
 
-  const handleManageSubscription = async () => {
-    try {
-      const response = await fetch("/api/stripe/create-portal", {
-        method: "POST",
-      });
-
-      const { url, error } = await response.json();
-
-      if (error) throw new Error(error);
-      if (url) window.location.href = url;
-    } catch (error: any) {
-      console.error("Error opening portal:", error);
-      alert("Failed to open subscription management. Please try again.");
-    }
-  };
+  // Stripe integration temporarily disabled
+  // const handleManageSubscription = async () => {
+  //   try {
+  //     const response = await fetch("/api/stripe/create-portal", {
+  //       method: "POST",
+  //     });
+  //
+  //     const { url, error } = await response.json();
+  //
+  //     if (error) throw new Error(error);
+  //     if (url) window.location.href = url;
+  //   } catch (error: any) {
+  //     console.error("Error opening portal:", error);
+  //     alert("Failed to open subscription management. Please try again.");
+  //   }
+  // };
 
   if (authLoading || loading) {
     return (
@@ -189,12 +190,13 @@ export default function ProfilePage() {
                     </div>
                   )}
 
-                  <button
+                  {/* Stripe integration temporarily disabled */}
+                  {/* <button
                     onClick={handleManageSubscription}
                     className="mt-4 px-4 py-2 bg-[#faebdd] border border-[#d9730d]/20 text-[#d9730d] dark:bg-[#2c221a] dark:text-[#d9730d] rounded-md font-bold text-sm hover:opacity-80 transition-opacity"
                   >
                     Manage Subscription
-                  </button>
+                  </button> */}
                 </div>
               ) : (
                 <div className="space-y-4">

@@ -232,7 +232,7 @@ const FeatureOverlay = ({
         if (!header) return;
 
         const buttons = header.querySelectorAll("button");
-        let targetButton: Element | null = null;
+        let targetButton: HTMLElement | null = null;
 
         // Find the button with matching text
         buttons.forEach((button) => {
@@ -241,12 +241,12 @@ const FeatureOverlay = ({
             text === buttonLabels[featureId] ||
             text?.includes(buttonLabels[featureId])
           ) {
-            targetButton = button;
+            targetButton = button as HTMLElement;
           }
         });
 
         if (targetButton) {
-          const rect = targetButton.getBoundingClientRect();
+          const rect = (targetButton as HTMLElement).getBoundingClientRect();
           setButtonPosition({
             x: rect.left + rect.width / 2, // Center of button
             y: rect.top + rect.height / 2, // Center of button
