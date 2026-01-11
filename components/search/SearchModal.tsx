@@ -157,7 +157,7 @@ export default function SearchModal() {
             </span>
           </div>
           <span className="text-[0.625rem] font-bold text-[#d9730d] opacity-60 uppercase tracking-widest">
-            AI-gorithms Search
+            HaoHaoXueXi Search
           </span>
         </div>
       </div>

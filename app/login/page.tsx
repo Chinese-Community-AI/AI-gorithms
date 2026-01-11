@@ -80,7 +80,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-5">
           <h1 className="text-2xl lg:text-3xl font-bold text-[#37352f] dark:text-gray-100 mb-2">
-            Welcome to AI-gorithms
+            Welcome to HaoHaoXueXi
           </h1>
           <p className="text-sm lg:text-base text-[#37352f]/60 dark:text-gray-400">
             {isSignUp ? "Create your account" : "Sign in to your account"}

@@ -20,7 +20,7 @@ import TextSelectionHandler from "@/components/ai/TextSelectionHandler";
 import ScaleHandler from "@/components/layout/ScaleHandler";
 
 export const metadata: Metadata = {
-  title: "AI-gorithms - Learn Algorithms with AI",
+  title: "HaoHaoXueXi - Learn Algorithms with AI",
   description: "Helping people learn data structures and algorithms with AI",
 };
 

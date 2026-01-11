@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the design decision for implementing the Audible Mode feature in the AI-gorithms platform.
+This document outlines the design decision for implementing the Audible Mode feature in the HaoHaoXueXi platform.
 
 ## Decision: Context-Aware Floating Audio Player
 

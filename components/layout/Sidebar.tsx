@@ -209,7 +209,7 @@ export default function Sidebar() {
                 </span>
               </div>
               <h2 className="font-bold text-[0.875rem] text-[var(--foreground)] truncate opacity-80">
-                AI-gorithms
+                HaoHaoXueXi
               </h2>
             </div>
             <button

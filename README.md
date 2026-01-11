@@ -1,4 +1,4 @@
-# AI-gorithms (WIP)
+# HaoHaoXueXi (WIP)
 Helping ppl learn data structures and algorithms with AI
 <img width="1627" height="835" alt="Screenshot 2026-01-05 at 11 11 33 AM" src="https://github.com/user-attachments/assets/807bc91d-c6b7-422f-92a7-e877cd38282a" />
 

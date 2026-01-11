@@ -153,7 +153,7 @@ export default function PricingPage() {
         "Exclusive resource library",
         "Beta access to experimental tools",
         "Live study group priority",
-        "AI-gorithms community badge",
+        "HaoHaoXueXi community badge",
       ],
       cta: "Join the community",
       popular: false,
@@ -194,7 +194,7 @@ export default function PricingPage() {
                 please reach out.
               </p>
               <Link
-                href="mailto:support@ai-gorithms.com"
+                href="mailto:support@haohaoxuexi.ai"
                 className="text-[0.9375rem] font-semibold text-[#37352f] dark:text-gray-100 underline decoration-[#37352f]/20 hover:decoration-[#37352f] transition-all"
               >
                 Contact education support
@@ -219,7 +219,7 @@ export default function PricingPage() {
         {/* Simple Footer */}
         <footer className="mt-8 text-center border-t border-[#37352f]/5 dark:border-gray-800 pt-4 pb-4">
           <p className="text-[0.75rem] text-[#37352f]/40 dark:text-gray-500">
-            © {new Date().getFullYear()} AI-gorithms. All plans include a 7-day
+            © {new Date().getFullYear()} HaoHaoXueXi. All plans include a 7-day
             free trial.
         </p>
         </footer>

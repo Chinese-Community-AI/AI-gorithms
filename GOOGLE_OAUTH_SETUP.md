@@ -9,7 +9,7 @@ Follow these steps to enable "Sign in with Google" for your users.
 3. Click the project dropdown at the top (next to "Google Cloud")
 4. Click **"New Project"**
 5. Fill in:
-   - **Project name**: `AI-gorithms` (or any name you prefer)
+   - **Project name**: `HaoHaoXueXi` (or any name you prefer)
    - **Organization**: Leave as default (or select if you have one)
 6. Click **"Create"**
 7. Wait for the project to be created (takes a few seconds)
@@ -36,7 +36,7 @@ Follow these steps to enable "Sign in with Google" for your users.
 
 **App information:**
 
-- **App name**: `AI-gorithms` (or your preferred name)
+- **App name**: `HaoHaoXueXi` (or your preferred name)
 - **User support email**: Select your email from the dropdown
 - **App logo**: (Optional) Upload a logo if you have one
 - **App domain**: (Optional) Leave blank for now
@@ -82,7 +82,7 @@ Follow these steps to enable "Sign in with Google" for your users.
 
 **Application type**: Select **"Web application"**
 
-**Name**: `AI-gorithms Web Client` (or any name)
+**Name**: `HaoHaoXueXi Web Client` (or any name)
 
 **Authorized JavaScript origins:**
 
@@ -121,7 +121,7 @@ After creating the OAuth client:
 ## Step 6: Add Credentials to Supabase
 
 1. Go to your [Supabase Dashboard](https://supabase.com/dashboard)
-2. Select your **AI-gorithms** project
+2. Select your **HaoHaoXueXi** project
 3. Go to **"Authentication"** → **"Providers"** in the left sidebar
 4. Find **"Google"** in the list
 5. Click the toggle to **Enable** Google provider
